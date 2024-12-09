@@ -6,15 +6,18 @@ interface NewsletterItemProps {
   date: string;
   unreadCount?: number;
   isActive?: boolean;
+  onClick?: () => void;
 }
 
-export const NewsletterItem = ({ title, description, date, unreadCount, isActive }: NewsletterItemProps) => (
-  <div className={`newsletter-item ${isActive ? 'active' : ''}`}>
+export const NewsletterItem = ({ title, description, date, unreadCount, isActive, onClick }: NewsletterItemProps) => (
+  <div className={`newsletter-item ${isActive ? 'active' : ''}`} onClick={onClick}>
     <div className="newsletter-info">
       <h3>{title}</h3>
       <p>{description}</p>
       <span className="date">{date}</span>
     </div>
-    {unreadCount && <div className="unread-count">{unreadCount}</div>}
+    {unreadCount !== undefined && (
+      <div className="unread-count">{unreadCount}</div>
+    )}
   </div>
 );

@@ -41,6 +41,10 @@
   padding: 1rem 1.5rem;
   cursor: pointer;
   border-left: 3px solid transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: background-color 0.2s;
 }
 
 .newsletter-item:hover {
@@ -50,6 +54,10 @@
 .newsletter-item.active {
   background-color: #f3f4f6;
   border-left-color: #3b82f6;
+}
+
+.newsletter-info {
+  flex: 1;
 }
 
 .newsletter-info h3 {
@@ -70,13 +78,18 @@
 }
 
 .unread-count {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: #3b82f6;
   color: white;
   font-size: 0.75rem;
-  padding: 0.125rem 0.5rem;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.5rem;
   border-radius: 9999px;
-  float: right;
+  font-weight: 500;
+  margin-left: 0.5rem;
 }
 
 .main-content {

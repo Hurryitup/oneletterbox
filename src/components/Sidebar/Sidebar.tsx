@@ -2,32 +2,49 @@ import React from 'react';
 import { NewsletterItem } from './NewsletterItem';
 import { Category } from './Category';
 
-export const Sidebar = () => (
-  <div className="sidebar">
-    <div className="sidebar-header">
-      <h1>Newsletters</h1>
+interface Newsletter {
+  id: string;
+  category: string;
+  title: string;
+  description: string;
+  date: string;
+  unreadCount?: number;
+}
+
+interface SidebarProps {
+  newsletters: Newsletter[];
+  activeNewsletterId: string;
+  onNewsletterSelect: (id: string) => void;
+}
+
+export const Sidebar = ({ newsletters, activeNewsletterId, onNewsletterSelect }: SidebarProps) => {
+  const categories = Array.from(new Set(newsletters.map(n => n.category)));
+
+  return (
+    <div className="sidebar">
+      <div className="sidebar-header">
+        <h1>Newsletters</h1>
+      </div>
+      <div className="newsletter-list">
+        {categories.map(category => (
+          <React.Fragment key={category}>
+            <Category title={category.toUpperCase()} />
+            {newsletters
+              .filter(n => n.category === category)
+              .map(newsletter => (
+                <NewsletterItem 
+                  key={newsletter.id}
+                  title={newsletter.title}
+                  description={newsletter.description}
+                  date={newsletter.date}
+                  unreadCount={newsletter.unreadCount}
+                  isActive={newsletter.id === activeNewsletterId}
+                  onClick={() => onNewsletterSelect(newsletter.id)}
+                />
+              ))}
+          </React.Fragment>
+        ))}
+      </div>
     </div>
-    <div className="newsletter-list">
-      <Category title="Technology" />
-      <NewsletterItem 
-        title="Stratechery"
-        description="The Future of Tech"
-        date="Dec 9"
-        unreadCount={3}
-        isActive={true}
-      />
-      <NewsletterItem 
-        title="Not Boring"
-        description="Innovation Insights"
-        date="Dec 8"
-        unreadCount={1}
-      />
-      <Category title="Engineering" />
-      <NewsletterItem 
-        title="The Pragmatic Engineer"
-        description="Engineering at Scale"
-        date="Dec 7"
-      />
-    </div>
-  </div>
-);
+  );
+};
