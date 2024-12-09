@@ -1,3 +1,4 @@
+import React from 'react';
 import { NewsletterItem } from './NewsletterItem';
 import { Category } from './Category';
 

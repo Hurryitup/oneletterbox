@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface NewsletterItemProps {
   title: string;
   description: string;
@@ -6,18 +8,13 @@ interface NewsletterItemProps {
   isActive?: boolean;
 }
 
-export const NewsletterItem = ({
-  title,
-  description,
-  date,
-  unreadCount,
-  isActive = false,
-}: NewsletterItemProps) => (
-  <div className={`newsletter-item ${unreadCount ? 'unread' : ''} ${isActive ? 'active' : ''}`}>
-    <div>
-      <h2>{title}</h2>
-      <p>{date} • {description}</p>
+export const NewsletterItem = ({ title, description, date, unreadCount, isActive }: NewsletterItemProps) => (
+  <div className={`newsletter-item ${isActive ? 'active' : ''}`}>
+    <div className="newsletter-info">
+      <h3>{title}</h3>
+      <p>{description}</p>
+      <span className="date">{date}</span>
     </div>
-    {unreadCount && <span className="unread-count">{unreadCount}</span>}
+    {unreadCount && <div className="unread-count">{unreadCount}</div>}
   </div>
 );

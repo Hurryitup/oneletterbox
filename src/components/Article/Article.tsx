@@ -1,3 +1,4 @@
+import React from 'react';
 import { ArticleMeta } from './ArticleMeta';
 
 interface ArticleProps {
@@ -9,13 +10,13 @@ interface ArticleProps {
 }
 
 export const Article = ({ title, newsletter, author, date, content }: ArticleProps) => (
-  <div className="article">
+  <article className="article">
     <h1>{title}</h1>
     <ArticleMeta newsletter={newsletter} author={author} date={date} />
-    <div className="article-content">
+    <div className="content">
       {content.map((paragraph, index) => (
         <p key={index}>{paragraph}</p>
       ))}
     </div>
-  </div>
+  </article>
 );
