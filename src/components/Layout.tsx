@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sidebar } from './Sidebar/Sidebar';
 import { Article } from './Article/Article';
 
@@ -11,6 +11,14 @@ interface Newsletter {
   unreadCount?: number;
   content: string[];
   author: string;
+}
+
+const STORAGE_KEY = 'newsletter-preferences';
+
+interface StoredPreferences {
+  selectedCategory: string | null;
+  selectedSource: string | null;
+  sortOrder: 'desc' | 'asc';
 }
 
 export const Layout = () => {
@@ -57,14 +65,67 @@ export const Layout = () => {
   ];
 
   const [activeNewsletterId, setActiveNewsletterId] = useState(newsletters[0].id);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedSource, setSelectedSource] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
+
+  // Load preferences from localStorage
+  useEffect(() => {
+    const storedPrefs = localStorage.getItem(STORAGE_KEY);
+    if (storedPrefs) {
+      const prefs: StoredPreferences = JSON.parse(storedPrefs);
+      setSelectedCategory(prefs.selectedCategory);
+      setSelectedSource(prefs.selectedSource);
+      setSortOrder(prefs.sortOrder);
+    }
+  }, []);
+
+  // Save preferences to localStorage
+  useEffect(() => {
+    const prefs: StoredPreferences = {
+      selectedCategory,
+      selectedSource,
+      sortOrder
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+  }, [selectedCategory, selectedSource, sortOrder]);
+
+  // Filter and sort newsletters
+  const filteredNewsletters = newsletters
+    .filter(n => !selectedCategory || n.category === selectedCategory)
+    .filter(n => !selectedSource || n.title === selectedSource)
+    .sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return sortOrder === 'desc' 
+        ? dateB.getTime() - dateA.getTime()
+        : dateA.getTime() - dateB.getTime();
+    });
+
   const activeNewsletter = newsletters.find(n => n.id === activeNewsletterId)!;
+  const availableCategories = Array.from(new Set(newsletters.map(n => n.category)));
+  const availableSources = Array.from(
+    new Set(
+      newsletters
+        .filter(n => !selectedCategory || n.category === selectedCategory)
+        .map(n => n.title)
+    )
+  );
 
   return (
     <div className="app">
       <Sidebar 
-        newsletters={newsletters}
+        newsletters={filteredNewsletters}
         activeNewsletterId={activeNewsletterId}
         onNewsletterSelect={setActiveNewsletterId}
+        selectedCategory={selectedCategory}
+        selectedSource={selectedSource}
+        sortOrder={sortOrder}
+        availableCategories={availableCategories}
+        availableSources={availableSources}
+        onCategoryChange={setSelectedCategory}
+        onSourceChange={setSelectedSource}
+        onSortOrderChange={setSortOrder}
       />
       <main className="main-content">
         <Article 

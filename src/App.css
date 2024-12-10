@@ -21,7 +21,53 @@
 .sidebar-header h1 {
   font-size: 1.5rem;
   font-weight: 600;
-  margin: 0;
+  margin: 0 0 1rem 0;
+}
+
+.grouping-controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.pill-select,
+.pill-button {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.pill-select {
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.5em 1.5em;
+}
+
+.pill-button {
+  white-space: nowrap;
+  min-width: auto;
+}
+
+.pill-select:hover,
+.pill-button:hover {
+  background-color: #e5e7eb;
+}
+
+.pill-select:focus,
+.pill-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3b82f6;
 }
 
 .newsletter-list {
