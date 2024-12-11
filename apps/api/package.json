@@ -1,0 +1,13 @@
+{
+  "name": "@oneletterbox/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node-dev ./src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0"
+  }
+}
