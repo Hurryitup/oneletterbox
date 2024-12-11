@@ -26,37 +26,34 @@ export const GroupingControls = ({
       <select 
         className="pill-select"
         value={selectedCategory || ''}
-        onChange={(e) => {
-          const value = e.target.value || null;
-          onCategoryChange(value);
-          // Reset source when category changes
-          onSourceChange(null);
-        }}
+        onChange={(e) => onCategoryChange(e.target.value || null)}
       >
-        <option value="">All Categories</option>
+        <option value="">Categories</option>
         {categories.map(category => (
           <option key={category} value={category}>
             {category}
           </option>
         ))}
       </select>
-      <select 
+
+      <select
         className="pill-select"
         value={selectedSource || ''}
         onChange={(e) => onSourceChange(e.target.value || null)}
       >
-        <option value="">All Sources</option>
+        <option value="">Sources</option>
         {sources.map(source => (
           <option key={source} value={source}>
             {source}
           </option>
         ))}
       </select>
-      <button 
+
+      <button
         className="pill-button"
         onClick={() => onSortOrderChange(sortOrder === 'desc' ? 'asc' : 'desc')}
       >
-        {sortOrder === 'desc' ? '↓ Newest First' : '↑ Oldest First'}
+        {sortOrder === 'desc' ? '↓' : '↑'}
       </button>
     </div>
   );

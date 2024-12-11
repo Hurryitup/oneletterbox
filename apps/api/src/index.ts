@@ -47,8 +47,28 @@ const newsletters = [
   }
 ];
 
+const userData = {
+  name: 'John Doe',
+  email: 'john.doe@example.com',
+  joinDate: 'December 2023',
+  subscription: {
+    plan: 'Premium',
+    status: 'Active',
+    nextBilling: 'January 15, 2024',
+  },
+  preferences: {
+    emailDigest: true,
+    notifications: true,
+    theme: 'Light',
+  }
+};
+
 app.get('/api/newsletters', (req, res) => {
   res.json(newsletters);
+});
+
+app.get('/api/user', (req, res) => {
+  res.json(userData);
 });
 
 const PORT = process.env.PORT || 3001;
