@@ -2,6 +2,8 @@ import React from 'react';
 import { NewsletterItem } from './NewsletterItem';
 import { Category } from './Category';
 import { GroupingControls } from './GroupingControls';
+import { UserCircle } from 'lucide-react';
+import './Sidebar.css';
 
 interface Newsletter {
   id: string;
@@ -24,6 +26,8 @@ interface SidebarProps {
   onCategoryChange: (category: string | null) => void;
   onSourceChange: (source: string | null) => void;
   onSortOrderChange: (order: 'desc' | 'asc') => void;
+  onProfileClick: () => void;
+  onTitleClick: () => void;
 }
 
 export const Sidebar = ({ 
@@ -37,14 +41,32 @@ export const Sidebar = ({
   availableSources,
   onCategoryChange,
   onSourceChange,
-  onSortOrderChange
+  onSortOrderChange,
+  onProfileClick,
+  onTitleClick
 }: SidebarProps) => {
   const categories = Array.from(new Set(newsletters.map(n => n.category)));
 
   return (
-    <div className="sidebar">
+    <aside className="sidebar">
       <div className="sidebar-header">
-        <h1>Newsletters</h1>
+        <h1>
+          <button 
+            onClick={onTitleClick}
+            className="title-button"
+          >
+            OneLetterBox
+          </button>
+        </h1>
+        <button 
+          className="profile-button"
+          onClick={onProfileClick}
+          aria-label="Account settings"
+        >
+          <UserCircle size={24} />
+        </button>
+      </div>
+      <div className="controls-container">
         <GroupingControls
           categories={availableCategories}
           sources={availableSources}
@@ -76,6 +98,6 @@ export const Sidebar = ({
           </React.Fragment>
         ))}
       </div>
-    </div>
+    </aside>
   );
 };

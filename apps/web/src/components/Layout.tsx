@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sidebar } from './Sidebar/Sidebar';
 import { Article } from './Article/Article';
+import { Account } from './Account/Account';
 
 interface Newsletter {
   id: string;
@@ -30,6 +31,7 @@ export const Layout = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSource, setSelectedSource] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
+  const [showAccount, setShowAccount] = useState(false);
 
   // Fetch newsletters from API
   useEffect(() => {
@@ -75,6 +77,12 @@ export const Layout = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
   }, [selectedCategory, selectedSource, sortOrder]);
 
+  const handleTitleClick = () => {
+    if (showAccount) {
+      setShowAccount(false);
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -119,15 +127,21 @@ export const Layout = () => {
         onCategoryChange={setSelectedCategory}
         onSourceChange={setSelectedSource}
         onSortOrderChange={setSortOrder}
+        onProfileClick={() => setShowAccount(true)}
+        onTitleClick={handleTitleClick}
       />
       <main className="main-content">
-        <Article 
-          title={activeNewsletter.title}
-          newsletter={activeNewsletter.title}
-          author={activeNewsletter.author}
-          date={activeNewsletter.date}
-          content={activeNewsletter.content}
-        />
+        {showAccount ? (
+          <Account onBack={() => setShowAccount(false)} />
+        ) : (
+          <Article 
+            title={activeNewsletter.title}
+            newsletter={activeNewsletter.title}
+            author={activeNewsletter.author}
+            date={activeNewsletter.date}
+            content={activeNewsletter.content}
+          />
+        )}
       </main>
     </div>
   );
