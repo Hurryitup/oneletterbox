@@ -1,0 +1,230 @@
+{
+  "version": "38.0.1",
+  "artifacts": {
+    "OneletterboxDatabase.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "OneletterboxDatabase.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "OneletterboxDatabase": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://258000150871/us-east-1",
+      "properties": {
+        "templateFile": "OneletterboxDatabase.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "Environment": "production",
+          "ManagedBy": "cdk",
+          "Service": "oneletterbox"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::258000150871:role/cdk-hnb659fds-deploy-role-258000150871-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::258000150871:role/cdk-hnb659fds-cfn-exec-role-258000150871-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-258000150871-us-east-1/15d1e6e316b3e95b28dc4594b84432a180b5bebbd890f7a6437fc6a42b948da4.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "OneletterboxDatabase.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::258000150871:role/cdk-hnb659fds-lookup-role-258000150871-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "OneletterboxDatabase.assets"
+      ],
+      "metadata": {
+        "/OneletterboxDatabase": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "Environment",
+                "Value": "production"
+              },
+              {
+                "Key": "ManagedBy",
+                "Value": "cdk"
+              },
+              {
+                "Key": "Service",
+                "Value": "oneletterbox"
+              }
+            ]
+          }
+        ],
+        "/OneletterboxDatabase/UsersTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "UsersTable9725E9C8"
+            }
+          }
+        ],
+        "/OneletterboxDatabase/UsersTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UsersTable9725E9C8"
+          }
+        ],
+        "/OneletterboxDatabase/UsersTableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UsersTableName"
+          }
+        ],
+        "/OneletterboxDatabase/UsersTableArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UsersTableArn"
+          }
+        ],
+        "/OneletterboxDatabase/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/OneletterboxDatabase/Exports/Output{\"Fn::GetAtt\":[\"UsersTable9725E9C8\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUsersTable9725E9C8Arn5684EF99"
+          }
+        ],
+        "/OneletterboxDatabase/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/OneletterboxDatabase/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "OneletterboxDatabase"
+    },
+    "OneletterboxIam.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "OneletterboxIam.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "OneletterboxIam": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://258000150871/us-east-1",
+      "properties": {
+        "templateFile": "OneletterboxIam.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "Environment": "production",
+          "ManagedBy": "cdk",
+          "Service": "oneletterbox"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::258000150871:role/cdk-hnb659fds-deploy-role-258000150871-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::258000150871:role/cdk-hnb659fds-cfn-exec-role-258000150871-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-258000150871-us-east-1/c6ef03d0a0f53c24f98bb99b235006d6b861cf9e338b1f739f927b5abf7f85aa.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "OneletterboxIam.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::258000150871:role/cdk-hnb659fds-lookup-role-258000150871-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "OneletterboxDatabase",
+        "OneletterboxIam.assets"
+      ],
+      "metadata": {
+        "/OneletterboxIam": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "Environment",
+                "Value": "production"
+              },
+              {
+                "Key": "ManagedBy",
+                "Value": "cdk"
+              },
+              {
+                "Key": "Service",
+                "Value": "oneletterbox"
+              }
+            ]
+          }
+        ],
+        "/OneletterboxIam/ApiUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUser54822C88"
+          }
+        ],
+        "/OneletterboxIam/DynamoDbPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDbPolicy2018BA53"
+          }
+        ],
+        "/OneletterboxIam/ApiUserAccessKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUserAccessKey"
+          }
+        ],
+        "/OneletterboxIam/ApiUserAccessKeyId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUserAccessKeyId"
+          }
+        ],
+        "/OneletterboxIam/ApiUserSecretAccessKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUserSecretAccessKey"
+          }
+        ],
+        "/OneletterboxIam/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/OneletterboxIam/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/OneletterboxIam/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "OneletterboxIam"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

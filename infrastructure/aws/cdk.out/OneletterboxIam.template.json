@@ -1,0 +1,151 @@
+{
+ "Description": "IAM resources for Oneletterbox",
+ "Resources": {
+  "ApiUser54822C88": {
+   "Type": "AWS::IAM::User",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "production"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "Service",
+      "Value": "oneletterbox"
+     }
+    ],
+    "UserName": "oneletterbox-api"
+   },
+   "Metadata": {
+    "aws:cdk:path": "OneletterboxIam/ApiUser/Resource"
+   }
+  },
+  "DynamoDbPolicy2018BA53": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:DeleteItem",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "OneletterboxDatabase:ExportsOutputFnGetAttUsersTable9725E9C8Arn5684EF99"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "OneletterboxDatabase:ExportsOutputFnGetAttUsersTable9725E9C8Arn5684EF99"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DynamoDbPolicy2018BA53",
+    "Users": [
+     {
+      "Ref": "ApiUser54822C88"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "OneletterboxIam/DynamoDbPolicy/Resource"
+   }
+  },
+  "ApiUserAccessKey": {
+   "Type": "AWS::IAM::AccessKey",
+   "Properties": {
+    "UserName": {
+     "Ref": "ApiUser54822C88"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "OneletterboxIam/ApiUserAccessKey"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/0WNPQ+CMBBAf4t7e2gZnImjgwbjTOpxJsdHa3qthBD+O6kOTO+96Rk4nQ0cD3YSjW2vB37B8ogWe2UnadiOsDyFgrq83Y93PzDOOXerEEnkSvOa65biJ8VsNYlPAWlVzrcEnRRfU0LedcKsQ3KRR4L6zw1hwDd5iwAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "OneletterboxIam/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ApiUserAccessKeyId": {
+   "Description": "The access key ID for the API user",
+   "Value": {
+    "Ref": "ApiUserAccessKey"
+   },
+   "Export": {
+    "Name": "ApiUserAccessKeyId"
+   }
+  },
+  "ApiUserSecretAccessKey": {
+   "Description": "The secret access key for the API user",
+   "Value": {
+    "Fn::GetAtt": [
+     "ApiUserAccessKey",
+     "SecretAccessKey"
+    ]
+   },
+   "Export": {
+    "Name": "ApiUserSecretAccessKey"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
