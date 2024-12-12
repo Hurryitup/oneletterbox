@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
 import { User, IUser } from '../models/User';
 import { generateToken } from '../middleware/auth';
 
