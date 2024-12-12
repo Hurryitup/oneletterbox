@@ -1,42 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import './Account.css';
+import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface AccountProps {
   onBack: () => void;
 }
 
 interface UserData {
+  id: string;
   name: string;
   email: string;
   joinDate: string;
-  subscription: {
+  subscription?: {
     plan: string;
     status: string;
-    nextBilling: string;
+    nextBilling: string | null;
   };
   preferences: {
     emailDigest: boolean;
     notifications: boolean;
-    theme: string;
+    theme: 'Light' | 'Dark';
   };
 }
 
-export const Account: React.FC<AccountProps> = ({ onBack }) => {
+export function Account({ onBack }: AccountProps) {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { logout } = useAuth();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/user');
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-        const data = await response.json();
-        setUserData(data);
+        const response = await axios.get('http://localhost:3001/api/user', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setUserData(response.data);
+        setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        setError('Failed to fetch user data');
+        console.error('Error fetching user data:', err);
       } finally {
         setLoading(false);
       }
@@ -46,91 +51,112 @@ export const Account: React.FC<AccountProps> = ({ onBack }) => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-full">
+      <div className="text-gray-600">Loading...</div>
+    </div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="flex justify-center items-center h-full">
+      <div className="text-red-600">Error: {error}</div>
+    </div>;
   }
 
   if (!userData) {
-    return <div>No user data available</div>;
+    return <div className="flex justify-center items-center h-full">
+      <div className="text-gray-600">No user data available</div>
+    </div>;
   }
 
+  const subscription = userData.subscription || {
+    plan: 'Free',
+    status: 'Active',
+    nextBilling: null,
+  };
+
   return (
-    <div className="account-page">
-      <div className="account-header">
-        <button onClick={onBack} className="back-button">
-          ← Back
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="flex justify-between items-center mb-8">
+        <button 
+          onClick={onBack}
+          className="text-gray-600 hover:text-gray-800 flex items-center"
+        >
+          <span className="mr-2">←</span> Back
         </button>
-        <h1>Account Settings</h1>
+        <button 
+          onClick={logout}
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        >
+          Sign Out
+        </button>
       </div>
-      
-      <div className="account-section">
-        <h2>Profile</h2>
-        <div className="profile-info">
-          <div className="info-row">
-            <label>Name</label>
-            <div>{userData.name}</div>
+
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 className="text-2xl font-bold mb-4">Profile</h2>
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Name:</span>
+            <span className="font-medium">{userData.name}</span>
           </div>
-          <div className="info-row">
-            <label>Email</label>
-            <div>{userData.email}</div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Email:</span>
+            <span className="font-medium">{userData.email}</span>
           </div>
-          <div className="info-row">
-            <label>Member Since</label>
-            <div>{userData.joinDate}</div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Join Date:</span>
+            <span className="font-medium">
+              {new Date(userData.joinDate).toLocaleDateString()}
+            </span>
           </div>
         </div>
       </div>
 
-      <div className="account-section">
-        <h2>Subscription</h2>
-        <div className="subscription-info">
-          <div className="info-row">
-            <label>Plan</label>
-            <div>{userData.subscription.plan}</div>
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 className="text-2xl font-bold mb-4">Subscription</h2>
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Plan:</span>
+            <span className="font-medium">{subscription.plan}</span>
           </div>
-          <div className="info-row">
-            <label>Status</label>
-            <div>{userData.subscription.status}</div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Status:</span>
+            <span className="font-medium">{subscription.status}</span>
           </div>
-          <div className="info-row">
-            <label>Next Billing</label>
-            <div>{userData.subscription.nextBilling}</div>
-          </div>
+          {subscription.nextBilling && (
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Next Billing:</span>
+              <span className="font-medium">
+                {new Date(subscription.nextBilling).toLocaleDateString()}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="account-section">
-        <h2>Preferences</h2>
-        <div className="preferences-info">
-          <div className="info-row">
-            <label>Email Digest</label>
-            <div>
-              <input 
-                type="checkbox" 
-                checked={userData.preferences.emailDigest}
-                onChange={() => {}} 
-              />
-            </div>
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-2xl font-bold mb-4">Preferences</h2>
+        <div className="space-y-4">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={userData.preferences.emailDigest}
+              readOnly
+              className="mr-3"
+            />
+            <span className="text-gray-600">Email Digest</span>
           </div>
-          <div className="info-row">
-            <label>Notifications</label>
-            <div>
-              <input 
-                type="checkbox" 
-                checked={userData.preferences.notifications}
-                onChange={() => {}} 
-              />
-            </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={userData.preferences.notifications}
+              readOnly
+              className="mr-3"
+            />
+            <span className="text-gray-600">Notifications</span>
           </div>
-          <div className="info-row">
-            <label>Theme</label>
-            <select value={userData.preferences.theme} onChange={() => {}}>
-              <option value="Light">Light</option>
-              <option value="Dark">Dark</option>
-            </select>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Theme:</span>
+            <span className="font-medium">{userData.preferences.theme}</span>
           </div>
         </div>
       </div>

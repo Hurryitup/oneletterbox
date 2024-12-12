@@ -1,92 +1,147 @@
-# OneLetterbox
+# OneLetterBox
 
-A modern newsletter reader built with React and TypeScript. This application provides a clean, intuitive interface for reading and managing your newsletter subscriptions.
+A modern newsletter aggregator and reader built with React, TypeScript, and AWS.
 
-## Project Structure
+## Architecture
+
+The project uses a monorepo structure with Turborepo for managing multiple packages:
 
 ```
 oneletterbox/
-├── src/
-│   ├── components/
-│   │   ├── Article/
-│   │   │   ├── Article.tsx      # Main article display component
-│   │   │   └── ArticleMeta.tsx  # Article metadata component
-│   │   ├── Sidebar/
-│   │   │   ├── Category.tsx     # Newsletter category component
-│   │   │   ├── NewsletterItem.tsx # Individual newsletter item
-│   │   │   └── Sidebar.tsx      # Sidebar navigation component
-│   │   └── Layout.tsx           # Main layout component
-│   ├── App.tsx                  # Root application component
-│   ├── main.tsx                 # Application entry point
-│   ├── App.css                  # Component-specific styles
-│   └── index.css                # Global styles
-├── index.html                   # HTML entry point
-├── package.json                 # Project dependencies and scripts
-└── README.md                    # Project documentation
+├── apps/
+│   ├── web/               # React frontend
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   ├── contexts/
+│   │   │   ├── pages/
+│   │   │   └── services/
+│   │   └── package.json
+│   └── api/               # Express backend
+│       ├── src/
+│       │   ├── controllers/
+│       │   ├── middleware/
+│       │   ├── models/
+│       │   └── services/
+│       └── package.json
+└── infrastructure/
+    └── aws/               # AWS CDK infrastructure
+        ├── lib/
+        │   ├── database-stack.ts
+        │   └── iam-stack.ts
+        └── package.json
 ```
 
-## Features
+### Technology Stack
 
-- Clean, modern interface
-- Sidebar navigation with categories
-- Newsletter list with unread indicators
-- Article view with metadata
-- Responsive layout
-- TypeScript for type safety
+- **Frontend**:
+  - React with TypeScript
+  - TailwindCSS for styling
+  - React Router for navigation
+  - Axios for API calls
+  - Context API for state management
 
-## Technology Stack
+- **Backend**:
+  - Express.js with TypeScript
+  - JWT for authentication
+  - AWS DynamoDB for data storage
+  - Middleware for auth and error handling
 
-- React 18
-- TypeScript
-- Vite (for build tooling)
-- Modern CSS (with CSS Modules)
+- **Infrastructure**:
+  - AWS CDK for infrastructure as code
+  - DynamoDB for database
+  - IAM for access management
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
+- Node.js (v16 or later)
+- AWS Account with configured credentials
+- AWS CLI installed and configured
+- Git
 
-- Node.js (v14 or higher)
-- npm (v6 or higher)
-
-### Installation
+## Installation
 
 1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd oneletterbox
-   ```
+```bash
+git clone https://github.com/yourusername/oneletterbox.git
+cd oneletterbox
+```
 
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-### Running the Application
-
-To start the development server:
 ```bash
+npm install
+```
+
+3. Set up environment variables:
+
+Create `apps/api/.env`:
+```
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+JWT_SECRET=your_jwt_secret
+```
+
+4. Deploy AWS infrastructure:
+```bash
+cd infrastructure/aws
+npm install
+npm run cdk deploy
+```
+
+## Running the Application
+
+1. Start the API server:
+```bash
+cd apps/api
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173` (or another port if 5173 is in use).
-
-### Building for Production
-
-To create a production build:
+2. Start the web application:
 ```bash
-npm run build
+cd apps/web
+npm run dev
 ```
 
-The built files will be available in the `dist` directory.
+The application will be available at:
+- Frontend: http://localhost:5173
+- API: http://localhost:3001
+
+## Features
+
+- User authentication and account management
+- Newsletter aggregation and reading
+- Category and source-based filtering
+- Chronological sorting (ascending/descending)
+- Responsive design
+- Account preferences and settings
 
 ## Development
 
-The project uses a component-based architecture with TypeScript for type safety. Components are organized by feature, with shared components in the components directory.
+The project uses Turborepo for managing the monorepo. Common commands:
 
-### Code Style
+```bash
+# Run all applications
+npm run dev
 
-- TypeScript for type safety
-- Functional components with hooks
-- CSS modules for styling
-- ESLint for code quality
-- Prettier for code formatting 
+# Build all applications
+npm run build
+
+# Run tests
+npm run test
+
+# Lint code
+npm run lint
+```
+
+## API Endpoints
+
+### Authentication
+- `POST /api/account/register` - Register new user
+- `POST /api/account/login` - Login user
+- `GET /api/account/profile` - Get user profile
+- `PATCH /api/account/profile` - Update user profile
+- `POST /api/account/change-password` - Change password
+
+### Newsletters
+- `GET /api/newsletters` - Get all newsletters
+- `GET /api/newsletters/:id` - Get specific newsletter

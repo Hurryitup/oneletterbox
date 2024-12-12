@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { Sidebar } from './Sidebar/Sidebar';
-import { Article } from './Article/Article';
 import { Account } from './Account/Account';
+import axios from 'axios';
 
 interface Newsletter {
   id: string;
@@ -10,101 +12,80 @@ interface Newsletter {
   description: string;
   date: string;
   unreadCount?: number;
-  content: string[];
   author: string;
+  content: string[];
 }
 
-const STORAGE_KEY = 'newsletter-preferences';
-const API_URL = 'http://localhost:3001';
-
-interface StoredPreferences {
-  selectedCategory: string | null;
-  selectedSource: string | null;
-  sortOrder: 'desc' | 'asc';
-}
-
-export const Layout = () => {
+export function Layout() {
   const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [activeNewsletterId, setActiveNewsletterId] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSource, setSelectedSource] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
   const [showAccount, setShowAccount] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
-  // Fetch newsletters from API
   useEffect(() => {
     const fetchNewsletters = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/newsletters`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch newsletters');
+        const response = await axios.get('http://localhost:3001/api/newsletters', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setNewsletters(response.data);
+        if (response.data.length > 0) {
+          setActiveNewsletterId(response.data[0].id);
         }
-        const data = await response.json();
-        setNewsletters(data);
-        if (data.length > 0 && !activeNewsletterId) {
-          setActiveNewsletterId(data[0].id);
-        }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch newsletters:', error);
       }
     };
 
     fetchNewsletters();
   }, []);
 
-  // Load preferences from localStorage
+  // Reset selected source when category changes
   useEffect(() => {
-    const storedPrefs = localStorage.getItem(STORAGE_KEY);
-    if (storedPrefs) {
-      const prefs: StoredPreferences = JSON.parse(storedPrefs);
-      setSelectedCategory(prefs.selectedCategory);
-      setSelectedSource(prefs.selectedSource);
-      setSortOrder(prefs.sortOrder);
-    }
-  }, []);
+    setSelectedSource(null);
+  }, [selectedCategory]);
 
-  // Save preferences to localStorage
-  useEffect(() => {
-    const prefs: StoredPreferences = {
-      selectedCategory,
-      selectedSource,
-      sortOrder
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
-  }, [selectedCategory, selectedSource, sortOrder]);
-
-  const handleTitleClick = () => {
-    if (showAccount) {
-      setShowAccount(false);
-    }
+  const handleNewsletterSelect = (id: string) => {
+    setActiveNewsletterId(id);
+    setShowAccount(false);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleProfileClick = () => {
+    setShowAccount(true);
+    setActiveNewsletterId('');
+  };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  const handleTitleClick = () => {
+    setShowAccount(false);
+    setActiveNewsletterId('');
+  };
 
-  // Filter and sort newsletters
   const filteredNewsletters = newsletters
-    .filter(n => !selectedCategory || n.category === selectedCategory)
-    .filter(n => !selectedSource || n.title === selectedSource)
+    .filter(newsletter => {
+      if (selectedCategory && newsletter.category !== selectedCategory) {
+        return false;
+      }
+      if (selectedSource && newsletter.title !== selectedSource) {
+        return false;
+      }
+      return true;
+    })
     .sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return sortOrder === 'desc' 
-        ? dateB.getTime() - dateA.getTime()
-        : dateA.getTime() - dateB.getTime();
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
     });
 
-  const activeNewsletter = newsletters.find(n => n.id === activeNewsletterId)!;
+  const activeNewsletter = newsletters.find(n => n.id === activeNewsletterId);
   const availableCategories = Array.from(new Set(newsletters.map(n => n.category)));
+  
+  // Filter sources based on selected category
   const availableSources = Array.from(
     new Set(
       newsletters
@@ -114,11 +95,11 @@ export const Layout = () => {
   );
 
   return (
-    <div className="app">
-      <Sidebar 
+    <div className="flex h-screen bg-gray-100">
+      <Sidebar
         newsletters={filteredNewsletters}
         activeNewsletterId={activeNewsletterId}
-        onNewsletterSelect={setActiveNewsletterId}
+        onNewsletterSelect={handleNewsletterSelect}
         selectedCategory={selectedCategory}
         selectedSource={selectedSource}
         sortOrder={sortOrder}
@@ -127,22 +108,31 @@ export const Layout = () => {
         onCategoryChange={setSelectedCategory}
         onSourceChange={setSelectedSource}
         onSortOrderChange={setSortOrder}
-        onProfileClick={() => setShowAccount(true)}
+        onProfileClick={handleProfileClick}
         onTitleClick={handleTitleClick}
       />
-      <main className="main-content">
+      <main className="flex-1 overflow-auto p-8">
         {showAccount ? (
           <Account onBack={() => setShowAccount(false)} />
+        ) : activeNewsletter ? (
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-3xl font-bold mb-4">{activeNewsletter.title}</h1>
+            <div className="text-gray-600 mb-8">
+              <span className="mr-4">By {activeNewsletter.author}</span>
+              <span>{activeNewsletter.date}</span>
+            </div>
+            {activeNewsletter.content.map((paragraph, index) => (
+              <p key={index} className="mb-4 text-gray-800 leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
+          </div>
         ) : (
-          <Article 
-            title={activeNewsletter.title}
-            newsletter={activeNewsletter.title}
-            author={activeNewsletter.author}
-            date={activeNewsletter.date}
-            content={activeNewsletter.content}
-          />
+          <div className="text-center text-gray-600">
+            Select a newsletter to start reading
+          </div>
         )}
       </main>
     </div>
   );
-};
+}

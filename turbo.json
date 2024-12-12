@@ -1,7 +1,12 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "globalDependencies": ["**/.env"],
-    "globalEnv": ["NODE_ENV"],
+    "globalEnv": [
+      "NODE_ENV",
+      "PORT",
+      "MONGODB_URI",
+      "JWT_SECRET"
+    ],
     "tasks": {
       "build": {
         "dependsOn": ["^build"],
@@ -16,6 +21,11 @@
       },
       "clean": {
         "cache": false
+      },
+      "start": {
+        "cache": false,
+        "persistent": true,
+        "dependsOn": ["build"]
       }
     }
   }
