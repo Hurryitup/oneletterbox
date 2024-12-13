@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev:setup": "python -m venv .venv && . .venv/bin/activate && pip install -e '.[dev]'",
-    "dev": "python -m uvicorn local_dev:app --reload",
+    "dev": "python -m uvicorn tests.local_dev:app --reload",
     "lint": "black . && isort . && mypy .",
     "test": "python -m pytest",
     "clean": "rm -rf .venv dist build *.egg-info .pytest_cache .mypy_cache __pycache__"
