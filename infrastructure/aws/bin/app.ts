@@ -3,6 +3,8 @@ import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { DatabaseStack } from '../lib/database-stack';
 import { IamStack } from '../lib/iam-stack';
+import { LambdaStack } from '../lib/lambda-stack';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 
 const app = new cdk.App();
 
@@ -15,6 +17,27 @@ const env = {
 const databaseStack = new DatabaseStack(app, 'OneletterboxDatabase', {
   env,
   description: 'DynamoDB tables for Oneletterbox',
+});
+
+// Create S3 bucket for storing emails
+const emailBucket = new s3.Bucket(databaseStack, 'EmailBucket', {
+  removalPolicy: cdk.RemovalPolicy.RETAIN,
+  encryption: s3.BucketEncryption.S3_MANAGED,
+  lifecycleRules: [
+    {
+      expiration: cdk.Duration.days(30), // Retain emails for 30 days
+    },
+  ],
+});
+
+// Create Lambda stack
+const lambdaStack = new LambdaStack(app, 'OneletterboxLambda', {
+  env,
+  description: 'Lambda functions for Oneletterbox',
+  issuesTable: databaseStack.issuesTable,
+  subscriptionsTable: databaseStack.subscriptionsTable,
+  emailBucket: emailBucket,
+  usersTable: databaseStack.usersTable,
 });
 
 const iamStack = new IamStack(app, 'OneletterboxIam', {

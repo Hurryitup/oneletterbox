@@ -27,6 +27,7 @@ oneletterbox/
     └── aws/               # AWS CDK infrastructure
         ├── lib/
         │   ├── database-stack.ts
+        │   ├── lambda-stack.ts
         │   └── iam-stack.ts
         └── package.json
 ```
@@ -49,6 +50,9 @@ oneletterbox/
 - **Infrastructure**:
   - AWS CDK for infrastructure as code
   - DynamoDB for database
+  - Lambda for serverless functions
+  - SES for email processing
+  - S3 for email storage
   - IAM for access management
 
 ## Prerequisites
@@ -57,6 +61,90 @@ oneletterbox/
 - AWS Account with configured credentials
 - AWS CLI installed and configured
 - Git
+- AWS CDK CLI installed (`npm install -g aws-cdk`)
+
+## Infrastructure Deployment
+
+1. Configure AWS credentials:
+```bash
+aws configure
+```
+
+2. Install infrastructure dependencies:
+```bash
+cd infrastructure/aws
+npm install
+```
+
+3. Bootstrap AWS CDK (first time only):
+```bash
+cdk bootstrap aws://ACCOUNT-NUMBER/REGION
+```
+
+4. Configure SES domain:
+   - Verify your domain in SES (Amazon Simple Email Service)
+   - Request production access if needed
+   - Configure domain verification records in your DNS
+
+5. Deploy the stacks:
+```bash
+# Deploy all stacks
+cdk deploy --all
+
+# Or deploy individual stacks
+cdk deploy OneletterboxDatabase
+cdk deploy OneletterboxLambda
+cdk deploy OneletterboxIam
+```
+
+6. Note the outputs:
+   - DynamoDB table names
+   - Lambda function ARNs
+   - S3 bucket name
+   - SES rule set name
+
+7. Configure environment variables:
+   - Copy `.env.example` to `.env` in each service directory
+   - Update with values from stack outputs
+
+### Infrastructure Components
+
+The infrastructure consists of several stacks:
+
+- **Database Stack** (`DatabaseStack`):
+  - Users table with GSI for email lookups
+  - Issues table for newsletter content
+  - Subscriptions table for user subscriptions
+
+- **Lambda Stack** (`LambdaStack`):
+  - Mail processor function for handling incoming emails
+  - SES rules for email routing
+  - S3 bucket for email storage
+  - SNS topic for notifications
+
+- **IAM Stack** (`IamStack`):
+  - Service roles and policies
+  - Cross-service permissions
+
+### Updating Infrastructure
+
+To update the infrastructure:
+
+1. Make changes to the CDK code
+2. Run `cdk diff` to review changes
+3. Deploy updates:
+```bash
+cdk deploy --all
+```
+
+### Destroying Infrastructure
+
+To tear down the infrastructure:
+```bash
+cdk destroy --all
+```
+
+Note: Some resources (like S3 buckets and DynamoDB tables) have deletion protection enabled. You'll need to manually remove them or update their removal policies.
 
 ## Installation
 
@@ -79,13 +167,6 @@ AWS_REGION=us-east-1
 AWS_ACCESS_KEY_ID=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
 JWT_SECRET=your_jwt_secret
-```
-
-4. Deploy AWS infrastructure:
-```bash
-cd infrastructure/aws
-npm install
-npm run cdk deploy
 ```
 
 ## Running the Application
