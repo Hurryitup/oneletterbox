@@ -1,0 +1,7 @@
+python-dateutil>=2.8.2
+boto3>=1.35.0
+setuptools>=65.0.0  # For development
+boto3-stubs[essential]>=1.26.0  # For development
+fastapi>=0.104.0  # For local development server
+uvicorn>=0.24.0  # For local development server
+python-dotenv>=1.0.0  # For environment management 

@@ -19,6 +19,7 @@ node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*
 
 # Logs
 npm-debug.log*
@@ -49,3 +50,66 @@ Thumbs.db
 
 # Vite
 .vite/
+
+# AWS CDK
+infrastructure/aws/cdk.out/**
+infrastructure/aws/.cdk-debug/
+infrastructure/aws/cdk.context.json
+infrastructure/aws/cdk-outputs.json
+infrastructure/aws/cdk-*.json
+infrastructure/aws/asset.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+.venv/
+ENV/
+
+# Lambda deployment packages
+infrastructure/aws/lambdas/*/package/
+infrastructure/aws/lambdas/*/*.zip
+infrastructure/aws/lambdas/*/node_modules/
+
+# Local development
+.local/
+.history/
+*.local
+
+# Temporary files
+*.swp
+*.swo
+*~
+.temp/
+tmp/
+
+# Secrets and credentials
+*.pem
+*.key
+*.crt
+*.p12
+.aws/
+aws.json
+credentials.json
+*_rsa
+*_dsa
+*.ppk

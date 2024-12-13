@@ -1,0 +1,15 @@
+{
+    "mail": {
+        "commonHeaders": {
+            "from": ["newsletter@example.com"],
+            "subject": "Test Newsletter"
+        },
+        "destination": ["user+test@oneletterbox.com"]
+    },
+    "receipt": {
+        "action": {
+            "bucketName": "test-bucket",
+            "objectKey": "test-key"
+        }
+    }
+}

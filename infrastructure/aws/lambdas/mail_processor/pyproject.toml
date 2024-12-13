@@ -1,0 +1,15 @@
+[tool.mypy]
+python_version = "3.9"
+plugins = [
+    "mypy_boto3_dynamodb",
+    "mypy_boto3_s3",
+]
+ignore_missing_imports = true
+
+[tool.black]
+line-length = 100
+target-version = ['py39']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3 
