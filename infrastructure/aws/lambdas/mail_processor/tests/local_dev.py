@@ -1,7 +1,12 @@
 from fastapi import FastAPI, Request
+import sys
+import os
+
+# Add the parent directory to the Python path so we can import mail_processor
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from mail_processor import lambda_handler
 import json
-import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -14,15 +19,15 @@ async def process_email(request: Request):
     """
     Simulate SES -> SNS -> Lambda event locally
     """
-    # Get the raw request body
-    body = await request.body()
+    # Get the request body as JSON
+    email_data = await request.json()
     
-    # Create a mock SNS event
+    # Create a mock SNS event with the JSON payload
     event = {
         "Records": [
             {
                 "Sns": {
-                    "Message": body.decode()
+                    "Message": json.dumps(email_data)  # Properly encode the JSON data
                 }
             }
         ]
@@ -42,6 +47,8 @@ async def health_check():
         "environment": {
             "ISSUES_TABLE": os.getenv("ISSUES_TABLE"),
             "SUBSCRIPTIONS_TABLE": os.getenv("SUBSCRIPTIONS_TABLE"),
+            "USERS_TABLE": os.getenv("USERS_TABLE"),
+            "EMAIL_BUCKET": os.getenv("EMAIL_BUCKET"),
             "AWS_REGION": os.getenv("AWS_REGION"),
         }
     }
