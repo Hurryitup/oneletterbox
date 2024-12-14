@@ -10,6 +10,7 @@ interface UserData {
   id: string;
   name: string;
   email: string;
+  inboxes: string[];
   joinDate: string;
   subscription?: {
     plan: string;
@@ -28,6 +29,8 @@ export function Account({ onBack }: AccountProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { logout } = useAuth();
+  const [newEmailPrefix, setNewEmailPrefix] = useState('');
+  const [emailError, setEmailError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -49,6 +52,61 @@ export function Account({ onBack }: AccountProps) {
 
     fetchUserData();
   }, []);
+
+  const handleAddEmail = async () => {
+    if (!newEmailPrefix) {
+      setEmailError('Please enter an email prefix');
+      return;
+    }
+
+    // Trim whitespace and convert to lowercase
+    const cleanPrefix = newEmailPrefix.trim().toLowerCase();
+    
+    // Basic validation for the prefix
+    if (!/^[a-z0-9]+(?:[._-][a-z0-9]+)*$/.test(cleanPrefix)) {
+      setEmailError('Invalid prefix format. Use only letters, numbers, and single dots, hyphens, or underscores.');
+      return;
+    }
+
+    const newEmail = `${cleanPrefix}@oneletterbox.com`;
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/user/inbox',
+        { email: newEmail },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+      setUserData(response.data);
+      setNewEmailPrefix('');
+      setEmailError(null);
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.data?.error) {
+        setEmailError(err.response.data.error);
+      } else {
+        setEmailError('Failed to add inbox');
+      }
+      console.error('Error adding inbox:', err);
+    }
+  };
+
+  const handleDeleteEmail = async (index: number) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/user/inbox/${index}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+      setUserData(response.data);
+    } catch (err) {
+      console.error('Error deleting inbox:', err);
+    }
+  };
 
   if (loading) {
     return <div className="flex justify-center items-center h-full">
@@ -108,6 +166,42 @@ export function Account({ onBack }: AccountProps) {
               {new Date(userData.joinDate).toLocaleDateString()}
             </span>
           </div>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 className="text-2xl font-bold mb-4">Inboxes</h2>
+        <div className="space-y-4">
+          {userData.inboxes.map((inbox, index) => (
+            <div key={index} className="flex justify-between items-center">
+              <span className="font-medium">{inbox}</span>
+              <button
+                onClick={() => handleDeleteEmail(index)}
+                className="text-red-500 hover:text-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+          <div className="flex items-center space-x-2">
+            <input
+              type="text"
+              placeholder="prefix"
+              className="border rounded p-2 flex-grow"
+              value={newEmailPrefix}
+              onChange={(e) => setNewEmailPrefix(e.target.value)}
+            />
+            <span className="text-gray-600">@oneletterbox.com</span>
+            <button
+              onClick={handleAddEmail}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Add
+            </button>
+          </div>
+          {emailError && (
+            <div className="text-red-500 text-sm">{emailError}</div>
+          )}
         </div>
       </div>
 

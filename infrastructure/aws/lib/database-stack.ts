@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 
 export class DatabaseStack extends cdk.Stack {
   public readonly usersTable: dynamodb.Table;
-  public readonly issuesTable: dynamodb.Table;
+  public readonly inboxesTable: dynamodb.Table;
   public readonly subscriptionsTable: dynamodb.Table;
 
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -32,9 +32,9 @@ export class DatabaseStack extends cdk.Stack {
       projectionType: dynamodb.ProjectionType.ALL,
     });
 
-    // Create the Issues table
-    this.issuesTable = new dynamodb.Table(this, 'IssuesTable', {
-      tableName: 'Issues',
+    // Create the Inboxes table
+    this.inboxesTable = new dynamodb.Table(this, 'InboxesTable', {
+      tableName: 'Inboxes',
       partitionKey: {
         name: 'partitionKey',
         type: dynamodb.AttributeType.STRING,
@@ -49,7 +49,7 @@ export class DatabaseStack extends cdk.Stack {
     });
 
     // Add GSI for date-based queries
-    this.issuesTable.addGlobalSecondaryIndex({
+    this.inboxesTable.addGlobalSecondaryIndex({
       indexName: 'UserDateIndex',
       partitionKey: {
         name: 'GSI1PK',
@@ -107,7 +107,7 @@ export class DatabaseStack extends cdk.Stack {
     });
 
     // Add tags to all tables
-    const tables = [this.usersTable, this.issuesTable, this.subscriptionsTable];
+    const tables = [this.usersTable, this.inboxesTable, this.subscriptionsTable];
     tables.forEach(table => {
       cdk.Tags.of(table).add('Environment', 'production');
       cdk.Tags.of(table).add('Service', 'oneletterbox');
@@ -120,10 +120,10 @@ export class DatabaseStack extends cdk.Stack {
       exportName: 'UsersTableName',
     });
 
-    new cdk.CfnOutput(this, 'IssuesTableName', {
-      value: this.issuesTable.tableName,
-      description: 'The name of the Issues table',
-      exportName: 'IssuesTableName',
+    new cdk.CfnOutput(this, 'InboxesTableName', {
+      value: this.inboxesTable.tableName,
+      description: 'The name of the Inboxes table',
+      exportName: 'InboxesTableName',
     });
 
     new cdk.CfnOutput(this, 'SubscriptionsTableName', {

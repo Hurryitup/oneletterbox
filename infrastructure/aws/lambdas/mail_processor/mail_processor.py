@@ -182,6 +182,99 @@ def update_subscription_stats(table, user_id: str, inbox: str, timestamp: str, p
         )
         raise
 
+def get_user_id_from_alias(email: str) -> Optional[str]:
+    """
+    Extract user ID from email alias and look up in Users table.
+    Returns None if user doesn't exist, indicating a deadletter case.
+    """
+    # Split email into local part and domain
+    local_part, domain = email.split('@')
+    
+    # Remove alias part if present (e.g., user+alias -> user)
+    base_local_part = local_part.split('+')[0]
+    
+    # Reconstruct the base email
+    base_email = f"{base_local_part}@{domain}"
+    
+    logger.info("Looking up user by email", extra={
+        "email": base_email,
+        "original_alias": email
+    })
+    
+    try:
+        # Initialize DynamoDB
+        dynamodb = boto3.resource('dynamodb')
+        users_table = dynamodb.Table(os.environ['USERS_TABLE'])
+        
+        # First try to find by primary email
+        response = users_table.query(
+            IndexName='EmailIndex',
+            KeyConditionExpression='email = :email',
+            ExpressionAttributeValues={
+                ':email': base_email
+            }
+        )
+        
+        # If user exists, check if this is their primary email or one of their inboxes
+        if response.get('Items'):
+            user = response['Items'][0]
+            
+            # If it's their primary email or in their inboxes array, return the user ID
+            if user['email'] == base_email or base_email in user.get('inboxes', []):
+                logger.info("Found user", extra={
+                    "user_id": user['id'],
+                    "email": base_email,
+                    "match_type": "primary_email" if user['email'] == base_email else "inbox"
+                })
+                return user['id']
+        
+        # If not found by primary email, try to find any user that has this as an inbox
+        response = users_table.scan(
+            FilterExpression='contains(inboxes, :email)',
+            ExpressionAttributeValues={
+                ':email': base_email
+            }
+        )
+        
+        if response.get('Items'):
+            user = response['Items'][0]
+            logger.info("Found user by inbox scan", extra={
+                "user_id": user['id'],
+                "email": base_email
+            })
+            return user['id']
+        
+        # If user doesn't exist, log it as a deadletter case
+        logger.warning("Unregistered email address - marking as deadletter", extra={
+            "email": base_email,
+            "original_alias": email,
+            "reason": "User not found in database"
+        })
+        return None
+        
+    except ClientError as e:
+        logger.error(
+            "Error looking up user",
+            extra={
+                "error_code": e.response['Error']['Code'],
+                "error_message": e.response['Error']['Message'],
+                "email": base_email
+            },
+            exc_info=True
+        )
+        raise
+    except Exception as e:
+        logger.error(
+            "Unexpected error in user lookup",
+            extra={
+                "error_type": str(type(e).__name__),
+                "error_details": str(e),
+                "email": base_email
+            },
+            exc_info=True
+        )
+        raise
+
 def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     """
     Process incoming emails from SES via SNS.
@@ -193,7 +286,7 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     
     # Initialize AWS services
     dynamodb = boto3.resource('dynamodb')
-    issues_table = dynamodb.Table(os.environ['ISSUES_TABLE'])
+    inboxes_table = dynamodb.Table(os.environ['INBOXES_TABLE'])
     subscriptions_table = dynamodb.Table(os.environ['SUBSCRIPTIONS_TABLE'])
 
     # Process each record from SNS
@@ -232,7 +325,7 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                             }
                         )
                         continue
-                        
+
                     logger.info(
                         "Processing email for recipient",
                         extra={
@@ -241,8 +334,8 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                         }
                     )
                     
-                    # Create issue record
-                    issue_item = {
+                    # Create inbox record
+                    inbox_item = {
                         'partitionKey': f'INBOX#{inbox}',
                         'sortKey': f'ISSUE#{issue_id}',
                         'GSI1PK': f'USER#{user_id}',
@@ -257,8 +350,8 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                         'starred': False
                     }
                     
-                    # Store the issue
-                    issues_table.put_item(Item=issue_item)
+                    # Store the inbox item
+                    inboxes_table.put_item(Item=inbox_item)
                     
                     # Update subscription stats
                     update_subscription_stats(
@@ -268,7 +361,7 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                         timestamp,
                         email_details['sender']
                     )
-                    
+
                     processed_items.append({
                         'inbox': inbox,
                         'issue_id': issue_id,
@@ -316,71 +409,3 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'processed_items': processed_items
         })
     }
-
-
-def get_user_id_from_alias(email: str) -> Optional[str]:
-    """
-    Extract user ID from email alias and look up in Users table.
-    Returns None if user doesn't exist, indicating a deadletter case.
-    """
-    # Remove alias part if present (e.g., user+alias@domain.com -> user@domain.com)
-    base_email = email.split('+')[0] + '@' + email.split('@')[1]
-    
-    logger.info("Looking up user by email", extra={
-        "email": base_email,
-        "original_alias": email
-    })
-    
-    try:
-        # Initialize DynamoDB
-        dynamodb = boto3.resource('dynamodb')
-        users_table = dynamodb.Table(os.environ['USERS_TABLE'])
-        
-        # Query Users table by email using GSI
-        response = users_table.query(
-            IndexName='EmailIndex',
-            KeyConditionExpression='email = :email',
-            ExpressionAttributeValues={
-                ':email': base_email
-            }
-        )
-        
-        # If user exists, return their ID
-        if response.get('Items'):
-            user = response['Items'][0]
-            logger.info("Found existing user", extra={
-                "user_id": user['id'],
-                "email": base_email
-            })
-            return user['id']
-        
-        # If user doesn't exist, log it as a deadletter case
-        logger.warning("Unregistered email address - marking as deadletter", extra={
-            "email": base_email,
-            "original_alias": email,
-            "reason": "User not found in database"
-        })
-        return None
-        
-    except ClientError as e:
-        logger.error(
-            "Error looking up user",
-            extra={
-                "error_code": e.response['Error']['Code'],
-                "error_message": e.response['Error']['Message'],
-                "email": base_email
-            },
-            exc_info=True
-        )
-        raise
-    except Exception as e:
-        logger.error(
-            "Unexpected error in user lookup",
-            extra={
-                "error_type": str(type(e).__name__),
-                "error_details": str(e),
-                "email": base_email
-            },
-            exc_info=True
-        )
-        raise

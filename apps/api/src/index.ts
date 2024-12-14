@@ -31,6 +31,12 @@ app.get('/api/account/profile', auth, accountController.getProfile);
 app.patch('/api/account/profile', auth, accountController.updateProfile);
 app.post('/api/account/change-password', auth, accountController.changePassword);
 
+// Inbox Management Routes
+app.post('/api/user/inbox', auth, accountController.addCustomEmail);
+app.delete('/api/user/inbox/:index', auth, accountController.deleteCustomEmail);
+app.get('/api/user/inboxes', auth, accountController.getIssues);
+app.get('/api/inboxes/:issueId/content', auth, accountController.getIssueContent);
+
 // User Data Route (for backward compatibility)
 app.get('/api/user', auth, (req, res) => {
   const user = req.user;
@@ -38,6 +44,7 @@ app.get('/api/user', auth, (req, res) => {
     id: user.id,
     name: user.name,
     email: user.email,
+    inboxes: user.inboxes || [],
     joinDate: user.joinDate,
     subscription: user.subscription || {
       plan: 'Free',

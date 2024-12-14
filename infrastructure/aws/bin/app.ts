@@ -34,7 +34,7 @@ const emailBucket = new s3.Bucket(databaseStack, 'EmailBucket', {
 const lambdaStack = new LambdaStack(app, 'OneletterboxLambda', {
   env,
   description: 'Lambda functions for Oneletterbox',
-  issuesTable: databaseStack.issuesTable,
+  inboxesTable: databaseStack.inboxesTable,
   subscriptionsTable: databaseStack.subscriptionsTable,
   emailBucket: emailBucket,
   usersTable: databaseStack.usersTable,
@@ -44,6 +44,8 @@ const iamStack = new IamStack(app, 'OneletterboxIam', {
   env,
   description: 'IAM resources for Oneletterbox',
   usersTable: databaseStack.usersTable,
+  inboxesTable: databaseStack.inboxesTable,
+  emailBucket: emailBucket,
 });
 
 // Add tags to all resources

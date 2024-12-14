@@ -10,19 +10,28 @@ interface Newsletter {
   category: string;
   title: string;
   description: string;
-  date: string;
-  unreadCount?: number;
+}
+
+interface Issue {
+  issueId: string;
+  sender: string;
+  subject: string;
+  receivedAt: string;
+  s3Location: string;
+  status: string;
+  archived: boolean;
+  starred: boolean;
 }
 
 interface SidebarProps {
-  newsletters: Newsletter[];
-  activeNewsletterId: string;
-  onNewsletterSelect: (id: string) => void;
+  issues?: Issue[];
+  activeIssueId?: string;
+  onIssueSelect: (id: string) => void;
   selectedCategory: string | null;
   selectedSource: string | null;
-  sortOrder: 'desc' | 'asc';
-  availableCategories: string[];
-  availableSources: string[];
+  sortOrder?: 'desc' | 'asc';
+  availableCategories?: string[];
+  availableSources?: string[];
   onCategoryChange: (category: string | null) => void;
   onSourceChange: (source: string | null) => void;
   onSortOrderChange: (order: 'desc' | 'asc') => void;
@@ -31,21 +40,45 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ 
-  newsletters, 
-  activeNewsletterId, 
-  onNewsletterSelect,
-  selectedCategory,
-  selectedSource,
-  sortOrder,
-  availableCategories,
-  availableSources,
+  issues = [],
+  activeIssueId = '',
+  onIssueSelect,
+  selectedCategory = null,
+  selectedSource = null,
+  sortOrder = 'desc',
+  availableCategories = [],
+  availableSources = [],
   onCategoryChange,
   onSourceChange,
   onSortOrderChange,
   onProfileClick,
-  onTitleClick
+  onTitleClick,
 }: SidebarProps) => {
-  const categories = Array.from(new Set(newsletters.map(n => n.category)));
+  // Ensure issues is an array before filtering
+  const safeIssues = Array.isArray(issues) ? issues : [];
+  
+  // Filter issues based on selected source and category
+  const filteredIssues = safeIssues.filter(issue => {
+    if (selectedSource && issue.sender !== selectedSource) return false;
+    // You might want to implement category filtering based on your needs
+    return true;
+  });
+
+  // Sort issues based on sortOrder
+  const sortedIssues = [...filteredIssues].sort((a, b) => {
+    const comparison = new Date(b.receivedAt).getTime() - new Date(a.receivedAt).getTime();
+    return sortOrder === 'desc' ? comparison : -comparison;
+  });
+
+  // Group issues by date
+  const groupedIssues = sortedIssues.reduce((acc, issue) => {
+    const date = new Date(issue.receivedAt).toLocaleDateString();
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(issue);
+    return acc;
+  }, {} as Record<string, Issue[]>);
 
   return (
     <aside className="sidebar">
@@ -79,22 +112,21 @@ export const Sidebar = ({
         />
       </div>
       <div className="newsletter-list">
-        {categories.map(category => (
-          <React.Fragment key={category}>
-            <Category title={category.toUpperCase()} />
-            {newsletters
-              .filter(n => n.category === category)
-              .map(newsletter => (
-                <NewsletterItem 
-                  key={newsletter.id}
-                  title={newsletter.title}
-                  description={newsletter.description}
-                  date={newsletter.date}
-                  unreadCount={newsletter.unreadCount}
-                  isActive={newsletter.id === activeNewsletterId}
-                  onClick={() => onNewsletterSelect(newsletter.id)}
-                />
-              ))}
+        {Object.entries(groupedIssues).map(([date, dateIssues]) => (
+          <React.Fragment key={date}>
+            <Category title={date} />
+            {dateIssues.map(issue => (
+              <NewsletterItem 
+                key={issue.issueId}
+                title={issue.subject}
+                description={issue.sender}
+                date={new Date(issue.receivedAt).toLocaleTimeString()}
+                isActive={issue.issueId === activeIssueId}
+                onClick={() => onIssueSelect(issue.issueId)}
+                starred={issue.starred}
+                archived={issue.archived}
+              />
+            ))}
           </React.Fragment>
         ))}
       </div>
