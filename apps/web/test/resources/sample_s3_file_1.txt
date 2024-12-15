@@ -1,0 +1,2052 @@
+Return-Path: <adityahurry@gmail.com>
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id ce62uuhd77kmde43rpto7degts7a3q38ph9s3vo1
+ for test@oneletterbox.com;
+ Sat, 14 Dec 2024 17:51:10 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.208.47 as permitted sender) client-ip=209.85.208.47; envelope-from=adityahurry@gmail.com; helo=mail-ed1-f47.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.208.47 as permitted sender) client-ip=209.85.208.47; envelope-from=adityahurry@gmail.com; helo=mail-ed1-f47.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFFUnArS1M1dzhBYWQwVTEzZTVETUxPSU84aW1vOEVjVWpPY1FPdnN6TDJHcmNzR1A0K3d6eW11UFpGTEJPZFp0QmxvSEYya05ROGFqYXNQQVFIdFR2MzIrOEF3VEdLd3pjTFZ1Q1EvSGFPcDV0YnIvQ0hSNUlnZXBabVIxWCtZY2ZLS0Y3REQwclNLRFpUNk41d3J0UzZFVTN5VnY0cmZra08vSVB3NVdUNGlZMEtPQ28yNVJoOXpXaytJTFNtWEJiSERMQTd2MjFzZlhjV2szVUdoQk0wWjVGcitOSmFNeEo1bU9nSG96Rk4rUzZGYmVTRWJoUzBKd1piMmYwMkNnUXNsUVJEUzl5MVIzYzZrQ2x4R01LekNjVVYrc0N0SmJ0ZVlNbGNhV0ZMelE9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=TQxU84tzipHHJqDmk6380jaj7JL6/UYFA4zAoikoBk4RucC0VNECjYjJHo+R1jBpQoeMZK0JBorTx/8RrbOMIEZhUQmB40vgqyNvkoC8xiVeENnC6aav6PwUiNyk3EEkDOszkWZvaF77dMByZPyzNPNQXWSZl8zPHn4aWYOCPvc=; c=relaxed/simple; s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug; d=amazonses.com; t=1734198671; v=1; bh=uhx+Vvo8TSBix/qzh08GU7GEEyLkmHAr1zokc/kZpjw=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d27243ba8bso5156841a12.2
+        for <test@oneletterbox.com>; Sat, 14 Dec 2024 09:51:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734198668; x=1734803468; darn=oneletterbox.com;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/8KmabiNbCL8VbzOBKP0AWfqBTFYR0Tvgxjak2KwSU=;
+        b=Anny7YTuiMMV4mQ+kTWhohbkusFQtLo8uwHKy3QLZCPifK8U4ZWLpKSh4I6/3cLYzl
+         4zTRn8Zlivn7g6DglAVaLZ0qJLxSKSjTsh+UPU0VEni6y6UTBJ/bJJi7dNxnmaN/suJy
+         ktjHQ1feqiEL2xibsh4lwaJk8uY/nm+YnbzYFSh/TO6gBCkPvEBQ0H14etQ80GtvSufi
+         foPA0kTr9p4xdb7jgTms+vN9m0RfbdZ00QrIRHOsngilBrqxDqRUt+0HeLiWx/0OqDR3
+         PaDS5FzBKBJBqqH2c5VAV5K+Hoo6C0XIpumI9St9lDoU4om1twIy7i2SIM+hEBdET2BW
+         CLaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734198668; x=1734803468;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/8KmabiNbCL8VbzOBKP0AWfqBTFYR0Tvgxjak2KwSU=;
+        b=L3q3KvW2N+5QzRAZwQG1Sm+t+uEvkh+yRaURm4fuXv9ngroQV12PqjojKBhi/LFnkk
+         9Ypi37LFxmjVokWUq+8Hb/oLoRGaoEKq8CQVFIef726ENNBdtBIibD1Gwml5t0H8sKi1
+         PJPfqKooulU343Y7LykvHv4UPlOLX/qfIOAWyTG8DCIRApV2li6ZpGkXUarH83No/Be/
+         dHN2LJbyFCHR8/JnRxTxbmlIXh+5U3gNC86VIgqeIL8Dqd/8m4py1f3tH+Lghk+RbGv9
+         Mmy3RjbQcpbM6QwuKfkia3f+cRLeQjWCA4IJCYJRdOT+8LjVZ1wJayC8gDZ75h/UmWja
+         OClQ==
+X-Gm-Message-State: AOJu0YycE+BOKo9RUAmVET15gF0NI3AdlraOEmK8h+8s6L90YgcpvN8T
+	FhkLLuMPCikbxV6sDCUZj/WSqbyBOI52Z6OoH94MfOseYqrZlDySCy61jOP5Y0NFMQHGOU28XsG
+	NbGjC2Z9obg0gyMNCPsoX5ggTezLh
+X-Gm-Gg: ASbGncvwaViU5ftOiImNMkexWRcp193uTGmR+1ZFM63gdo1+zaYizvE+zFfACnBW6Xu
+	6xNanfhSNVIIDPw/u2TE5JssGiaDuplLD7NA23DRPbKdcNBUTfPXe7SKf4msP1duMN0fikbE=
+X-Google-Smtp-Source: AGHT+IGSU+a/mR8purcOAde3GjFwvqpODbVlQLbvRLgheWziLihWLXld0RpN2reXK3OD2UrkL4s82rul2ijOQ66IiFQ=
+X-Received: by 2002:a05:6402:3808:b0:5cf:d19c:e21c with SMTP id
+ 4fb4d7f45d1cf-5d63c320dbbmr5490566a12.20.1734198667500; Sat, 14 Dec 2024
+ 09:51:07 -0800 (PST)
+MIME-Version: 1.0
+References: <40.A6.16634.DD62B576@i-0a896c1874d9e9222.mta1vrest.sd.prd.sparkpost>
+In-Reply-To: <40.A6.16634.DD62B576@i-0a896c1874d9e9222.mta1vrest.sd.prd.sparkpost>
+From: Aditya Hurry <adityahurry@gmail.com>
+Date: Sat, 14 Dec 2024 12:50:54 -0500
+Message-ID: <CAE_Ksp6u47JtADs47+LbArbCs4ZZ=3gy_FZo=cLbmVu0KoaROw@mail.gmail.com>
+Subject: Fwd: Money Stuff: People Really Want SpaceX Shares
+To: test@oneletterbox.com
+Content-Type: multipart/alternative; boundary="0000000000008bed3306293e9746"
+
+--0000000000008bed3306293e9746
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Matt Levine <noreply@news.bloomberg.com>
+Date: Thu, Dec 12, 2024 at 1:09=E2=80=AFPM
+Subject: Money Stuff: People Really Want SpaceX Shares
+To: <adityahurry@gmail.com>
+
+
+How much would you pay for stock in SpaceX or OpenAI? There are data
+points. SpaceX printed a trade recently at about a $350 billion valuati
+[image: Bloomberg]
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAXVVkhV8y-zNowK52s7wqYmTz0vIHsZ-edaCeLgQskb7kNVNOpKCIlt0Wx=
+PKnpGnKt03mTR1_ocOrvTlJuVJ8wRfMXcBs_jan03eLAQocpiL_hRv75WYdh4AmQ_4u5uN_wofb=
+fsRbiOXh0if296MB08-UktuG0euF_PNIqDLIwiD9KS0lsrHKG7Ybllw0o0UAe0IUv8pK0O0-yXC=
+dL_lcLyDYFWxoLMmjj2iJelsE96UV24QclyZbX7dM_G0Xw0LtJQ0pe33XK3wUICQdWMr4cOM4aQ=
+FwDZZM1uU93qbulP_XFKnEyKZ43pOmNAM0quSetc1DOkv2CJWY1F3zWzP2lru6SVNPXeCJTgzyN=
+px5DHP9YjuXjqUZ2GXbgPDjefeMw%3D>
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGmCz=
+MTJHLdAH_DqOwRxGCzl_pWm-ZPb1ytXAXPTqMFdIkF72okb3MaoQRdhbt-7lobvtsCqjwlh_BW4=
+jYGot4sL3OU77iY93EwEsp8gCKdSzQxNPZwxMetdumdocXdPqxhEVk56c1_VCPF16KlSg9Wy3EK=
+hV6XmxkahrXrn0JrtS4edGKsGG4UNiQEhoGF1DvxLyk9KmNgIYWDK3bLVTwKl-CkHUOWlRZ5gje=
+Al705nAfDIqLO3-Ss3gzXIzHBtIXaNqI0jn8YEfGE2wuKK7J9-79jFUHICZFPHCFaPWiasUG-nI=
+5qWCBXwGMrcKLOED7w%3D%3D>
+Special purpose vehicles
+
+How much would you pay for stock in SpaceX or OpenAI? There are data
+points. SpaceX printed a trade recently at about a $350 billion valuation
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAVqftdqM0p7sqrTvUKfuBFQx-r3DlAv95LxScubOKpoacxMCGKHuzxvqpF=
+zb0uOCzz2o7vxrFXexWmB41XP1RE4SZi5-PEwpcRgRgFSO91LFMIrIBmI1ZPerBvXJWmklgCC3b=
+MTF3ywzwk6kv6c0J-S5TE6MH3g8zprRrFH_g05VlnJB22yPWPBOSKlurXDgnD9WfLmLltWg8v9w=
+bSCN1LW2R3w1cyuAneJgrYs6tCIAI0TtO0u9XKx2LYW3jpX8Pq8Fg4dyvup6bsRYBd7Mic9Nq2s=
+SRq9-HKBOg66bWVrNTdVXKLkRcIYsvCSNS5xj5cDn74uqnFKf9zOfJ0dIWrvzZoDtjW5GuIVGey=
+_uGuLUtwjT9wv6g8xpovpQIKn2cD8zk4KbqRxlIbCBJ0c5t_kyyD8FpvA3t1iiTnjwtKmpTDIgr=
+rBpY2a5BLBOB3Dpcc%3D>;
+OpenAI did one not long ago at $157 billion
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGhbY=
+6ecDWpviIQOkRS5BZ33UWlKphxKHAY7UsCQdjIxYlmqPgrOBF8nbr7eUaHFHfKcOFfFISfi9nsi=
+m8ZMHkQkTYjNRwLGG0sqtj2GeA2NXe0A6ZZJuB_5vySL1elBcLwE0xJLIjImsorS5aijZt-LAiy=
+MXZP36d_bJ2zoVlhtqjelPo4B2Fpc9HEX-Ux4XZsn6Vlr_q70h1jVi0xOwuH72P0WiC4kUTBV9m=
+7Ht7ddNIbN4jvaA37CaFZnX7nZZwe8OWhMZiYVq-zaK5YBGurQ%3D>.
+If you are a big private-markets institutional investor and OpenAI or
+SpaceX calls you up and asks you to invest, you might take those valuations
+as a starting point.
+
+But what if you=E2=80=99re not? What if you=E2=80=99re just some dentist
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6bMhWMz955xclCyTK4U0quV57GzC9dCIGz0Q=
+AhW9Yg0THwq4Cx3rgwefeQo0X2z9fK-BXtGRb3hloe8xBlhCoo2c51T9pNCj86v-AKljDV6Benk=
+g10hcLd_FGSbCz1fY4oa68kj5p-UxdO5gDHmubWjmHIhGRUOkaPvDOKiLrd2_lYPE7JVZQAV0js=
+W8wNkrgEFlSmQdZPoNbmRTAaDk2iTc2jPC-xgTMA2uc6v_p3uZxHxsIrKVVlLVIhZ8JKSJLph6h=
+-I6Xqxn4guadPXqoCh21fCGsUrpPzT5cHXrjur4P0113jmcqRst4yK-poI1bzGaO5iQwAr46KM5=
+0OX--onCn7UHN5Bgv5rGuvlIbbXNx06997YB1ySCtLLAK9Zro>,
+OpenAI and SpaceX aren=E2=80=99t calling you for a funding round, but you w=
+ant to
+buy their stock? How much should you pay? *Obviously more*, is the short
+answer: Lots of dentists want OpenAI and SpaceX stock, and there isn=E2=80=
+=99t very
+much available to them.
+
+How much more? A useful data point is DXYZ
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6csOoqbQZOR2IaGMJT9hXgD8kZb6zF9a0_1K=
+wjGdU1I5CjXokblqt0AeeZFpNNc1RpDsCUXVGBYVelDseQleYSKpoFidRxFXHWDvCVtkSL05d5n=
+8RzLtn-0abWsiGXJx5PI8AkdjOYo1UPFyI2rujZK_4WxngnMPCMHhHT3-YsJ19GsYKLsGkp0H0J=
+EKMB7M4g1t_SdBA4nRbb7QSn6q-nGDIoQux4nkrpHvjZwy8015UnmNEhPBJkIGQzl4haS-ZoZje=
+JrMoTk4KsHioNEw9IvHbJ_mSjX1UtnDR7z5SrvlCmwNigH46odQujgoUt7DGjtRfHBZ4u4giA2P=
+8YmjoaYiP1bq52qi-5T2QhYf_60_mfs3uQlDRYnLMPDJy9yE0>,
+the Destiny Tech100 fund, a publicly traded closed-end fund that owns
+shares of hot private tech companies, including SpaceX. DXYZ trades at
+something on the order of a 1,000% premium to its net asset value: It owns
+about $56 million of private tech stocks, but its own shares trade at a
+market capitalization of about $720 million. One way to think about this is
+that retail investors are willing to pay $1,100 to invest $100 in hot
+startups like SpaceX. If I came to you and said =E2=80=9Cif you give me $80=
+0, I
+will give you $100 worth of SpaceX shares and keep $700 for myself,=E2=80=
+=9D I
+would be offering you, relatively speaking, a pretty good deal. [1]
+<#m_-2218361581616241372_footnote-1>
+
+Here=E2=80=99s a better deal
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGiYm=
+gJxhp_p3XarRTubU3DWzPgjhIwWC5jeq07R060nVpK95v4oMFwJjYnV0HCj78U4WQ4W7UN7r5cL=
+iE2sWrk9dtVKIIS7hdjNVO5NwUW-6YLdm9z6rW5wdPga6fgG8UYgbhoGLp6byT4G2iCZiOgx3sU=
+UOcfVKeFfyCURXAPpsU7RBOXn8uPQVEvktl1PYY3lX6HRHeMLpwT8-bIyTftDOxMyIiFWposkzQ=
+We3GRgDSDi6fjhwI8IbIfzSxWbkFMbHqePnZ55BO41g21kMYjRu7PgQL78t7ihmoFZqVsOe>
+:
+
+In the fall, a Miami-based firm called Sand Hill Road Technologies Fund
+offered its customers a hot opportunity: a chance to invest in SpaceX,
+which was arranging a deal for employees to sell some of their shares.
+But Sand Hill=E2=80=99s prospective investors, wealthy individuals whom the=
+ fund
+reached through online ads on Google and Meta Platforms apps as well as
+email and text, wouldn=E2=80=99t get the shares directly. And it would cost=
+ them.
+
+Sand Hill told prospective investors they could get access to shares of
+SpaceX for $258 a share, roughly double the $135 that institutional
+investors at the time were expected to pay. To do this, they would invest
+in a fund=E2=80=94or special purpose vehicle=E2=80=94that was investing in =
+another SPV
+buying the shares, according to Sand Hill founder and executive
+officer Robert Hodgins. If SpaceX ever went public or sold, the investors
+would also pay 20% of the profit, a fee called carried interest, on the
+investment, to Sand Hill, said Hodgins.
+
+Such high costs for getting a piece of SpaceX reflect the growing demand
+from individual investors seeking stakes in private tech startups. Well-off
+retail investors are turning to intermediaries who promise access through
+SPVs. For shares of some startups, like OpenAI, demand is so high that
+investors buy stakes in SPVs that in turn have stakes in other SPVs. But
+these complex structures, called double- or second-layer SPVs, create
+opportunities for misrepresentation and even fraud.
+
+They also charge for access. Investors in these second-rung SPVs often pay
+more in fees than those investing in the first layer or directly in the
+startup, as venture firms do. Half of the 20% carry fee charged to
+investors in the second-layer Sand Hill SPV goes to managers in the first
+fund, according to Hodgins.
+
+The market seems to be sending a signal. The signal is: =E2=80=9CA lot of r=
+etail
+investors want to own shares in SpaceX and will pay much more for those
+shares than SpaceX=E2=80=99s current private-market valuation.=E2=80=9D In =
+the olden days,
+a giant established private company might respond to that market
+signal by *going
+public and selling stock to retail investors itself*. But if SpaceX doesn=
+=E2=80=99t
+want to do that, someone else will step in to meet the demand.
+
+By the way, there=E2=80=99s another trade here. Schematically, if there is =
+a ton of
+demand for a company=E2=80=99s shares, then two sorts of people can step in=
+ to
+provide more shares. One is the company: SpaceX or OpenAI could go public,
+sell new stock to retail investors, and get a price that clears the market.
+SpaceX=E2=80=99s valuation, as a public company, might plausibly be higher =
+than
+its current private valuation of $350 billion, but lower than the $670
+billion implied by that Sand Hill fund price. (Or the, like, $3.5 trillion
+implied by DXYZ. [2] <#m_-2218361581616241372_footnote-2>)
+
+The other is *short sellers: *If a lot of people want to buy a stock, and
+its price seems too high, short sellers step in to sell extra shares of
+stock. That is traditionally harder to do in private markets; you can=E2=80=
+=99t
+borrow private shares and short them like you would in public markets.
+But you could get pretty close, right? Here is the trade:
+
+   1. You set up an SPV that offers people access to SpaceX shares.
+   2. You charge them, say, 300% of the current price of SpaceX: They have
+   to buy at a $1.05 trillion valuation, because demand is high and supply =
+is
+   scarce.
+   3. *You don=E2=80=99t buy the SpaceX shares*.
+   4. The SPV just holds the investors=E2=80=99 cash, but *owes *the invest=
+ors
+   SpaceX shares.
+   5. Eventually SpaceX goes public at some valuation, and you go out and
+   buy the shares in the open market and deliver them to your investors. [3=
+]
+   <#m_-2218361581616241372_footnote-3>
+   6. If SpaceX goes public at a valuation of less than $1.05 trillion, you
+   buy back the shares for less than the money in the SPV, and you keep the
+   rest. This is your profit from shorting SpaceX. Not at its current $350
+   billion private valuation, but at its much higher SPV valuation: You=E2=
+=80=99re not
+   just shorting SpaceX; you=E2=80=99re shorting =E2=80=9Cintense demand fo=
+r SpaceX from
+   retail investors.=E2=80=9D
+   7. If SpaceX goes public at a valuation of more than $1.05 trillion, you
+   buy back the shares for more than the money in the SPV, and you are out =
+of
+   pocket for the rest. You bet wrong, and this is your loss from shorting
+   SpaceX.
+   8. If SpaceX goes public at a valuation of *much *more than $1.05
+   trillion, you don=E2=80=99t have enough money to buy the shares to deliv=
+er to your
+   investors, and you probably go to prison.
+
+There=E2=80=99s a decent chance you=E2=80=99d go to prison anyway =E2=80=94=
+ =E2=80=9Can SPV of SpaceX
+shares that doesn=E2=80=99t own any SpaceX shares=E2=80=9D *seems *like it =
+would be a
+crime, and there are cases
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGrJT=
+R-1GacgA1sO11mans5qKGvbJ27M8JK9Hli9JtualVSi2ngI7QScsvZb7V-5Gs8I6wz5zh1oTxFE=
+ZDA1X-bMoOf9SpBw0loNuGOJuruZAn9yufrCki4S6W9fp1PtiHj1Z2nnCEESZIVFMuk6iEdJNPP=
+IRZKPrexrderCjiCeFGlfKTmY0_VpTj_sEaDViWHCUH4nmWPcEoNJOJIxvT7msx7dfoyyruda7z=
+XENDiplOFlgXvIrLm9NOvqmZdepVQ%3D%3D>
+=E2=80=94 but
+you could probably find a way to make it work. The real trade is that you
+set up an SPV that owns swaps or forward contracts
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6iM976y-OybT0kv2O99Qod0JvgQlawADBv4j=
+A7cWzmvDL-PKqbr1SEk6udGKGey2BKofhd4eLf-N7RqiMbTa8PtXKY0hsKOgwvwwcGk4Sw4uVc-=
+uam15VvWcOGLoYsJLAI20JztdBnbxPbhBj8K0Qsr5GGKBx6O4oUCyKCBuzu59vqyRFhoqWgJWIs=
+CDHd1eqKWcSbwvGhB1Uh5B86zvGnAk8VDGdnsMvhbICRrJxh_aU7Vel6bXH9DuN7ekmhVxC2j8W=
+7zhDuQsyngQYs7UuFr9hInFFkHXCPu0E20AaoiwzB_hoZMruZTbwbiA0A_w7EBZ2wH4MqBKxWCu=
+MQNd17CAkB-JHfB9um9MKsEG5pFgPYUgZauH7eV8RlnPyGt3uXOn_-7NIMWmwsEhZsgKeBw%3D%=
+3D>
+on SpaceX, and the swap or forward counterparty is some creditworthy
+institutional investor that does not own any SpaceX shares but wants to
+short SpaceX at 3 times its current price. This is not investing or legal
+advice, but man is there a lot of demand for these shares; someone should
+make more of them.
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGmCz=
+MTJHLdAH_DqOwRxGCzklHgrIvo8hG1T1pYbh_Xcvt455hf5lVQMaZ1ns4i8CVAM30G9aiyaez4c=
+MJ2yNiil_GvCrTUhkxoaEm-7c-dCtJsCjmWy95DSc5YTqHqLFviviyIsvL1-8aN0jj6gn2uA6cg=
+1m8-mFYE_eP-vHElJ3XJhVgMNV8vdjiz0lpgO9ozNkNHgxncls4Q145GKks_hn0RkN6zcNNgmXy=
+Y_h6HnPRWuLpZ8Ya0AjCI09wKaRVmW1xB0x7F9qyjfx7a3mMjWF7ka888aae_3btF8z7kmq44el=
+dUFOW6l908o9bT00yA%3D%3D>
+
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGmCz=
+MTJHLdAH_DqOwRxGCzklHgrIvo8hG1T1pYbh_Xcvt455hf5lVQMaZ1ns4i8CVAM30G9aiyaez4c=
+MJ2yNiil_GvCrTUhkxoaEm-7c-dCtJsCjmWy95DSc5YTqHqLFviviyIsvL1-8aN0jj6gn2uCgow=
+RulQXE4LdPCvlzMSFKhVcdQ-vPTJ467Y2BAay3n8hgHzPYuLkCgkgOcwwGVCMnXTdUFV9YQyyQc=
+mzbv6i-4RKrrWtFJdkFXi_nOjwht3jWg5Zk-7Z67XVT_ahdiLoB9PaTapAi8PTsOHF5zlTpiNMf=
+PHBwesNpnv5hqJRd4w%3D%3D>
+Insider trading on being fired
+
+We talked once
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6wNSMqp7rWkqK6RTqsZZNKrVT0qd3e5QWhX0=
+fvEYEA89Ac4QKqG1Q58snFgfJRmrktzZH1vPqWMjlRYZh1TTHLTpoFcGdxQxH-PIioYCe3t6IB0=
+3UvsuID8-uNhXMzirRXR3Al00l3deajq-4U-azOA9tBtsr_QvE4T3slmrctna0jkS-yDZuzxIUP=
+V66dTSenPNRF7Lk2fghE6OVXNKXNkSQSJ6SFuFqJO9_x6El9JXH7DnQBlKSySc2EBLHVN1I4fpf=
+mIbQ97t1GR-HD83XbbvTQoRI32ZcFh90CXxxtKtQi7XQeVtLYuNBxSYvYw5tl0QsyKvtAMeFljb=
+WEoGP8-4q-g3bvJE9puDYf7N9cgOXfIVlaUdVxKQ06omhGqObtV9bYmetxRVLQ06ONaOxUQ%3D%=
+3D>
+about an insider trading hypothetical involving being hired as the chief
+executive officer of a public company. In this hypothetical, you do not yet
+work at the company, but you have a job interview to be the CEO, and you
+think it went well. You are a confident person, so you walk out of the
+interview thinking (1) =E2=80=9Cthat went well and they will definitely hir=
+e me,=E2=80=9D
+(2) =E2=80=9CI will do a great job and everybody knows it, so the stock wil=
+l go up=E2=80=9D
+and (3) =E2=80=9CI love this company and want to support it by owning its s=
+tock.=E2=80=9D
+So you go buy a bunch of stock. A week later, the company does indeed
+announce that it is hiring you as CEO, and the stock does indeed go up. Are
+you guilty of insider trading? Ehh, maybe. But to me it mostly seems like
+charming optimism and alignment of interests, the sort of thing the company
+should be happy about. (The hypothetical was based on a real situation at
+the Dutch soccer club AFC Ajax NV, which suspended its CEO
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGhbY=
+6ecDWpviIQOkRS5BZ33XxI36rfUCeLgoVVggIKKB-F-6loBGJHiSi5MpA8t9u-yet6czKlEOxxc=
+iqbfGiFltNW-rwdIuR31R3SEmx7-p-W9QvU5bzwjohIk7aXMP7L4laAL9X9m0wcvpl9JXlyQUC-=
+lujqdv2-GpySFo7FN2MX-A2q4wXpB1dXCt76f6THWQJk1z59dBhMAkX7iF0U8yjK2Ms8qqUpvn1=
+LPH-x9SCRiHJOnYgY8TTifP6xkAIAeclfiwPZ3iW7WsfGTQbaM%3D>
+for allegedly doing this.)
+
+What about the reverse hypothetical? You are the *current *CEO of a public
+company and one day the board of directors calls you in and says =E2=80=9Cy=
+ou=E2=80=99re
+terrible at this and we are firing you for cause; we=E2=80=99ll put out the=
+ press
+release tomorrow.=E2=80=9D You walk out of the boardroom thinking one or mo=
+re of
+these things:
+
+   1. =E2=80=9CI am a great CEO and everybody knows it, so when they announ=
+ce that
+   they=E2=80=99re firing me the stock will drop=E2=80=9D;
+   2. =E2=80=9CThey=E2=80=99re right, I=E2=80=99m terrible at this, and whe=
+n the market sees how
+   badly I=E2=80=99ve done the stock will drop=E2=80=9D; and/or
+   3. =E2=80=9CI hate this company and no longer want to support it by owni=
+ng its
+   stock.=E2=80=9D
+
+So you go and sell all your stock. Are you guilty of insider trading?
+Probably! Still doesn=E2=80=99t it feel a little bit like there should be a=
+n
+exception? Shouldn=E2=80=99t you be allowed, just the once, to insider trad=
+e out of
+pique?
+
+This guy allegedly did it
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGrJT=
+R-1GacgA1sO11mans5qKGvbJ27M8JK9Hli9JtualPK7p7PC9eW0z6L3Q3RmKMukBae2296lKGLW=
+wvXe_v0CPh-VvMToLmnmmGUhoK-7MtDMfMjgXe9RVCQ08f-4SNYnO9vE6vT2WrUkjWxrnoRMSKf=
+c6U-HDectQmzMM83yG2Kt6VqFQ7KX3jBQFN2VXF0IfEksLjEJO_6ts1_G7Qx6FQ61-_4K7g7nRx=
+xDL1ekTZug-KufHOmUr6GrjoSLf_Q%3D%3D>
+:
+
+The Securities and Exchange Commission [Wednesday] announced insider
+trading charges against Ken Peterman, the former CEO, president, and Chair
+of the Board of Comtech Telecommunications Corp., in connection with his
+sale of Comtech shares on the basis of material non-public information
+about Comtech=E2=80=99s forthcoming negative quarterly earnings results.
+
+According to the SEC complaint, Peterman allegedly received a confidential
+presentation detailing Comtech=E2=80=99s forthcoming negative quarterly ear=
+nings
+results on March 4, 2024. He was allegedly informed that he was being
+terminated for cause eight days later, on March 12, 2024. The SEC=E2=80=99s
+complaint alleges that a few hours after he was terminated, and while
+subject to two different trading blackouts, Peterman placed an order to
+sell Comtech stock. On March 18, 2024, Comtech reported its negative
+quarterly earnings, which caused its stock price to drop more than 25
+percent. The complaint alleges that Peterman avoided losses of about
+$12,445 by trading in advance of Comtech=E2=80=99s negative earnings announ=
+cement.
+Peterman allegedly directed his financial advisor to sell additional
+Comtech stock he held in a joint account, but the financial advisor was
+unable to complete the sale because of a trading blackout. Had the sale
+been completed, Peterman allegedly would have avoided additional losses of
+about $110,000.
+
+Weirdly, while the company=E2=80=99s quarterly results were terrible and ca=
+used the
+stock to drop by 25%, that=E2=80=99s not why he was fired. (And in fact his=
+ firing
+was announced the morning of March 13, five days before the bad earnings;
+the stock dropped 27% that day.) Here=E2=80=99s why he was fired
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGn6_=
+uG4ae54FyDQ8BVEMTSFTIsj-SFXp2Y6HUVfDqDFxjwMlpcwPujB3LFuZONpWbG6jeRYRMNXinv4=
+8HD96qoXKjy8hXUDHmaTgtJ33dte_NBZkQanBzFCgXLiqDsUrRNAAIZq4SYXlJFMBd_wsPhCHI5=
+oJrguChicflPJWee1alsg9Dx6OM0vw6vdK60ML1060e6iJWpufGJespiBDDBfk0QAHc9vcREi_D=
+7Y3ywK5xx14-FI5EezKq92wdMTPJXzH5s7I4k2qGV348fS5cWo%3D>
+:
+
+On March 11, 2024, Peterman was interviewed by Comtech=E2=80=99s outside co=
+unsel in
+connection with an internal investigation.
+
+During the interview, Peterman acknowledged that he had engaged in a sexual
+relationship with a subordinate employee over the course of several months
+in 2023 and that he had failed to disclose the relationship to Comtech or
+its Board, including by omitting any mention of this undisclosed sexual
+relationship in his responses to the Directors and Officers Questionnaire
+that he signed on October 12, 2023. During the interview, Peterman also
+acknowledged that in December 2023, he directed the subordinate employee to
+use his credentials to log in and complete the online annual sexual
+harassment training required for all Comtech employees.
+
+I feel like if you are having an undisclosed sexual relationship with an
+employee you should at least take the online sexual harassment training
+yourself? You might learn something useful.
+Everything is securities fraud
+
+In 2023, Target Corp. did a Pride Month marketing event that led to a
+conservative backlash and boycott. Target=E2=80=99s stock went down. As I o=
+ften say
+around here, =E2=80=9Ca company did a thing and its stock went down=E2=80=
+=9D is the minimal
+form of securities fraud, and so people =E2=80=94 specifically =E2=80=9CAme=
+rica First Legal
+Foundation, led by former senior Trump adviser Stephen Miller=E2=80=9D =E2=
+=80=94 sued
+Target for securities fraud.
+
+Now it cannot be literally true that *anything *that a company does is
+securities fraud if its stock goes down. Securities fraud normally requires
+*lying *to investors, or *misleading *them, or at least *not mentioning*
+something important. There are two normal forms of =E2=80=9Ceverything is
+securities fraud.=E2=80=9D One is:
+
+   1. A company does a bad thing.
+   2. It doesn=E2=80=99t tell anyone about it.
+   3. Eventually it does, and its stock goes down.
+   4. Investors sue, saying =E2=80=9CI bought the stock after you did the b=
+ad thing
+   but before you told us about it, so I was misled, and when you told us
+   about it, the stock went down.
+
+So if the company=E2=80=99s chief executive officer commits sexual harassme=
+nt for
+years, and the company never mentions it, and then one day the company
+fires the CEO and discloses that he was doing harassment, arguably that is
+fraud.
+
+The other is:
+
+   1. A company does a bad thing.
+   2. It immediately discloses the bad thing, and the stock goes down.
+   3. Investors sue, saying =E2=80=9Cyour disclosures *before *the bad thin=
+g made
+   me think that you wouldn=E2=80=99t do the bad thing, but those disclosur=
+es were
+   misleading, because you did the bad thing.=E2=80=9D
+
+So if the company=E2=80=99s CEO commits sexual harassment, and the company
+discloses it five minutes later and fires him, you can=E2=80=99t really sue=
+ the
+company for lying about his sexual harassment. But if the company had an
+ethics policy saying =E2=80=9Cwe expect our executives to behave appropriat=
+ely,=E2=80=9D
+and publicized that policy, maybe you can sue the company
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAUshuqqyhHkphjz0AQ53irAYtepaeQUxKYMvkH_rnVFjSV1Tsullyih6Hp=
+DsG6WSBogDbcFZ7WtmTuRzPF8h4q44HZWqYU5YwbWk0G8p5iJIZfKqjsnYq0NDOgvYjiIohOb4k=
+_O0Qn_uA5Y9mWcr1NYDiZl0eABYzzXL0wdh7B13Xbme5IuKiSIPQ__bF2XYPm05HWbAcINFxtJh=
+PW29hqNvZTh8yB4VdPa7neQaoDeQhUYCgnkIO1850MDjG_47BLK54blgWhfPCboU1iloGzlIoQe=
+FE8ad6RzXPSVd5NREhy0tjm-xONl7I2pJ_xr-3jMLkp0cYQdCEVR3iEyQJeuZpqmbKCPajE2LUX=
+GMyVckrYo5ufZ5S9-IGpCJ52-q4Zih4C6vHsbAoAd-Obc10Kw0SYYp4BYXIQsMQWh5Tj05Q%3D%=
+3D>
+because the ethics policy is arguably misleading. =E2=80=9CYou told me exec=
+utives
+would act ethically, and they didn=E2=80=99t.=E2=80=9D [4]
+<#m_-2218361581616241372_footnote-4>
+
+In these examples, I am trying to stretch the theory as far as it will go.
+=E2=80=9CYou didn=E2=80=99t mention the CEO=E2=80=99s sexual harassment=E2=
+=80=9D and =E2=80=9Cyou had an ethics
+policy but the CEO did harassment anyway=E2=80=9D are *weak *cases of secur=
+ities
+fraud. On the theory that everything is securities fraud, I expect people
+to *bring *lawsuits like this but not necessarily to *win *them. Sometimes
+a judge will dismiss them, saying that the company didn=E2=80=99t actually =
+say
+anything materially misleading.
+
+The Target case struck me as even weaker. Target did, obviously, tell
+everyone about its Pride Month marketing event. (It was a marketing event!)
+Last year, I wrote
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6zOUfo21w2lcSBxhvzCg-bjA9g-8SaJ9d1FK=
+aZ8lpFxNIePLe786NATKwgk-xJutvYh_ClFmJbOan9S9IkSSf9_n18d4ALrrjm9zjzJ4mjWQ0u8=
+IVu9M6_qcJFXZVFnyTD6J_EG8wQ7THSi_UHrMmp-pVgrFk2bo1wBwU--26qNhjqZIkuKRh6w6Aj=
+kRnAJLP29KykGdbdNfiTVBIKjy2Jq1FI5qWJh26G9uh4WQ7OVrd8uXNduO3G6lwyJApdQbJZau2=
+gOp4X0KaENiPsasQcnTapRZpU-z5rgPzDxJ7Z1JGEPEA0IxVQKQLtGhQNcfy5ClhIzZrPt_rOEe=
+_sOFXz5G0T4KVeYejM4zDU9zXvQ8Qv2fD19yYI9cynxEXt7kV>
+that the complaint =E2=80=9Cis pretty goofy=E2=80=9D and that the plaintiff=
+s =E2=80=9Cdo not try
+very hard to actually make out a case for securities fraud, which requires
+not only that a company did a thing that you don=E2=80=99t like but also th=
+at it
+*lied *about it.=E2=80=9D Target never hid its Pride Month event, and its 2=
+021
+annual report
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGpnd=
+6JKuysbC-I4ryt6E_dePLy2kEX-W_PR_NaMLXDDI0n0r0C7pJAGJT08m99DABeEWFc4pDEWbuWW=
+zen6c1b3omAjZNSnUfClk0D2xaiWDhQCyZj3tg8MSd6yar-bXLp0OoNb06W-S4snfw0BL8zlcpp=
+h85izO_UBkSZ4i9icfXitEO6mz43X0xlR_M4IWMk8zInA9nq5Ct0ydiUv8dxFepu6s5rjheaqfg=
+xMNUwBB3uYH_meX3zez6l9Dj5cL0XBSrjlk9y-WrsBCsawcqh1u1KQG6iJN8DbHgWdHMQGh>
+included
+a risk factor that pretty clearly warned investors about this sort of risk:
+
+Our reputation is based in large part on perceptions, both about us and
+others with whom we do business, and broad access to social media makes it
+easy for anyone to provide public feedback that can influence perceptions
+of Target. It may be difficult to control negative publicity, regardless of
+whether it is accurate. Target=E2=80=99s responses to crises and our positi=
+on or
+perceived lack of position on environmental, social, and governance (ESG)
+matters, such as sustainability, responsible sourcing, and diversity,
+equity, and inclusion (DE&I), and any perceived lack of transparency about
+those matters, could harm our reputation. While reputations may take
+decades to build, negative incidents involving us or others with whom we do
+business can quickly erode trust and confidence and can result in consumer
+boycotts, workforce unrest or walkouts, government investigations, or
+litigation.
+
+=E2=80=9CTarget=E2=80=99s =E2=80=A6 position =E2=80=A6 on =E2=80=A6 diversi=
+ty, equity, and inclusion =E2=80=A6 can result
+in consumer boycotts=E2=80=9D strikes me as a pretty good warning that the =
+Pride
+Month campaign might lead to boycotts.
+
+Target asked a judge to dismiss the case because it didn=E2=80=99t say anyt=
+hing
+misleading, and last week the judge declined in kind of a wild opinion
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGve_=
+S87MMT1jNPidgtm-coBCFyLfdzCWPEr2vTpy1_MMSL7njwJwGyvtiqjt2qGkiMyQPhrEKSIYMsp=
+RxGvxkGK1ClyvO93yL9MoJNx6K3xslphh6x7CoBakDn0wy3eHwXQJhe_HtU0SydN7QadmCmjcK1=
+F5CrHmXIskb8Xl1Y2VZl9wccMnuqrj9Vyipr4nEgEdN_NvCwc82iMSy2li3w8js2V2foYVWOYoh=
+iTgUVjRdW2pSYNAblJ8reAPOiwOHJT4nRI6BpasPgiY_aGpCq8%3D>
+saying that, sure, Target warned investors that its DEI policies might lead
+to boycotts, but it didn=E2=80=99t warn them specifically that *this *campa=
+ign would
+lead to boycotts (citations omitted):
+
+Defendants=E2=80=99 general warning in their risk disclosure could be mater=
+ially
+misleading because it was not specifically tailored to the risks from their
+2023 Pride Month Campaign. To be clear, the Court is not finding that
+Defendants=E2=80=99 2021 disclosure is misleading because such an assertion=
+ would
+be premature at this stage in the proceedings. But, the Court disagrees
+with Defendants=E2=80=99 argument that this case should be dismissed becaus=
+e Target
+made a general disclosure that reputational incidents could affect its
+business. Target=E2=80=99s 2021 disclosure, for the most part, focuses on i=
+ts
+general reputation and how negative publicity could result in harm to the
+business. The disclosure generally mentions that =E2=80=9C[i]t may be diffi=
+cult to
+control negative publicity, regardless of whether it is accurate.=E2=80=9D =
+Target
+made this statement relating to its inability to control its reputation on
+social media. The report then states that Target=E2=80=99s =E2=80=9Crespons=
+es to crises and
+[Target=E2=80=99s] position or perceived lack of position on environmental,=
+ social,
+and governance (ESG) matters, such as sustainability, responsible sourcing
+and diversity, equity and inclusion (DE&I), and any perceived lack of
+transparency about those matters, could harm [Target=E2=80=99s] reputation.=
+=E2=80=9D The
+disclosure neither mentions Target=E2=80=99s upcoming 2023 Pride Month Camp=
+aign nor
+Target=E2=80=99s plan to avoid any potential reputational damage or control
+negative publicity associated with the campaign.
+
+This is pretty close to finding that everything really is securities fraud.
+If you don=E2=80=99t like something that a company has done, and its stock =
+price
+has gone down, you can sue, and the company can=E2=80=99t defend itself by =
+saying
+=E2=80=9Cwell we didn=E2=80=99t actually lie about it=E2=80=9D or even =E2=
+=80=9Cwell we warned you, in
+general terms, about the risk.=E2=80=9D Benjamin Edwards writes
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGukl=
+DQLAW0iLvV6TkGk6ZjDPOWrDVKGCblVKsM_KyslWmxKtFBMPwjXYsfzoDx9Q0BmG3wpzTy6eJU1=
+9rviQyjBxFhpZMARKijFUjBYdxWcX8pWmEmgN-C7tEwXVSdppRloFRS2ynoR-uZ-n1D8aOmESNH=
+DT6odjhbk2O-PZOs52PyBlTu07plud7nq8IaPKbM39EqTaGyJgdP9ypgaeQOmamMy5ESYbkKu0a=
+-k4jvDxqMU258RiZNlvjZs9QHXzdJsTbDgO2JSbqpw5ZovOGBGej0pB0vZWs55zc-dok1_r>
+:
+
+The Court also disagreed with Target=E2=80=99s argument that shareholders
+understood the risk that it could be boycotted for pride campaigns because
+it had been boycotted for pride campaigns before. It found that the prior
+campaigns didn=E2=80=99t put shareholders on notice of risks that might ari=
+se from
+=E2=80=9Cplacing potentially controversial merchandise at the center of its
+stores=E2=80=94could be construed as a change to their ESG/DEI campaigns in=
+ prior
+years.=E2=80=9D
+
+I take it from this that if Target were to relocate adult-oriented
+merchandise from one location to another in the store, it might also be
+securities fraud? This issue isn=E2=80=99t limited to Target. Could Walmart=
+ face
+securities fraud liability under this theory if it relocates products from
+one area to another? Do we want retailers to really add risk factor
+disclosures that they could be boycotted if they do something differently
+than they did it in the past? How does that substantially alter the total
+mix of information available?
+
+But it=E2=80=99s worse than that: Even disclosing =E2=80=9Cwe might be boyc=
+otted if we do
+something differently=E2=80=9D is not enough; the disclosure needs to be
+=E2=80=9Cspecifically tailored to the risks=E2=80=9D from the particular th=
+ing you are
+doing. Every time you launch an advertising campaign or move merchandise
+around, you need to put out a risk factor saying =E2=80=9Cwe are launching =
+this new
+advertising campaign, people might not like it, and if they don=E2=80=99t s=
+ales
+might go down.=E2=80=9D Everything you do might not work out! But if you do=
+n=E2=80=99t warn
+investors specifically about each risk, you can get sued.
+Pivot to AI
+
+Bitcoin mining is basically an abstract process for turning electricity and
+computer chips into money. Artificial intelligence is also an abstract
+process for turning electricity and computer chips into money. Bitcoin
+mining was, for practical purposes, commercialized first, and so there are
+a lot of Bitcoin miners out there. But AI is plausibly bigger and more
+lucrative now, so there are some Bitcoin miners who are surprised and
+relieved to find that, actually, they can get into the AI business. Others =
+need
+a push though
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGqyW=
+uVmuwYs-yTphaiNKofh0a-MfKiO6POaGmzDL9ni_5KiXDR5Mms3TY8QzXKJgK_i7CcRFR3wOibs=
+QwKUBeRwXIiRI6s4DEOHdorLzNJbyCVyfxFX-L_bphOG016hBanjJYDNZgMOD4yrHLldtl0VKWZ=
+8ZVHNw2KOaTtBrmrbxM059fWsX_VZlRbuKYSIhAxP9yn0fwmJh3b-mDMUb15Dfu5lGutktl4NgB=
+NaMvzaNFg8PfWGAWrJwGyoPmLTW7kCm5dd7k-zUzU3uLkXJpxhl_viOKolpSqbpZtPQFzIFm7Z8=
+dylALYpqCsTwqFOz8tfLZfprZ3O5FymJ_eWXSmg%3D>
+:
+
+Activist investor Starboard Value has built a significant position in Riot
+Platforms and is pushing for changes at the bitcoin-mining operator,
+according to people familiar with the matter. ...
+
+As a crypto miner, Riot uses high-powered computers to process bitcoin
+transactions by solving complex mathematical problems, receiving bitcoin as
+payment.
+
+Starboard has been in discussions with Riot=E2=80=99s management team to pu=
+sh the
+company to convert some of its bitcoin-mining facilities into capacity for
+so-called hyperscalers, or large data-center users, the people said.
+
+Hyperscalers are companies that operate large-scale data centers designed
+to handle massive amounts of computing power and storage capacity. Data
+centers operated by companies such as Amazon Web Services and Alphabet=E2=
+=80=99s
+Google Cloud have grown increasingly important as the
+artificial-intelligence boom gobbles up even more computing power and
+resources.
+
+It really is an amazing coincidence that not only were crypto and AI
+roughly consecutive booms led by, often, the same sorts of entrepreneurs
+and backed by the same sorts of venture capitalists, but also that they run
+on similar infrastructure. You could imagine the crypto boom collapsing and
+leaving all of its mining equipment useless =E2=80=94 but in fact the minin=
+g
+equipment could turn around and fuel the AI boom.
+Don=E2=80=99t put it on Goodreads
+
+If you are a US investor and you get an email from Chibuzo Augustine
+Onyeachonam of Awka, Nigeria, asking you to send him some money to invest
+in a =E2=80=9CBitcoin pump opportunity,=E2=80=9D what would you do? I have =
+a guess!
+
+On the other hand, if you were bopping around online and saw someone on
+YouTube recommend financial adviser John Doe at Morgan Stanley and pointing
+you to his website at johndoe.com, [5] <#m_-2218361581616241372_footnote-5>
+and you went to that website and saw him touting his credentials and
+linking to the Financial Industry Regulatory Authority=E2=80=99s BrokerChec=
+k
+website, and you went to BrokerCheck and found that John Doe does work at
+Morgan Stanley and has an impeccable regulatory record, and you went back
+to johndoe.com and clicked on the =E2=80=9Ccontact me=E2=80=9D button and i=
+t popped up an
+email to johndoe@johndoe.com, and you emailed him to say =E2=80=9CI have he=
+ard
+about your services and would like to retain you as a financial adviser,=E2=
+=80=9D
+and he wrote back to you with a client intake form, and you filled out the
+form, and he wrote back saying =E2=80=9Cgreat send me $100,000 for a Bitcoi=
+n pump
+opportunity,=E2=80=9D would you do it?
+
+No! Come on! I hope not? Don=E2=80=99t contact him through his personal web=
+site; go
+through Morgan Stanley or whatever. Still, you can see why pretending to be
+a real financial adviser might be effective. Anyway here=E2=80=99s this
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGrJT=
+R-1GacgA1sO11mans5qKGvbJ27M8JK9Hli9Jtual_OHrKuKmMqmPbEehTk-9QbSQgMSIHkP-XNa=
+Wazx853COTvPM_EpIBq3_uD3410RpiDki1-kAiPNiLkIYRz_kqgrTh2TriUpoom23S72phtD-sZ=
+HC-gTZURkHxccERTResZUpbE4Mm6bBn7myl6wJA31NVb6MlfUxQQsIaxpuTcM9T7-ly3yed6Ro8=
+75x150C99jYFYepO_Knzw2A35sGwQ%3D%3D>
+:
+
+The Securities and Exchange Commission [Wednesday] charged Chibuzo
+Augustine Onyeachonam, Stanley Chidubem Asiegbu, and Chukwuebuka Martin
+Nweke-Eze with fraud for impersonating legitimate securities brokers and
+investment advisers in an elaborate online scheme through which the
+defendants stole more than $2.9 million from at least 28 investors.
+
+As alleged in the SEC=E2=80=99s complaint, from at least 2019 to the presen=
+t, the
+three defendants, who reside in Nigeria, created websites impersonating
+nearly two dozen actual securities brokers and investment adviser
+representatives (collectively, representatives) at well-known U.S.
+securities firms as part of a fraudulent scheme to entice potential
+investors in the United States to invest funds with the defendants. The
+defendants allegedly lured investors to the websites by placing fictitious
+comments from purported clients on social media and in investment group
+chats praising the representatives=E2=80=99 trading success. The SEC=E2=80=
+=99s complaint
+alleges that the defendants promised monthly returns of up to 25 percent
+and directed investors to fake online investment platforms they created to
+make investors think their portfolios were increasing in value. In
+addition, according to the SEC=E2=80=99s complaint, the defendants purchase=
+d voice
+changing software to talk to investors, as most of the impersonated
+professionals were women.
+
+Here is the complaint
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGn6_=
+uG4ae54FyDQ8BVEMTSFTIsj-SFXp2Y6HUVfDqDFxjwMlpcwPujB3LFuZONpWbCCSkeB7Qq3-Fnj=
+nDcF3bdwHvDNSlmFmaEmJTSuBhwe6Z-4rO0wvo7oXJnyFquWkPDN8ZOlV7DkVTMFZ0_7DGAf95h=
+VSUpa0_gARiTcOK-ZUxuU8FKV5GTURr8Awj5PVldn1K4OwYLIHepA-50nWAEkgPWOjUPQCmqEiX=
+6Fctjd3cOkZ1p-XR19cjWnzWXJMPhgi48VWW_ni_jpgAM-xGGA%3D>,
+which does feature =E2=80=9COnyeachonam and/or Asiegbu, posing as=E2=80=9D =
+a legitimate
+broker, emailing an investor =E2=80=9Ca strategy document regarding a =E2=
+=80=98bitcoin pump
+opportunity.=E2=80=99=E2=80=9D See, ordinarily a =E2=80=9CBitcoin pump oppo=
+rtunity=E2=80=9D would be kind
+of a red flag, but if it=E2=80=99s a strategy document from someone at a le=
+gitimate
+brokerage firm =E2=80=A6 maybe?
+
+The complaint also features this amazing piece of detective work:
+
+According to Onyeachonam=E2=80=99s public Goodreads profile, fifteen days a=
+fter
+Onyeachonam registered the Lumentrades.com domain in 2018, Onyeachonam
+read *The
+Confidence Game: Why We Fall for It . . . Every Time* (Penguin Books 2017),
+a book written by Maria Konnikova and described by The Washington Post as
+an =E2=80=9Cunnerving manual for conning and getting conned.=E2=80=9D
+
+I have gotten used to securities fraud cases in which the defendants
+allegedly Googled =E2=80=9Chow to insider trade without getting caught=E2=
+=80=9D or
+whatever, but this is the first time I have seen someone=E2=80=99s =E2=80=
+=9Cpublic
+Goodreads profile=E2=80=9D used as evidence of fraud.
+
+By the way: On Monday the SEC also
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGrJT=
+R-1GacgA1sO11mans5qKGvbJ27M8JK9Hli9JtualwCsF69Z7bvOIw0dnksQZbHrRHS3fx1Xai3P=
+GZL_WNzYDiSenMbMYFMb11vP9xotm36kECzjb-6fYQolcQ3ZSbTzSYeAZee_NCKyElrIAlbyBYj=
+1cEVe20lEdCWdNptbgdo51RbXWqq8NlCl4XZx0W5iYnlNXKLNMdaHP-rlFv7Bcz8UzKtOILQS5S=
+zH2lc4txRG16u7QH2SW50neXvpvfg%3D%3D>
+=E2=80=9Ccharged Morgan Stanley Smith Barney LLC (MSSB) with failing to rea=
+sonably
+supervise four investment adviser and registered representatives
+(hereafter, financial advisors) who stole millions of dollars of advisory
+clients=E2=80=99 and brokerage customers=E2=80=99 funds,=E2=80=9D oops. A l=
+egitimate financial
+adviser has a *lower *probability of stealing your money than someone
+impersonating a financial adviser, but not zero!
+Things happen
+
+Appeals Court Strikes Down Nasdaq=E2=80=99s Board-Diversity Rules
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGqyW=
+uVmuwYs-yTphaiNKofheAT1gsuXz6lHfNAQE_zqHBvx9pg151FnNgKCOfiKxwFoz7jBoHD9cZ-e=
+bcELCv9lccUL1T-IqHWvaHranRDl3HwAFoVLeobJGqM7qZPt4icKy5UzJrfqaee0iEBH_PURD1v=
+KNFYCBN6nDnuZ_3FqzQz5qDjOZKTad33UHtuyFkGUaTF4s1wuRljOoldh9J6-IFWLXScWMtZK1w=
+p7TCqSi5KVshSiRNfrS4bvlVDCbp0hLvtoNLJstCCpvTpuoB-TXEzCmiWbUWElvlYXA8q6uyK7E=
+7Y7gl0cDNYoodhbd5DOBCQO-RL-poUdU7YKdc1s%3D>.
+SNB Surprises With Half Point Rate Cut to Stem Gains in Franc
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAVqftdqM0p7sqrTvUKfuBFQWsnZoXzsTJK2R36KKQzfxaZageSyC_AuNx-=
+vcMfqbdAaLpOxqR3b8_RxoLfHb8eal-eKPZtpf77lHOJWfpqTvlISJiIERi936Lrf_-_Bg5t4t1=
+rlDqzeGSwWCMoAo41llDQVWrsdN3bLMDXPppVISDOc-kJ2HFviXoVkfezGTYiUJRqe47_ni2XaK=
+ZAXUaDE3cPcTg5HoUFMZqSrI9ZLyra6KGBDPnXZYsx_YyPOwZ1CWqAKrOW5fuC5eYYAaJX6RD0Z=
+Sgl62xSRcoXtxIkEM7jjpIX3JWEs08_D-CKE357JckeCuG6oAOujwSwx3kjjPAcMsf5JnNrdvII=
+SsDpr9hDOkxo7hJry_4Y5ojNXm61OUHj1SUHKcUukf_1S6NUCYVNO10Y7UUnfDlJsj-Ke67qq1V=
+DVou714icIIq9ajbA%3D>.
+New Federal Rule Limits Overdraft Fees
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGhbY=
+6ecDWpviIQOkRS5BZ33TjvciYX1D2h8IwN2GjvDytnIP-a939d1S0pKGb8mNd0I7DDs7i-RMjYl=
+ouKACgXabuot6FRnQSpufhDHfuhM-U7ACmBSKMN8NhZz4ZCvPrLy8IlzyfjlmXO61Gm675CpNLl=
+TkzdqoKQnWpTxZ0ZkQkFnbwz3ahDqUBNBKGtHVy6bR8_b9Oy8MfzkmwrfXu1vwxe5Kt-IggMRG3=
+QIpM1cXLrjdfiQDQ9BH8cHpoYgmkLpoW80cis9mUG7KJvpFa7w%3D>
+at Large Banks. Their Job Is to Push Computers Toward AI Doom
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGmIg=
+18piVFWBz1LX6SYwVqB10wq9M7LYfpVULdys1DFzcIPxUSCcsVlvzaSPkBb8BYLh-Rv2SAbj1_2=
+76NLIYLyMk0tU2Z0-UdLsn3HRnyMIO_OaI13Lj1NdxjUTZk__AClLyHYjAAjIIZcgSmz1ZlaUp5=
+UFnuXY75Qc3ZOZgDU-PWYeyekdM-8ESl4826DWuZ0B77vdvKMM8vz6TR_w66-XWvoNaFdQAQMeQ=
+nF0r4ybtJnY9wQqKQhPaS1xICNj_TKO3zE31xB6Z4MU8GBgNFHo6sd6EtZOfvokB3N4enh5>.
+Police Investigate NYC =E2=80=98Wanted=E2=80=99 Posters
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAVqftdqM0p7sqrTvUKfuBFQPbS1BiIuGaezKHd8tGTvHfDZdJkDscFng86=
+nPVYrHZR1t3sdJ8qRzHJz0KJJw2NDCnEdboxwbG_NZyC5MSyoNEcj8UMoLQNLVCtc8sPNX2gwef=
+gCE9ROCSGM9fdAWknk3ST7Aso48LsKBP7PNuSfzkIAdHYZ1O9PG59CObEg5PvisKYedGOFoRlQX=
+2sryD6NAHiaffjabpEvjRlx4re6mvK-FrGSgLZnJpprLs0fmmXEGBrFligJIlBFjKAkQ_bbpT97=
+FQK6N3ht9BHrg45qgqZMPSh8rzOCNXYObda-IGBggsbQ7tghW1--ZJk5_CLb1fxcLuf1fifNZNH=
+ZdL6cWNUN4HX9gHv1FvFfsKJoWjs22-ffQCrrXKzdZACARTr72AoasG3KDqsuhs9-ravafS6TB8=
+vytas1rGvGoIkZOlY%3D>
+of Finance Executives. Labor Board Classifies =E2=80=98Love Is Blind=E2=80=
+=99 Contestants
+as Employees
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGhbY=
+6ecDWpviIQOkRS5BZ301NmATIpF71pbWB0Z1KGlPNzoMiBfhVAKBdgffomYfSMDHXGZb_Bh3uLV=
+8ViFoTPJppYD8EnrKOuqvJ9r0ED0Sf8EvrIJyz5ENlUCaNO6szvG42eostQctuk44I6EqzEgB5v=
+0ORsX7DOy_d8jukEO0X6Vq5j6D0XXYYE-_-_Hi-IeY2DtrfZpCyI4vW_Pgtm9U2fBYbxXmX22zq=
+mhKZTF6fcmYvRKVGq6DTbGljDfWKoXHGrkPrO0j3EaRPB452iNN9szhM5HRRCt4bZUhAxBe>.
+=E2=80=9CMr. Rodgers has since rebranded C.E.O. to stand for conscious, emp=
+athetic
+and open
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGhbY=
+6ecDWpviIQOkRS5BZ32OL75bEdGL8Ac2MY4CzLDVBT04xgyWCozZJmKPLPawnn4JVsEHC_dX0xw=
+7aqyt-Z2Yogyi8jp0eydLNdDLKaq4orZqZm6a0Kj48GKCLCqgaUcYUK5Gik4I47IqdqGIAavSfP=
+G2AlNOotvLvlVOblmkCGgS2iItm1Y-GrVnBVSJWSqe36Pk7xqbYstIKY2f52-ky9pmOD2fj5sn2=
+2761Kd1cCmZC9cr55oUtzdkLjyJ_mUAjsdVJfjhZAeVC75zU3c%3D>
+.=E2=80=9D
+
+*If you'd like to get Money Stuff in handy email form, right in your inbox,
+please subscribe at this link
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DUchiScCqn549YQdqcSwpbMDr=
+aG9rb1p-n88nlspoDhQGV37PwretI7XHfUHUis5BtWAmaeTxztei8YucZO2VfrLBMszYqtbSqmy=
+JiAjZsaiCNgCdvJjGJjk8su2mJ4TCftc5TCwf0ol01D147P-qWGqPisSMbySa8UCx-ELSWQNaUc=
+z2HIiRj3UtxxajPGeQQbRxPc9DqB1WiUX8eHOvyv2HUKTz6w3T34kxufwu7EaHR4cFWuMGA3FEX=
+YH3wz9kkVtIE3UekujKV502urUEtA-0Q4NCufaZR4cbAsv1lIIFs5byl7RXxMOUFwx6K_vJ2-_0=
+WsstDJr-UzVf7fhgfw%3D%3D>.
+Or you can subscribe to Money Stuff and other great Bloomberg newsletters
+here
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGmF2=
+-L3t_sEe1CtMpUyK6bTY3ZTZ1o88vSIyi9TktDynjFzy1QOFMRGcGnoKO1JYr5TeFS3ORy1xyZl=
+9J10h9q6kr-gILFbC2ulp6mQmASvTt7lQbwIF7usEydMkSTjg7YBQWCvWLFdl-Nwi8ITbneXlue=
+dnKhXzwB_iXBo7KoLBb8zJVztZhwBm3iDQ3AxvjMIbkbV6EJg481tX0LItgoZC53Nu-dxmQ6FZJ=
+sFJ7Ucl>.
+Thanks!*
+
+[1] Unless I was lying about having the SpaceX shares, which does happen.
+Also to be clear this is *not* exactly the deal that DXYZ is offering: If
+you invest $1,100 in DXYZ, you get $1,100 of DXYZ shares, which might even
+go up. But those shares represent $100 of underlying private company
+shares, plus a lot of premium.
+
+[2] I=E2=80=99m being very casual saying that DXYZ=E2=80=99s 1,000%-ish pre=
+mium to net
+asset value implies any sort of price for SpaceX. It=E2=80=99s not like tha=
+t 1,000%
+premium means that the market values *each* of DXYZ=E2=80=99s positions at =
+10 times
+their balance-sheet value. If anything, it probably values the SpaceX stake
+disproportionately more than the other stuff.
+
+[3] Or it gets acquired, merges, etc., in which case your obligation is
+probably converted into cash or public stock and you either pay out cash or
+buy the stock. Or it goes bankrupt, in which case you keep all the money.
+
+[4] Or if you say =E2=80=9Cintegrity and honesty are at the heart of our bu=
+siness=E2=80=9D
+and then you rip off customers, maybe that is securities fraud
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn67Lvm3kt5NiceGa1og9mL-2l71d3scZHILlL=
+OsH5ud74NVbqSegOAn20HFERiCZI7E96qUo6wjcK4Lb1GDq0T2XXTVn1ubXo9P0pwnDbTrQ_bjr=
+229_1wEwD2LM_Hj_EsPVWGjnRHzM9umNbjCZXzfywzBRzotBObh39QUvfBptG5RvGWuNIEzH1CL=
+LNs5vwrnwtQm0vgBPFMPPNK2GwVjUbO7ft9IiTvjrwwCb1ebkFv6eVjeWFGnF2iZ6QI6TePWNjU=
+QctJPt2KdfN-C_LCdNAxb5Sa2ZKDXECc39kM3hu_Vf3ebFtTwaC3L4P1BP00MSVHWbtTpYahHud=
+jBBlj89hT8Uziz1TtBC6FjW2eweneJItApcCjqV1IiTQQPNNB8C_K873dRyDKl3F6k5ra29L67q=
+OssJIU_YKKfMpHv9ygjYMoOrp3enO3bpF9ZiPc>
+.
+
+[5] =E2=80=9CJohndoe.com=E2=80=9D is the SEC=E2=80=99s hypothetical example=
+. The SEC does not cite
+firms that the impersonated brokers worked at; Morgan Stanley is my
+hypothetical example.
+[image: Listen to the Money Stuff Podcast]
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGktQ=
+E_c9_npzpdCG2dxPljT9RUxYiT4ypAowEgyjLDQ5P20WQqpxeguRgScJ5BXKuqg4VVvKOdatSPw=
+FQE4lbWBkBegS3pK7me6NUwL14uNulhtU6gn4nzcDaA-1gIW5PpoRG6a7pBZ3rH_SAygY_XMtTC=
+VnSz-uSEAFUO3N-jLX6CcjmdiTCb-mxWr_k6B4cgMHFFr2fiEFSvVqOex8WwitopnlX4Rbkx37b=
+Phd1-N6CL3zDMQPGpAJDgTNx-R33g%3D%3D>
+Follow Us
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGqlK=
+WGNQgJvVUtKd-4MWIkOIDG0VBQIH5hWbRpgeVmJh4XIBUgqUMx5Gp4kxsYGdiqfKJXUyenPlxeU=
+SK57e8nb3Qa1j8O_v7AEhn5mqSw7jAe5D9_RzQsSkwQQ2XRgrgxgb41oc17y9vtjv3CFqTb8U96=
+Fb9nM4uZAASDbe-X_gByCLAWdAwPvjnUcsrhRBvqTwrMUtWjZaQ5qgiZMwUcluA1SsEhLUK1zUg=
+ydoCmsE>
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGpdQ=
+LZRs6unOdJHUIqJrcHZTgzj1WffpnPNqvCKBD-NL3bSFUnJGpR7MAhuXRPMYH0fb-k6Nj8th3u0=
+-0H4W4PsYqv1v_JeVGmvZfJaxz4lta7Gl0TZ_TJU27p7oxgwao3TKBSN7Sxk_4V19JAEf0Zh2pE=
+bldZuCbYb4Pao8ktSWBbc2bXuhByETbzSdkFI_UMubTo_eAec21AJ0PXVQ0juGvxvSuFEOulvMg=
+pbs8HNT>
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGr8w=
+7NIs3yf5nXlgOwlQjUk0IzP749xWt434rOLziS8W6FPIJgNNeg2jNwN8r7iie4SETfaZG3mXt1D=
+GiPL7gwjGoFS8KlDgkA1192PfmywnUqvPZ9RYdhyN8bAeUPzjWO_p0GGxUie8ppMdyU23Jp0pbq=
+eeQ7V5cOz4RpdDJy7Yad5yGpvnpig7ix9Vv4_PkQFnxLS8L-Gn-PWI3ZdDaJE%3D>
+Get
+the newsletter
+<https://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAUbKoD8MYo01XkhsQnw7BE-Kalq5UycX3_Y8rhtJpw729o_pTn29tXiZjX=
+ivdqgjmGF3EOJOZ-JNE_hzd9zC2OQvG9ySwN7j57JffP-Ykmdm5hewILDcAgLVCR38qfLCLybBn=
+nRbFWy4vdY3L1rO_qBiq-ELm9Abs6oUeoqie0Ldhyzq3cW5NCk05J-aU8pm9Jbp4AcWgDauCaNQ=
+buPEiW4ATgOdo8HAxjJeuCz-L8k2z-VGYPCmYYrue_atI9p17U%3D>
+
+*Like getting this newsletter? Subscribe to Bloomberg.com
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvn=
+ZTKhWLkCXqXpUgWvNAVslL1x6R1-jzgzEwqXZdR8CIZS-qURLier7u3qiJaHd9_X_FfnaRaXlfq=
+D3dDVPnI9MasW_nIPf-Zc7NO29lswXMkDDx5EKlO_DIX3ReQWRhpZg7ZFQxkMSojbGzuNKjkFv2=
+60Vud5KPiveeB0QHMOEpvNFF87hheMnvR050c2v1msODv4aedxnJsuoMV03vnKPN6xs_TEgBNT1=
+rnNaKx3KskAav7b0mZKYFcYP48CE9YyblpfWerQ42pPPFAvPALd17c0NqcY93SH05YfO5NKv3Rx=
+LyWMvmiOpfl1qXRXJvosMIWSLnFFQ_xYXyKTygdEIIntNyjthqffYjRtnB8c>
+for unlimited access to trusted, data-driven journalism and subscriber-only
+insights.*
+
+*Before it=E2=80=99s here, it=E2=80=99s on the Bloomberg Terminal. Find out=
+ more about how
+the Terminal delivers information and analysis that financial professionals
+can=E2=80=99t find anywhere else. Learn more
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGvtW=
+z1Y7CuPBMYxzGeH0efzaRxAXIZLsF-PRfzdrXHh-7jdNSDl7YU8a_kxsmq5VemiITzAjOUothGR=
+T35NDhHFYFlfG7zmfYKydcdRS_DfAiZpKe1P2z7877w7jboWBKQiBHiB-l5xk7jIRCXabrpEjNH=
+JyVHELaFdPJPKaAa__T6sO0Hf1tbhM_o_a-AEIrJL9zeMIb_aHvvqcGLWfwcjiHf7--YnuD3mRK=
+Eq82quPELRcXXPcx6lA2R3H4HuaXPJYqHfLh5Ow8fMRQDTLY_wPh2ijhtCiCeBgjpMwomBCVGDo=
+v82cLwVDSnpZ3-y2XNbiQ7fxLz96kGpcvK8nMrxIl3fL50-frdb4stT2maLGKCTICSz9F0t1iPL=
+g5z5yNh8aJNc4hr4XKV1A9BpqVUAPe-iJseSu1_8S8OtAKYA1>.*
+
+*Want to sponsor this newsletter? Get in touch here
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGp9U=
+7IO9ttbKXE_H-rnrBRLbF_YGLp5f2Vo7bQmce-Q9Z8koJLqrowdovbBaWxF4xEmAHd3qYsD6Vn6=
+Dt7xHWMjAoch1DVhI7rUYQBSnE4Aot3YAU7QIFaKDJV7zBIj5j_5ORU8AODRgiY09J43tVP8Itg=
+ay9JbE3s6CkH3DCg9VOH8kdsc2Xy-QcbXuxJvR2S2fN9Vlmue4k2HymPW3qR6bXa0lM73wBkDOL=
+l3SWv-9qr4oPRMIxpadK9kW4BjZf8bbiTWuGKE24I9MGXRGVvo3Nc9m534rIUA_Pcl1bnlZQgSd=
+BrMumUHniZu-gqYSKQ%3D%3D>.*
+You received this message because you are subscribed to Bloomberg's Money
+Stuff newsletter.
+Unsubscribe
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGmF2=
+-L3t_sEe1CtMpUyK6bQ70ADkmXj8dymx7RQpYMhT-5yaCh7Dfaftf0HM7GhO-btXZpLALYFm6Yg=
+MI_TJt6AausNbH7P2sJtWKACpo9l2MPNwR_1UU5Jwah-hf8ZTk_pc8kVElC_TNgRFY1suBPbf5D=
+EZwcLw7ttpU6px9O3VFrT094zk0CGq35rQvxEeq3E2rN4osG3Gf1mk13Mcc6hwN6a_pIYhOzNa4=
+LBszUwB6ibXUbFMGt5sMDSHYShOk69QcKEEiKcktPufXEZXRGgIQSNSblsuruEiSuVhSNar5fng=
+FVFXTTltybxBvACDtTM_gU0FgyyqMF48yt0WlXbvAkm-7SG7HisuqCCvT8KW>
+| Bloomberg.com
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DrxFVt-nJ0xt7GNdxWftl8TOs=
+CS6NmtrZUcQvfmZlu8ElHOph8zBGfjksGEyNK7ZoMX-udqqPdfnK3af5eWddJTLQmLpNRVd7Lc2=
+0T_0S1KCq9gkoIlqg2waFqcH0NlY2lcddobX996zMCgNacKsjzOu1LMw3nmulDIY1ej01vNN7P2=
+6ijK1TIRN0AgU0_a00wzcBTCIZzLSskB51ngFXzlgQa1jZKQBCFox4C-zx5Lk%3D>
+| Contact Us
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DQbDA06CCYEc9lV0l6JYlmTOm=
+IFmbBsjX4C5QdbdRjmmxJ03X5xItdqVqc1b58iYxur3v4or-iGWteyQDgtLo2UM6LvB6FoxM6bA=
+-q4wMmKnr9BKk12lf9trvt3kj9lkD3WSA3duM1i8AHjtZ6UIWUVpdtPbvMXQbiB_MkrvSqrrpvj=
+hyKSaaP0BRpXTj7n2jqkJQp0lcP39jpV1VrvvrOGMqKDYQ9oblNkRjD67-meb4lreDIqwYAqX97=
+5ZMrIrW>
+[image: Ads Powered By Liveintent]
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGoF8=
+f8TstTzZfWLDnwPdqlOrHl5hjDEGwQD0H9oSGPic2C_BQPKWAPqVnUdY4KA5TTlCekrSABHTGFZ=
+wjhE4BFq4e8bzjQ4_3Ypm1Rwy61Xe1QdUT8o29XFQUkt-nIkJbUMV6v6EZBvdQqCdJsQ6jRht2r=
+hMf11rbJ0wiQBfR9jLMpjXRTubE3XS-E-icP2Hwq551E40SIO47mMoDMhGztGkp_P36-r1lv4Gv=
+TXbtQHP>
+|
+[image: Ad Choices]
+<https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49=
+b10e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGoF8=
+f8TstTzZfWLDnwPdqlP3NV4IxcqgKN9xyos7Zz5D3UqK8h88pt3LPLqHNTZeRqY4ewYbtylL71n=
+vld216OngZ0h5ZabRNjxauHEuzzI0_jkpTAiGmmZPnqX-boAvehSYyy-95H4NpOvHPZJGHbgDkZ=
+cHo5NmzhwE3vadWbcfMOOLr8EV6a1d7ORBkPno1MBLeKTn0TENGxg3YybwWdtoDooO2AbuywGjX=
+ejl787B>
+Bloomberg L.P. 731 Lexington, New York, NY, 10022
+<https://links.message.bloomberg.com/e/eh?_t=3Df574328d4d0c4c359b90d8e49b10=
+e21d&_m=3D1d115aeca7e047038a37e5b346759a6f&_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTK=
+hWLkCXqXpUgWvNAUvmEIvTdeu2wuvbV6NSKcwLucubXcAnk7bx-eO2ZkCTbkWtPIcnCFbfKep1e=
+bQrkTsfsKrEBOelUBvjYNqFeE_x57_LZULaOFYUrwhMyKN_E1-8rGjFTWx_I6ZIwWm4eTJVvJI7=
+n9ziwiz8P4GpYtx5TREKlugzwSRQdBmlgYHXja9E1UtpdJuXiM43RQw0Gs1KImedPdizLxjRoHA=
+2cS3NckdczFySgTfJ8voIfR3oQ%3D%3D>
+
+
+--=20
+--
+Aditya Hurry
+US: +1 (201) 312-0087
+
+--0000000000008bed3306293e9746
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote gmail_quote_container"><=
+div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded message ---------=
+<br>From: <strong class=3D"gmail_sendername" dir=3D"auto">Matt Levine</stro=
+ng> <span dir=3D"auto">&lt;<a href=3D"mailto:noreply@news.bloomberg.com">no=
+reply@news.bloomberg.com</a>&gt;</span><br>Date: Thu, Dec 12, 2024 at 1:09=
+=E2=80=AFPM<br>Subject: Money Stuff: People Really Want SpaceX Shares<br>To=
+:  &lt;<a href=3D"mailto:adityahurry@gmail.com">adityahurry@gmail.com</a>&g=
+t;<br></div><br><br><div class=3D"msg-2218361581616241372"><u></u>        <=
+div style=3D"width:100%;font-family:Helvetica,Arial,sans-serif;font-size:16=
+px;line-height:150%;margin:0;padding:0">
+<div style=3D"color:transparent;opacity:0;font-size:0px;border:0;max-height=
+:1px;width:1px;margin:0px;padding:0px;border-width:0px!important;display:no=
+ne!important;line-height:0px!important"><img border=3D"0" width=3D"1" heigh=
+t=3D"1" src=3D"https://post.spmailtechnolo.com/q/IYm32fpDN0H5jt4QoL2VSQ~~/A=
+ARGbAA~/RgRpPavdPVcDc3BjQgpnVd0mW2dxgWoEUhVhZGl0eWFodXJyeUBnbWFpbC5jb21YBAA=
+ABvU~" alt=3D""></div>
+<span style=3D"color:transparent;display:none;opacity:0;height:0;width:0;fo=
+nt-size:0"></span><img src=3D"https://links.message.bloomberg.com/e/eo?_t=
+=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a=
+6f&amp;_e=3DXqBzg8e9XFuTfeUACQW99Yef6pkSiGuWDjQAhqwK4NiBuvmtF3bQv_8QwPRqX94=
+xdfjn3ruLxFCQsbOH1KzmJ9mJ-FCUcjxk39PQsrIJ2Q49sRLclgV5uKTmtFNdA21_W5imOXj0lA=
+94LI9Sc_inAWQJIwLL6aSDMsYX5Z4JCho%3D" style=3D"border:0;width:1px;height:1p=
+x;border-width:0px!important;display:none!important;line-height:0!important=
+" width=3D"1" height=3D"1"> <table id=3D"m_-2218361581616241372wrapper" wid=
+th=3D"100%" align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" style=3D"font-family:Helvetica,Arial,sans-serif;font-size:16px;max-width=
+:550px;width:100%!important">  <tbody><tr> <td style=3D"border-collapse:col=
+lapse"> <div style=3D"display:none;max-height:0px;overflow:hidden"> How muc=
+h would you pay for stock in SpaceX or OpenAI? There are data points. Space=
+X printed a trade recently at about a $350 billion valuati </div> </td> </t=
+r> <tr> <td style=3D"border-collapse:collapse;padding-bottom:15px"> <table =
+width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0"> <tbody><tr=
+> <td align=3D"center" style=3D"border-collapse:collapse;padding:20px 0px 1=
+0px"> </td> </tr> <tr> <td align=3D"center" style=3D"border-collapse:collap=
+se;padding-bottom:5px"> <a href=3D"https://links.message.bloomberg.com/u/cl=
+ick?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b3=
+46759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTKhWLkCXqXpUgWvNAXVVkhV8y-zNowK5=
+2s7wqYmTz0vIHsZ-edaCeLgQskb7kNVNOpKCIlt0WxPKnpGnKt03mTR1_ocOrvTlJuVJ8wRfMXc=
+Bs_jan03eLAQocpiL_hRv75WYdh4AmQ_4u5uN_wofbfsRbiOXh0if296MB08-UktuG0euF_PNIq=
+DLIwiD9KS0lsrHKG7Ybllw0o0UAe0IUv8pK0O0-yXCdL_lcLyDYFWxoLMmjj2iJelsE96UV24Qc=
+lyZbX7dM_G0Xw0LtJQ0pe33XK3wUICQdWMr4cOM4aQFwDZZM1uU93qbulP_XFKnEyKZ43pOmNAM=
+0quSetc1DOkv2CJWY1F3zWzP2lru6SVNPXeCJTgzyNpx5DHP9YjuXjqUZ2GXbgPDjefeMw%3D" =
+target=3D"_blank"><img class=3D"m_-2218361581616241372logo-image" src=3D"ht=
+tps://assets.bwbx.io/images/users/iqjWHBFdfxIU/img7rZ7yYddA/v0/-1x-1.png" b=
+order=3D"0" alt=3D"Bloomberg" style=3D"max-width:550px;width:530px;display:=
+block" width=3D"530"></a> </td> </tr> </tbody></table><table border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0" align=3D"center"> <tbody><tr> <td colspa=
+n=3D"2"> <a href=3D"https://links.message.bloomberg.com/u/click?_t=3Df57432=
+8d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=
+=3DcowIyOCtQT0BPkDNq5nVGmCzMTJHLdAH_DqOwRxGCzl_pWm-ZPb1ytXAXPTqMFdIkF72okb3=
+MaoQRdhbt-7lobvtsCqjwlh_BW4jYGot4sL3OU77iY93EwEsp8gCKdSzQxNPZwxMetdumdocXdP=
+qxhEVk56c1_VCPF16KlSg9Wy3EKhV6XmxkahrXrn0JrtS4edGKsGG4UNiQEhoGF1DvxLyk9KmNg=
+IYWDK3bLVTwKl-CkHUOWlRZ5gjeAl705nAfDIqLO3-Ss3gzXIzHBtIXaNqI0jn8YEfGE2wuKK7J=
+9-79jFUHICZFPHCFaPWiasUG-nI5qWCBXwGMrcKLOED7w%3D%3D" rel=3D"nofollow" targe=
+t=3D"_blank"> <img src=3D"https://sli.bloomberg.com/imp?s=3D825881&amp;stpe=
+=3Ddefault&amp;li=3D12007235&amp;m=3D060a0c963388537842d7226288452dcb&amp;p=
+=3D12122024" border=3D"0" width=3D"108 !important" style=3D"max-width:550px=
+;display:block;width:108px!important"> </a> </td> </tr> </tbody></table> </=
+td> </tr> <tr> <td style=3D"border-collapse:collapse"> <table width=3D"100%=
+" border=3D"0" cellspacing=3D"0" cellpadding=3D"0"> <tbody><tr> <td style=
+=3D"border-collapse:collapse;line-height:150%;padding:0 10px"> <table width=
+=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0"> <tbody><tr> <td=
+ style=3D"border-collapse:collapse"> <h2 style=3D"font-weight:bold;font-fam=
+ily:&quot;Arial Black&quot;,Arial,Helvetica,sans-serif;letter-spacing:-1px;=
+font-size:20px;border-bottom-width:1px;border-bottom-style:dotted;margin:0p=
+x;padding:16px 0px 5px">Special purpose vehicles</h2> </td> </tr> </tbody><=
+/table> <p style=3D"margin:16px 0">How much would you pay for stock in Spac=
+eX or OpenAI? There are data points. SpaceX printed a trade recently at abo=
+ut a <a href=3D"https://links.message.bloomberg.com/a/click?_t=3Df574328d4d=
+0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3Dc=
+owIyOCtQT0BPkDNq5nVGuvnZTKhWLkCXqXpUgWvNAVqftdqM0p7sqrTvUKfuBFQx-r3DlAv95Lx=
+ScubOKpoacxMCGKHuzxvqpFzb0uOCzz2o7vxrFXexWmB41XP1RE4SZi5-PEwpcRgRgFSO91LFMI=
+rIBmI1ZPerBvXJWmklgCC3bMTF3ywzwk6kv6c0J-S5TE6MH3g8zprRrFH_g05VlnJB22yPWPBOS=
+KlurXDgnD9WfLmLltWg8v9wbSCN1LW2R3w1cyuAneJgrYs6tCIAI0TtO0u9XKx2LYW3jpX8Pq8F=
+g4dyvup6bsRYBd7Mic9Nq2sSRq9-HKBOg66bWVrNTdVXKLkRcIYsvCSNS5xj5cDn74uqnFKf9zO=
+fJ0dIWrvzZoDtjW5GuIVGey_uGuLUtwjT9wv6g8xpovpQIKn2cD8zk4KbqRxlIbCBJ0c5t_kyyD=
+8FpvA3t1iiTnjwtKmpTDIgrrBpY2a5BLBOB3Dpcc%3D" style=3D"color:#000000;text-de=
+coration:none!important;border-bottom-width:1px;border-bottom-color:#000000=
+;border-bottom-style:solid;background-color:#ccc" target=3D"_blank">$350 bi=
+llion valuation</a>; OpenAI did one not long ago at <a href=3D"https://link=
+s.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_=
+m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGhbY6ecDW=
+pviIQOkRS5BZ33UWlKphxKHAY7UsCQdjIxYlmqPgrOBF8nbr7eUaHFHfKcOFfFISfi9nsim8ZMH=
+kQkTYjNRwLGG0sqtj2GeA2NXe0A6ZZJuB_5vySL1elBcLwE0xJLIjImsorS5aijZt-LAiyMXZP3=
+6d_bJ2zoVlhtqjelPo4B2Fpc9HEX-Ux4XZsn6Vlr_q70h1jVi0xOwuH72P0WiC4kUTBV9m7Ht7d=
+dNIbN4jvaA37CaFZnX7nZZwe8OWhMZiYVq-zaK5YBGurQ%3D" style=3D"color:#000000;te=
+xt-decoration:none!important;border-bottom-width:1px;border-bottom-color:#0=
+00000;border-bottom-style:solid;background-color:#ccc" target=3D"_blank">$1=
+57 billion</a>. If you are a big private-markets institutional investor and=
+ OpenAI or SpaceX calls you up and asks you to invest, you might take those=
+ valuations as a starting point.</p> <p style=3D"margin:16px 0">But what if=
+ you=E2=80=99re not? What if you=E2=80=99re just some <a href=3D"https://li=
+nks.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp=
+;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTK=
+hWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6bMhWMz955xclCyTK4U0quV57GzC9dCIGz0QAhW=
+9Yg0THwq4Cx3rgwefeQo0X2z9fK-BXtGRb3hloe8xBlhCoo2c51T9pNCj86v-AKljDV6Benkg10=
+hcLd_FGSbCz1fY4oa68kj5p-UxdO5gDHmubWjmHIhGRUOkaPvDOKiLrd2_lYPE7JVZQAV0jsW8w=
+NkrgEFlSmQdZPoNbmRTAaDk2iTc2jPC-xgTMA2uc6v_p3uZxHxsIrKVVlLVIhZ8JKSJLph6h-I6=
+Xqxn4guadPXqoCh21fCGsUrpPzT5cHXrjur4P0113jmcqRst4yK-poI1bzGaO5iQwAr46KM50OX=
+--onCn7UHN5Bgv5rGuvlIbbXNx06997YB1ySCtLLAK9Zro" style=3D"color:#000000;text=
+-decoration:none!important;border-bottom-width:1px;border-bottom-color:#000=
+000;border-bottom-style:solid;background-color:#ccc" target=3D"_blank">dent=
+ist</a>, OpenAI and SpaceX aren=E2=80=99t calling you for a funding round, =
+but you want to buy their stock? How much should you pay?=C2=A0<em>Obviousl=
+y more</em>, is the short answer: Lots of dentists want OpenAI and SpaceX s=
+tock, and there isn=E2=80=99t very much available to them.</p> <p style=3D"=
+margin:16px 0">How much more? A useful data point is <a href=3D"https://lin=
+ks.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;=
+_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTKh=
+WLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6csOoqbQZOR2IaGMJT9hXgD8kZb6zF9a0_1KwjGd=
+U1I5CjXokblqt0AeeZFpNNc1RpDsCUXVGBYVelDseQleYSKpoFidRxFXHWDvCVtkSL05d5n8RzL=
+tn-0abWsiGXJx5PI8AkdjOYo1UPFyI2rujZK_4WxngnMPCMHhHT3-YsJ19GsYKLsGkp0H0JEKMB=
+7M4g1t_SdBA4nRbb7QSn6q-nGDIoQux4nkrpHvjZwy8015UnmNEhPBJkIGQzl4haS-ZoZjeJrMo=
+Tk4KsHioNEw9IvHbJ_mSjX1UtnDR7z5SrvlCmwNigH46odQujgoUt7DGjtRfHBZ4u4giA2P8Ymj=
+oaYiP1bq52qi-5T2QhYf_60_mfs3uQlDRYnLMPDJy9yE0" style=3D"color:#000000;text-=
+decoration:none!important;border-bottom-width:1px;border-bottom-color:#0000=
+00;border-bottom-style:solid;background-color:#ccc" target=3D"_blank">DXYZ<=
+/a>, the Destiny Tech100 fund, a publicly traded closed-end fund that owns =
+shares of hot private tech companies, including SpaceX. DXYZ trades at some=
+thing on the order of a 1,000% premium to its net asset value: It owns abou=
+t $56 million of private tech stocks, but its own shares trade at a market =
+capitalization of about $720 million. One way to think about this is that r=
+etail investors are willing to pay $1,100 to invest $100 in hot startups li=
+ke SpaceX. If I came to you and said =E2=80=9Cif you give me $800, I will g=
+ive you $100 worth of SpaceX shares and keep $700 for myself,=E2=80=9D I wo=
+uld be offering you, relatively speaking, a pretty good deal.<a href=3D"#m_=
+-2218361581616241372_footnote-1" style=3D"color:#000000;text-decoration:non=
+e!important;border-bottom-width:1px;border-bottom-color:#000000;border-bott=
+om-style:none!important;background-color:transparent!important;display:inli=
+ne-block"> <span>[1]</span> </a></p> <p style=3D"margin:16px 0">Here=E2=80=
+=99s <a href=3D"https://links.message.bloomberg.com/u/click?_t=3Df574328d4d=
+0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3Dc=
+owIyOCtQT0BPkDNq5nVGiYmgJxhp_p3XarRTubU3DWzPgjhIwWC5jeq07R060nVpK95v4oMFwJj=
+YnV0HCj78U4WQ4W7UN7r5cLiE2sWrk9dtVKIIS7hdjNVO5NwUW-6YLdm9z6rW5wdPga6fgG8UYg=
+bhoGLp6byT4G2iCZiOgx3sUUOcfVKeFfyCURXAPpsU7RBOXn8uPQVEvktl1PYY3lX6HRHeMLpwT=
+8-bIyTftDOxMyIiFWposkzQWe3GRgDSDi6fjhwI8IbIfzSxWbkFMbHqePnZ55BO41g21kMYjRu7=
+PgQL78t7ihmoFZqVsOe" style=3D"color:#000000;text-decoration:none!important;=
+border-bottom-width:1px;border-bottom-color:#000000;border-bottom-style:sol=
+id;background-color:#ccc" target=3D"_blank">a better deal</a>:=C2=A0</p> <b=
+lockquote> <p style=3D"margin:16px 0">In the fall, a Miami-based firm calle=
+d Sand Hill Road Technologies Fund offered its customers a hot opportunity:=
+ a chance to invest in SpaceX, which was arranging a deal for employees to =
+sell some of their shares. But=C2=A0Sand Hill=E2=80=99s prospective investo=
+rs, wealthy individuals whom the fund reached through online ads on Google =
+and Meta Platforms apps as well as email and text, wouldn=E2=80=99t get the=
+ shares directly. And it would cost them.</p> <p style=3D"margin:16px 0">Sa=
+nd Hill told prospective investors they could get access to shares of Space=
+X for $258 a share, roughly double the $135 that institutional investors at=
+ the time were expected to pay. To do this, they would invest in a fund=E2=
+=80=94or special purpose vehicle=E2=80=94that was investing in another SPV =
+buying the shares, according to Sand Hill founder and executive officer=C2=
+=A0Robert Hodgins. If SpaceX ever went public or sold, the investors would =
+also pay 20% of the profit, a fee called carried interest, on the investmen=
+t, to Sand Hill, said Hodgins.</p> <p style=3D"margin:16px 0">Such high cos=
+ts for getting a piece of SpaceX reflect the growing demand from individual=
+ investors seeking stakes in private tech startups. Well-off retail investo=
+rs are turning to intermediaries who promise access through SPVs. For share=
+s of some startups, like OpenAI, demand is so high that investors buy stake=
+s in SPVs that in turn have stakes in other SPVs. But these complex structu=
+res, called double- or second-layer SPVs, create opportunities for misrepre=
+sentation and even fraud.</p> <p style=3D"margin:16px 0">They also charge f=
+or access. Investors in these second-rung SPVs often pay more in fees than =
+those investing in the first layer or directly in the startup, as venture f=
+irms do. Half of the 20% carry fee charged to investors in the second-layer=
+ Sand Hill=C2=A0SPV goes to managers in the first fund, according to Hodgin=
+s.</p> </blockquote> <p style=3D"margin:16px 0">The market seems to be send=
+ing a signal. The signal is: =E2=80=9CA lot of retail investors want to own=
+ shares in SpaceX and will pay much more for those shares than SpaceX=E2=80=
+=99s current private-market valuation.=E2=80=9D In the olden days, a giant =
+established private company might respond to that market signal by=C2=A0<em=
+>going public and selling stock to retail investors itself</em>. But if Spa=
+ceX doesn=E2=80=99t want to do that, someone else will step in to meet the =
+demand.</p> <p style=3D"margin:16px 0">By the way, there=E2=80=99s another =
+trade here. Schematically, if there is a ton of demand for a company=E2=80=
+=99s shares, then two sorts of people can step in to provide more shares. O=
+ne is the company: SpaceX or OpenAI could go public, sell new stock to reta=
+il investors, and get a price that clears the market. SpaceX=E2=80=99s=C2=
+=A0valuation, as a public company, might plausibly be higher than its=C2=A0=
+current private valuation of $350 billion, but lower than the $670 billion =
+implied by that Sand Hill fund price. (Or the, like, $3.5 trillion implied =
+by DXYZ.<a href=3D"#m_-2218361581616241372_footnote-2" style=3D"color:#0000=
+00;text-decoration:none!important;border-bottom-width:1px;border-bottom-col=
+or:#000000;border-bottom-style:none!important;background-color:transparent!=
+important;display:inline-block"> <span>[2]</span> </a>)</p> <p style=3D"mar=
+gin:16px 0">The other is=C2=A0<em>short sellers:=C2=A0</em>If a lot of peop=
+le want to buy a stock, and its price seems too high, short sellers step in=
+ to sell extra shares of stock. That is traditionally harder to do in priva=
+te markets; you can=E2=80=99t borrow private shares and short them like you=
+ would in public markets. But=C2=A0you could get pretty close, right? Here =
+is the trade:</p> <ol style=3D"list-style-type:decimal;padding-left:40px;ma=
+rgin:16px 0"> <li style=3D"margin-bottom:5px">You set up an SPV that offers=
+ people access to SpaceX shares.</li> <li style=3D"margin-bottom:5px">You c=
+harge them, say, 300% of the current price of SpaceX: They have to buy at a=
+ $1.05 trillion valuation, because demand is high and supply is scarce.</li=
+> <li style=3D"margin-bottom:5px"> <em>You don=E2=80=99t buy the SpaceX sha=
+res</em>.</li> <li style=3D"margin-bottom:5px">The SPV just holds the inves=
+tors=E2=80=99 cash, but=C2=A0<em>owes=C2=A0</em>the investors SpaceX shares=
+.</li> <li style=3D"margin-bottom:5px">Eventually SpaceX goes public at som=
+e valuation, and you go out and buy the shares in the open market and deliv=
+er them to your investors.<a href=3D"#m_-2218361581616241372_footnote-3" st=
+yle=3D"color:#000000;text-decoration:none!important;border-bottom-width:1px=
+;border-bottom-color:#000000;border-bottom-style:none!important;background-=
+color:transparent!important;display:inline-block"> <span>[3]</span> </a> </=
+li> <li style=3D"margin-bottom:5px">If SpaceX goes public at a valuation of=
+ less than=C2=A0$1.05 trillion, you buy back the shares for less than the m=
+oney in the SPV, and you keep the rest. This is your profit from shorting S=
+paceX. Not at its current $350 billion private valuation, but at its much h=
+igher SPV valuation: You=E2=80=99re not just shorting SpaceX; you=E2=80=99r=
+e shorting =E2=80=9Cintense demand for SpaceX from retail investors.=E2=80=
+=9D</li> <li style=3D"margin-bottom:5px">If SpaceX goes public at a valuati=
+on of more than $1.05 trillion, you buy back the shares for more than the m=
+oney in the SPV, and you are out of pocket for the rest. You bet wrong, and=
+ this is your loss from shorting SpaceX.</li> <li style=3D"margin-bottom:5p=
+x">If SpaceX goes public at a valuation of=C2=A0<em>much=C2=A0</em>more tha=
+n $1.05 trillion, you don=E2=80=99t have enough money to buy the shares to =
+deliver to your investors, and you probably go to prison.</li> </ol> <p sty=
+le=3D"margin:16px 0">There=E2=80=99s a decent chance you=E2=80=99d go to pr=
+ison anyway =E2=80=94=C2=A0=E2=80=9Can SPV of SpaceX shares that doesn=E2=
+=80=99t own any SpaceX shares=E2=80=9D=C2=A0<em>seems=C2=A0</em>like it wou=
+ld be a crime, and <a href=3D"https://links.message.bloomberg.com/u/click?_=
+t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759=
+a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGrJTR-1GacgA1sO11mans5qKGvbJ27M8JK9Hli9Jtu=
+alVSi2ngI7QScsvZb7V-5Gs8I6wz5zh1oTxFEZDA1X-bMoOf9SpBw0loNuGOJuruZAn9yufrCki=
+4S6W9fp1PtiHj1Z2nnCEESZIVFMuk6iEdJNPPIRZKPrexrderCjiCeFGlfKTmY0_VpTj_sEaDVi=
+WHCUH4nmWPcEoNJOJIxvT7msx7dfoyyruda7zXENDiplOFlgXvIrLm9NOvqmZdepVQ%3D%3D" s=
+tyle=3D"color:#000000;text-decoration:none!important;border-bottom-width:1p=
+x;border-bottom-color:#000000;border-bottom-style:solid;background-color:#c=
+cc" target=3D"_blank">there are cases</a>=C2=A0=E2=80=94=C2=A0but you could=
+ probably find a way to make it work. The real trade is that you set up an =
+SPV that owns <a href=3D"https://links.message.bloomberg.com/a/click?_t=3Df=
+574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&a=
+mp;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTKhWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6iM9=
+76y-OybT0kv2O99Qod0JvgQlawADBv4jA7cWzmvDL-PKqbr1SEk6udGKGey2BKofhd4eLf-N7Rq=
+iMbTa8PtXKY0hsKOgwvwwcGk4Sw4uVc-uam15VvWcOGLoYsJLAI20JztdBnbxPbhBj8K0Qsr5GG=
+KBx6O4oUCyKCBuzu59vqyRFhoqWgJWIsCDHd1eqKWcSbwvGhB1Uh5B86zvGnAk8VDGdnsMvhbIC=
+RrJxh_aU7Vel6bXH9DuN7ekmhVxC2j8W7zhDuQsyngQYs7UuFr9hInFFkHXCPu0E20AaoiwzB_h=
+oZMruZTbwbiA0A_w7EBZ2wH4MqBKxWCuMQNd17CAkB-JHfB9um9MKsEG5pFgPYUgZauH7eV8Rln=
+PyGt3uXOn_-7NIMWmwsEhZsgKeBw%3D%3D" style=3D"color:#000000;text-decoration:=
+none!important;border-bottom-width:1px;border-bottom-color:#000000;border-b=
+ottom-style:solid;background-color:#ccc" target=3D"_blank">swaps or forward=
+ contracts</a> on SpaceX, and the swap or forward counterparty is some cred=
+itworthy institutional investor that does not own any SpaceX shares but wan=
+ts to short SpaceX at 3 times its current price. This is not investing or l=
+egal advice, but man is there a lot of demand for these shares; someone sho=
+uld make more of them.</p> <table width=3D"auto" cellpadding=3D"0" cellspac=
+ing=3D"0" align=3D"center"> <tbody><tr> <td colspan=3D"2" align=3D"center" =
+valign=3D"top" style=3D"padding:0 0px"> <a href=3D"https://links.message.bl=
+oomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aec=
+a7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGmCzMTJHLdAH_DqOwRxGC=
+zklHgrIvo8hG1T1pYbh_Xcvt455hf5lVQMaZ1ns4i8CVAM30G9aiyaez4cMJ2yNiil_GvCrTUhk=
+xoaEm-7c-dCtJsCjmWy95DSc5YTqHqLFviviyIsvL1-8aN0jj6gn2uA6cg1m8-mFYE_eP-vHElJ=
+3XJhVgMNV8vdjiz0lpgO9ozNkNHgxncls4Q145GKks_hn0RkN6zcNNgmXyY_h6HnPRWuLpZ8Ya0=
+AjCI09wKaRVmW1xB0x7F9qyjfx7a3mMjWF7ka888aae_3btF8z7kmq44eldUFOW6l908o9bT00y=
+A%3D%3D" target=3D"_blank"> <img src=3D"https://sli.bloomberg.com/imp?s=3D8=
+68432&amp;stpe=3Ddefault&amp;li_coord=3Ddesktop&amp;collapse_width=3D550&am=
+p;li=3D12007235&amp;m=3D060a0c963388537842d7226288452dcb&amp;p=3D12122024" =
+width=3D"550" border=3D"0" style=3D"display:block;height:auto;width:100%;ma=
+x-width:550px" alt=3D"" class=3D"m_-2218361581616241372lihide"> </a> </td> =
+</tr> <tr> <td colspan=3D"2" align=3D"center" valign=3D"top">  <div style=
+=3D"display:none;overflow:hidden;width:0;max-height:0;line-height:0" class=
+=3D"m_-2218361581616241372lishow"> <table width=3D"auto" cellpadding=3D"0" =
+cellspacing=3D"0" align=3D"center"> <tbody><tr> <td align=3D"center" valign=
+=3D"top" style=3D"padding:0 0px"> <a href=3D"https://links.message.bloomber=
+g.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047=
+038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGmCzMTJHLdAH_DqOwRxGCzklHgr=
+Ivo8hG1T1pYbh_Xcvt455hf5lVQMaZ1ns4i8CVAM30G9aiyaez4cMJ2yNiil_GvCrTUhkxoaEm-=
+7c-dCtJsCjmWy95DSc5YTqHqLFviviyIsvL1-8aN0jj6gn2uCgowRulQXE4LdPCvlzMSFKhVcdQ=
+-vPTJ467Y2BAay3n8hgHzPYuLkCgkgOcwwGVCMnXTdUFV9YQyyQcmzbv6i-4RKrrWtFJdkFXi_n=
+Ojwht3jWg5Zk-7Z67XVT_ahdiLoB9PaTapAi8PTsOHF5zlTpiNMfPHBwesNpnv5hqJRd4w%3D%3=
+D" target=3D"_blank"> <img src=3D"https://sli.bloomberg.com/imp?s=3D868432&=
+amp;stpe=3Ddefault&amp;li_coord=3Dmobile&amp;collapse_width=3D550&amp;li=3D=
+12007235&amp;m=3D060a0c963388537842d7226288452dcb&amp;p=3D12122024" width=
+=3D"100%" border=3D"0" style=3D"max-width:550px;display:block;height:auto" =
+alt=3D""> </a> </td> </tr> </tbody></table> </div>  </td> </tr> </tbody></t=
+able> <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0=
+"> <tbody><tr> <td style=3D"border-collapse:collapse"> <h2 style=3D"font-we=
+ight:bold;font-family:&quot;Arial Black&quot;,Arial,Helvetica,sans-serif;le=
+tter-spacing:-1px;font-size:20px;border-bottom-width:1px;border-bottom-styl=
+e:dotted;margin:0px;padding:16px 0px 5px">Insider trading on being fired</h=
+2> </td> </tr> </tbody></table> <p style=3D"margin:16px 0">We <a href=3D"ht=
+tps://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49b10=
+e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5n=
+VGuvnZTKhWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6wNSMqp7rWkqK6RTqsZZNKrVT0qd3e5=
+QWhX0fvEYEA89Ac4QKqG1Q58snFgfJRmrktzZH1vPqWMjlRYZh1TTHLTpoFcGdxQxH-PIioYCe3=
+t6IB03UvsuID8-uNhXMzirRXR3Al00l3deajq-4U-azOA9tBtsr_QvE4T3slmrctna0jkS-yDZu=
+zxIUPV66dTSenPNRF7Lk2fghE6OVXNKXNkSQSJ6SFuFqJO9_x6El9JXH7DnQBlKSySc2EBLHVN1=
+I4fpfmIbQ97t1GR-HD83XbbvTQoRI32ZcFh90CXxxtKtQi7XQeVtLYuNBxSYvYw5tl0QsyKvtAM=
+eFljbWEoGP8-4q-g3bvJE9puDYf7N9cgOXfIVlaUdVxKQ06omhGqObtV9bYmetxRVLQ06ONaOxU=
+Q%3D%3D" style=3D"color:#000000;text-decoration:none!important;border-botto=
+m-width:1px;border-bottom-color:#000000;border-bottom-style:solid;backgroun=
+d-color:#ccc" target=3D"_blank">talked once</a> about an insider trading hy=
+pothetical involving being hired as the chief executive officer of a public=
+ company. In this hypothetical, you do not yet work at the company, but you=
+ have a job interview to be the CEO, and you think it went well. You are a =
+confident person, so you walk out of the interview thinking (1) =E2=80=9Cth=
+at went well and they will definitely hire me,=E2=80=9D (2) =E2=80=9CI will=
+ do a great job and everybody knows it, so the stock will go up=E2=80=9D an=
+d=C2=A0(3) =E2=80=9CI love this company and want to support it by owning it=
+s stock.=E2=80=9D So you go buy a bunch of stock. A week later, the company=
+ does indeed announce that it is hiring you as CEO, and the stock does inde=
+ed go up. Are you guilty of insider trading? Ehh, maybe. But to me it mostl=
+y seems like charming optimism and alignment of interests, the sort of thin=
+g the company should be happy about. (The hypothetical was based on a real =
+situation at the Dutch soccer club AFC Ajax NV, which <a href=3D"https://li=
+nks.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp=
+;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGhbY6ec=
+DWpviIQOkRS5BZ33XxI36rfUCeLgoVVggIKKB-F-6loBGJHiSi5MpA8t9u-yet6czKlEOxxciqb=
+fGiFltNW-rwdIuR31R3SEmx7-p-W9QvU5bzwjohIk7aXMP7L4laAL9X9m0wcvpl9JXlyQUC-luj=
+qdv2-GpySFo7FN2MX-A2q4wXpB1dXCt76f6THWQJk1z59dBhMAkX7iF0U8yjK2Ms8qqUpvn1LPH=
+-x9SCRiHJOnYgY8TTifP6xkAIAeclfiwPZ3iW7WsfGTQbaM%3D" style=3D"color:#000000;=
+text-decoration:none!important;border-bottom-width:1px;border-bottom-color:=
+#000000;border-bottom-style:solid;background-color:#ccc" target=3D"_blank">=
+suspended=C2=A0its CEO</a> for allegedly doing this.)=C2=A0</p> <p style=3D=
+"margin:16px 0">What about the reverse hypothetical? You are the=C2=A0<em>c=
+urrent=C2=A0</em>CEO of a public company and one day the board of directors=
+ calls you in and says =E2=80=9Cyou=E2=80=99re terrible at this and we are =
+firing you for cause; we=E2=80=99ll put out the press release tomorrow.=E2=
+=80=9D You walk out of the boardroom thinking one or more=C2=A0of these thi=
+ngs:</p> <ol style=3D"list-style-type:decimal;padding-left:40px;margin:16px=
+ 0"> <li style=3D"margin-bottom:5px">=E2=80=9CI am a great CEO and everybod=
+y knows it, so when they announce that they=E2=80=99re firing me the stock =
+will drop=E2=80=9D;</li> <li style=3D"margin-bottom:5px">=E2=80=9CThey=E2=
+=80=99re right, I=E2=80=99m terrible at this, and when the market sees how =
+badly I=E2=80=99ve done the stock will drop=E2=80=9D; and/or</li> <li style=
+=3D"margin-bottom:5px">=E2=80=9CI hate this company and no longer want to s=
+upport it by owning its stock.=E2=80=9D</li> </ol> <p style=3D"margin:16px =
+0">So you go and sell all your stock. Are you guilty of insider trading? Pr=
+obably! Still doesn=E2=80=99t it feel a little bit like there should be an =
+exception? Shouldn=E2=80=99t you be allowed, just the once, to insider trad=
+e out of pique?</p> <p style=3D"margin:16px 0">This guy <a href=3D"https://=
+links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&a=
+mp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGrJTR=
+-1GacgA1sO11mans5qKGvbJ27M8JK9Hli9JtualPK7p7PC9eW0z6L3Q3RmKMukBae2296lKGLWw=
+vXe_v0CPh-VvMToLmnmmGUhoK-7MtDMfMjgXe9RVCQ08f-4SNYnO9vE6vT2WrUkjWxrnoRMSKfc=
+6U-HDectQmzMM83yG2Kt6VqFQ7KX3jBQFN2VXF0IfEksLjEJO_6ts1_G7Qx6FQ61-_4K7g7nRxx=
+DL1ekTZug-KufHOmUr6GrjoSLf_Q%3D%3D" style=3D"color:#000000;text-decoration:=
+none!important;border-bottom-width:1px;border-bottom-color:#000000;border-b=
+ottom-style:solid;background-color:#ccc" target=3D"_blank">allegedly did it=
+</a>:</p> <blockquote> <p style=3D"margin:16px 0">The Securities and Exchan=
+ge Commission [Wednesday] announced insider trading charges against Ken Pet=
+erman, the former CEO, president, and Chair of the Board of Comtech Telecom=
+munications Corp., in connection with his sale of Comtech shares on the bas=
+is of material non-public information about Comtech=E2=80=99s forthcoming n=
+egative quarterly earnings results.</p> <p style=3D"margin:16px 0">Accordin=
+g to the SEC complaint, Peterman allegedly received a confidential presenta=
+tion detailing Comtech=E2=80=99s forthcoming negative quarterly earnings re=
+sults on March 4, 2024. He was allegedly informed that he was being termina=
+ted for cause eight days later, on March 12, 2024. The SEC=E2=80=99s compla=
+int alleges that a few hours after he was terminated, and while subject to =
+two different trading blackouts, Peterman placed an order to sell Comtech s=
+tock. On March 18, 2024, Comtech reported its negative quarterly earnings, =
+which caused its stock price to drop more than 25 percent. The complaint al=
+leges that Peterman avoided losses of about $12,445 by trading in advance o=
+f Comtech=E2=80=99s negative earnings announcement. Peterman allegedly dire=
+cted his financial advisor to sell additional Comtech stock he held in a jo=
+int account, but the financial advisor was unable to complete the sale beca=
+use of a trading blackout. Had the sale been completed, Peterman allegedly =
+would have avoided additional losses of about $110,000.</p> </blockquote> <=
+p style=3D"margin:16px 0">Weirdly, while the company=E2=80=99s quarterly re=
+sults were terrible and caused the stock to drop by 25%, that=E2=80=99s not=
+ why he was fired. (And in fact his firing was announced the morning of Mar=
+ch 13, five days before the bad earnings; the stock dropped 27% that day.) =
+Here=E2=80=99s <a href=3D"https://links.message.bloomberg.com/u/click?_t=3D=
+f574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&=
+amp;_e=3DcowIyOCtQT0BPkDNq5nVGn6_uG4ae54FyDQ8BVEMTSFTIsj-SFXp2Y6HUVfDqDFxjw=
+MlpcwPujB3LFuZONpWbG6jeRYRMNXinv48HD96qoXKjy8hXUDHmaTgtJ33dte_NBZkQanBzFCgX=
+LiqDsUrRNAAIZq4SYXlJFMBd_wsPhCHI5oJrguChicflPJWee1alsg9Dx6OM0vw6vdK60ML1060=
+e6iJWpufGJespiBDDBfk0QAHc9vcREi_D7Y3ywK5xx14-FI5EezKq92wdMTPJXzH5s7I4k2qGV3=
+48fS5cWo%3D" style=3D"color:#000000;text-decoration:none!important;border-b=
+ottom-width:1px;border-bottom-color:#000000;border-bottom-style:solid;backg=
+round-color:#ccc" target=3D"_blank">why he was fired</a>:</p> <blockquote> =
+<p style=3D"margin:16px 0">On March 11, 2024, Peterman was interviewed by C=
+omtech=E2=80=99s outside counsel in connection with an internal investigati=
+on.</p> <p style=3D"margin:16px 0">During the interview, Peterman acknowled=
+ged that he had engaged in a sexual relationship with a subordinate employe=
+e over the course of several months in 2023 and that he=C2=A0had failed to =
+disclose the relationship to Comtech or its Board, including by omitting an=
+y mention of this undisclosed sexual relationship in his responses to the D=
+irectors and Officers Questionnaire that he signed on October 12, 2023. Dur=
+ing the interview, Peterman also acknowledged that in December 2023, he dir=
+ected the subordinate employee to use his credentials to log in and complet=
+e the online annual sexual harassment training required for all Comtech emp=
+loyees.</p> </blockquote> <p style=3D"margin:16px 0">I feel like if you are=
+ having an undisclosed sexual relationship with an employee you should at l=
+east take the online sexual harassment training yourself? You might learn s=
+omething useful.</p> <table width=3D"100%" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0"> <tbody><tr> <td style=3D"border-collapse:collapse"> <h2 s=
+tyle=3D"font-weight:bold;font-family:&quot;Arial Black&quot;,Arial,Helvetic=
+a,sans-serif;letter-spacing:-1px;font-size:20px;border-bottom-width:1px;bor=
+der-bottom-style:dotted;margin:0px;padding:16px 0px 5px">Everything is secu=
+rities fraud</h2> </td> </tr> </tbody></table> <p style=3D"margin:16px 0">I=
+n 2023, Target Corp. did a Pride Month marketing event that led to a conser=
+vative backlash and boycott. Target=E2=80=99s stock went down. As I often s=
+ay around here, =E2=80=9Ca company did a thing and its stock went down=E2=
+=80=9D is the minimal form of securities fraud, and so people =E2=80=94=C2=
+=A0<a title=3D"https://news.bloomberglaw.com/business-and-practice/ex-trump=
+-officials-sue-target-alleging-pride-month-investor-risk" style=3D"color:#0=
+00000;text-decoration:none!important;border-bottom-width:1px;border-bottom-=
+color:#000000;border-bottom-style:solid;background-color:#ccc">specifically=
+</a> =E2=80=9CAmerica First Legal Foundation, led by former senior Trump ad=
+viser Stephen Miller=E2=80=9D =E2=80=94=C2=A0sued Target for securities fra=
+ud.</p> <p style=3D"margin:16px 0">Now it cannot be literally true that=C2=
+=A0<em>anything=C2=A0</em>that a company does is securities fraud if its st=
+ock goes down. Securities fraud normally requires <em>lying=C2=A0</em>to in=
+vestors, or <em>misleading=C2=A0</em>them, or at least <em>not mentioning</=
+em> something important. There are two=C2=A0normal forms of =E2=80=9Ceveryt=
+hing is securities fraud.=E2=80=9D One is:</p> <ol style=3D"list-style-type=
+:decimal;padding-left:40px;margin:16px 0"> <li style=3D"margin-bottom:5px">=
+A company does a bad thing.</li> <li style=3D"margin-bottom:5px">It doesn=
+=E2=80=99t tell anyone about it.</li> <li style=3D"margin-bottom:5px">Event=
+ually it does, and its stock goes down.</li> <li style=3D"margin-bottom:5px=
+">Investors sue, saying =E2=80=9CI bought the stock after you did the bad t=
+hing but before you told us about it, so I was misled, and when you told us=
+ about it, the stock went down.</li> </ol> <p style=3D"margin:16px 0">So if=
+ the company=E2=80=99s chief executive officer commits sexual harassment fo=
+r years, and the company never mentions it, and then one day the company fi=
+res the CEO and discloses that he was doing harassment, arguably that is fr=
+aud.</p> <p style=3D"margin:16px 0">The other is:</p> <ol style=3D"list-sty=
+le-type:decimal;padding-left:40px;margin:16px 0"> <li style=3D"margin-botto=
+m:5px">A company does a bad thing.</li> <li style=3D"margin-bottom:5px">It =
+immediately discloses the bad thing, and the stock goes down.</li> <li styl=
+e=3D"margin-bottom:5px">Investors sue, saying =E2=80=9Cyour disclosures=C2=
+=A0<em>before=C2=A0</em>the bad thing made me think that you wouldn=E2=80=
+=99t do the bad thing, but those disclosures were misleading, because you d=
+id the bad thing.=E2=80=9D</li> </ol> <p style=3D"margin:16px 0">So if the =
+company=E2=80=99s CEO commits sexual harassment, and the company discloses =
+it five minutes later and fires him, you can=E2=80=99t really sue the compa=
+ny for lying about his sexual harassment. But if the company had an ethics =
+policy saying =E2=80=9Cwe expect our executives to behave appropriately,=E2=
+=80=9D and publicized that policy, <a href=3D"https://links.message.bloombe=
+rg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e04=
+7038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTKhWLkCXqXpUgWvNAUshu=
+qqyhHkphjz0AQ53irAYtepaeQUxKYMvkH_rnVFjSV1Tsullyih6HpDsG6WSBogDbcFZ7WtmTuRz=
+PF8h4q44HZWqYU5YwbWk0G8p5iJIZfKqjsnYq0NDOgvYjiIohOb4k_O0Qn_uA5Y9mWcr1NYDiZl=
+0eABYzzXL0wdh7B13Xbme5IuKiSIPQ__bF2XYPm05HWbAcINFxtJhPW29hqNvZTh8yB4VdPa7ne=
+QaoDeQhUYCgnkIO1850MDjG_47BLK54blgWhfPCboU1iloGzlIoQeFE8ad6RzXPSVd5NREhy0tj=
+m-xONl7I2pJ_xr-3jMLkp0cYQdCEVR3iEyQJeuZpqmbKCPajE2LUXGMyVckrYo5ufZ5S9-IGpCJ=
+52-q4Zih4C6vHsbAoAd-Obc10Kw0SYYp4BYXIQsMQWh5Tj05Q%3D%3D" style=3D"color:#00=
+0000;text-decoration:none!important;border-bottom-width:1px;border-bottom-c=
+olor:#000000;border-bottom-style:solid;background-color:#ccc" target=3D"_bl=
+ank">maybe you can sue the company</a> because=C2=A0the ethics policy is ar=
+guably misleading. =E2=80=9CYou told me executives would act ethically, and=
+ they didn=E2=80=99t.=E2=80=9D<a href=3D"#m_-2218361581616241372_footnote-4=
+" style=3D"color:#000000;text-decoration:none!important;border-bottom-width=
+:1px;border-bottom-color:#000000;border-bottom-style:none!important;backgro=
+und-color:transparent!important;display:inline-block"> <span>[4]</span> </a=
+></p> <p style=3D"margin:16px 0">In these examples, I am trying to stretch =
+the theory as far as it will go. =E2=80=9CYou didn=E2=80=99t mention the CE=
+O=E2=80=99s sexual harassment=E2=80=9D and =E2=80=9Cyou had an ethics polic=
+y but the CEO did harassment anyway=E2=80=9D are=C2=A0<em>weak=C2=A0</em>ca=
+ses of securities fraud. On the theory that everything is securities fraud,=
+ I expect people to=C2=A0<em>bring=C2=A0</em>lawsuits like this=C2=A0but no=
+t necessarily to=C2=A0<em>win=C2=A0</em>them. Sometimes a judge will dismis=
+s them, saying that the company didn=E2=80=99t actually say anything materi=
+ally misleading.</p> <p style=3D"margin:16px 0">The Target case struck me a=
+s even weaker. Target did, obviously, tell everyone about its Pride Month m=
+arketing event. (It was a marketing event!) Last year,=C2=A0<a href=3D"http=
+s://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49b10e2=
+1d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVG=
+uvnZTKhWLkCXqXpUgWvNAUlgKB0j1G2kB6Ob0d2dDn6zOUfo21w2lcSBxhvzCg-bjA9g-8SaJ9d=
+1FKaZ8lpFxNIePLe786NATKwgk-xJutvYh_ClFmJbOan9S9IkSSf9_n18d4ALrrjm9zjzJ4mjWQ=
+0u8IVu9M6_qcJFXZVFnyTD6J_EG8wQ7THSi_UHrMmp-pVgrFk2bo1wBwU--26qNhjqZIkuKRh6w=
+6AjkRnAJLP29KykGdbdNfiTVBIKjy2Jq1FI5qWJh26G9uh4WQ7OVrd8uXNduO3G6lwyJApdQbJZ=
+au2gOp4X0KaENiPsasQcnTapRZpU-z5rgPzDxJ7Z1JGEPEA0IxVQKQLtGhQNcfy5ClhIzZrPt_r=
+OEe_sOFXz5G0T4KVeYejM4zDU9zXvQ8Qv2fD19yYI9cynxEXt7kV" style=3D"color:#00000=
+0;text-decoration:none!important;border-bottom-width:1px;border-bottom-colo=
+r:#000000;border-bottom-style:solid;background-color:#ccc" target=3D"_blank=
+">I wrote</a> that the complaint =E2=80=9Cis pretty goofy=E2=80=9D and that=
+ the plaintiffs =E2=80=9Cdo not try very hard to actually make out a case f=
+or securities fraud, which requires not only that a company did a thing tha=
+t you don=E2=80=99t like but also that it=C2=A0<em>lied=C2=A0</em>about it.=
+=E2=80=9D Target never hid its Pride Month event, and its <a href=3D"https:=
+//links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d=
+&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGpn=
+d6JKuysbC-I4ryt6E_dePLy2kEX-W_PR_NaMLXDDI0n0r0C7pJAGJT08m99DABeEWFc4pDEWbuW=
+Wzen6c1b3omAjZNSnUfClk0D2xaiWDhQCyZj3tg8MSd6yar-bXLp0OoNb06W-S4snfw0BL8zlcp=
+ph85izO_UBkSZ4i9icfXitEO6mz43X0xlR_M4IWMk8zInA9nq5Ct0ydiUv8dxFepu6s5rjheaqf=
+gxMNUwBB3uYH_meX3zez6l9Dj5cL0XBSrjlk9y-WrsBCsawcqh1u1KQG6iJN8DbHgWdHMQGh" s=
+tyle=3D"color:#000000;text-decoration:none!important;border-bottom-width:1p=
+x;border-bottom-color:#000000;border-bottom-style:solid;background-color:#c=
+cc" target=3D"_blank">2021 annual report</a>=C2=A0included a risk factor th=
+at pretty clearly warned investors about this sort of risk:</p> <blockquote=
+><p style=3D"margin:16px 0">Our reputation is based in large part on percep=
+tions, both about us and others with whom we do business, and broad access =
+to social media makes it easy for anyone to provide public feedback that ca=
+n influence perceptions of Target. It may be difficult to control negative =
+publicity, regardless of whether it is accurate. Target=E2=80=99s responses=
+ to crises and our position or perceived lack of position on environmental,=
+ social, and governance (ESG) matters, such as sustainability, responsible =
+sourcing, and diversity, equity, and inclusion (DE&amp;I), and any perceive=
+d lack of transparency about those matters, could harm our reputation. Whil=
+e reputations may take decades to build, negative incidents involving us or=
+ others with whom we do business can quickly erode trust and confidence and=
+ can result in consumer boycotts, workforce unrest or walkouts, government =
+investigations, or litigation.</p></blockquote> <p style=3D"margin:16px 0">=
+=E2=80=9CTarget=E2=80=99s =E2=80=A6=C2=A0position =E2=80=A6=C2=A0on =E2=80=
+=A6=C2=A0diversity, equity, and inclusion =E2=80=A6=C2=A0can result in cons=
+umer boycotts=E2=80=9D strikes me as a pretty good warning that the Pride M=
+onth campaign might lead to boycotts.</p> <p style=3D"margin:16px 0">Target=
+ asked a judge to dismiss the case because it didn=E2=80=99t say anything m=
+isleading, and last week the judge declined in <a href=3D"https://links.mes=
+sage.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1=
+d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGve_S87MMT1jNP=
+idgtm-coBCFyLfdzCWPEr2vTpy1_MMSL7njwJwGyvtiqjt2qGkiMyQPhrEKSIYMspRxGvxkGK1C=
+lyvO93yL9MoJNx6K3xslphh6x7CoBakDn0wy3eHwXQJhe_HtU0SydN7QadmCmjcK1F5CrHmXIsk=
+b8Xl1Y2VZl9wccMnuqrj9Vyipr4nEgEdN_NvCwc82iMSy2li3w8js2V2foYVWOYohiTgUVjRdW2=
+pSYNAblJ8reAPOiwOHJT4nRI6BpasPgiY_aGpCq8%3D" style=3D"color:#000000;text-de=
+coration:none!important;border-bottom-width:1px;border-bottom-color:#000000=
+;border-bottom-style:solid;background-color:#ccc" target=3D"_blank">kind of=
+ a wild opinion</a> saying that, sure, Target warned investors that its DEI=
+ policies might lead to boycotts, but it didn=E2=80=99t warn them specifica=
+lly that <em>this </em>campaign=C2=A0would lead to boycotts (citations omit=
+ted):</p> <blockquote><p style=3D"margin:16px 0">Defendants=E2=80=99 genera=
+l warning in their risk disclosure could be materially misleading because i=
+t was not specifically tailored to the risks from their 2023 Pride Month Ca=
+mpaign. To be clear, the Court is not finding that Defendants=E2=80=99 2021=
+ disclosure is misleading because such an assertion would be premature at t=
+his stage in the proceedings. But, the Court disagrees with Defendants=E2=
+=80=99 argument that this case should be dismissed because Target made a ge=
+neral disclosure that reputational incidents could affect its business. Tar=
+get=E2=80=99s 2021 disclosure, for the most part, focuses on its general re=
+putation and how negative publicity could result in harm to the business. T=
+he disclosure generally mentions that =E2=80=9C[i]t may be difficult to con=
+trol negative publicity, regardless of whether it is accurate.=E2=80=9D Tar=
+get made this statement relating to its inability to control its reputation=
+ on social media. The report then states that Target=E2=80=99s =E2=80=9Cres=
+ponses to crises and [Target=E2=80=99s] position or perceived lack of posit=
+ion on environmental, social, and governance (ESG) matters, such as sustain=
+ability, responsible sourcing and diversity, equity and inclusion (DE&amp;I=
+), and any perceived lack of transparency about those matters, could harm [=
+Target=E2=80=99s] reputation.=E2=80=9D The disclosure neither mentions Targ=
+et=E2=80=99s upcoming 2023 Pride Month Campaign nor Target=E2=80=99s plan t=
+o avoid any potential reputational damage or control negative publicity ass=
+ociated with the campaign.</p></blockquote> <p style=3D"margin:16px 0">This=
+ is pretty close to finding that everything really is securities fraud. If =
+you don=E2=80=99t like something that a company has done, and its stock pri=
+ce has gone down, you can sue, and the company can=E2=80=99t defend itself =
+by saying =E2=80=9Cwell we didn=E2=80=99t actually lie about it=E2=80=9D or=
+ even =E2=80=9Cwell we warned=C2=A0you, in general terms, about the risk.=
+=E2=80=9D=C2=A0Benjamin Edwards <a href=3D"https://links.message.bloomberg.=
+com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e04703=
+8a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGuklDQLAW0iLvV6TkGk6ZjDPOWrDV=
+KGCblVKsM_KyslWmxKtFBMPwjXYsfzoDx9Q0BmG3wpzTy6eJU19rviQyjBxFhpZMARKijFUjBYd=
+xWcX8pWmEmgN-C7tEwXVSdppRloFRS2ynoR-uZ-n1D8aOmESNHDT6odjhbk2O-PZOs52PyBlTu0=
+7plud7nq8IaPKbM39EqTaGyJgdP9ypgaeQOmamMy5ESYbkKu0a-k4jvDxqMU258RiZNlvjZs9QH=
+XzdJsTbDgO2JSbqpw5ZovOGBGej0pB0vZWs55zc-dok1_r" style=3D"color:#000000;text=
+-decoration:none!important;border-bottom-width:1px;border-bottom-color:#000=
+000;border-bottom-style:solid;background-color:#ccc" target=3D"_blank">writ=
+es</a>:</p> <blockquote> <p style=3D"margin:16px 0">The Court also disagree=
+d with Target=E2=80=99s argument that shareholders understood the risk that=
+ it could be boycotted for pride campaigns because it had been boycotted fo=
+r pride campaigns before. It found that the prior campaigns didn=E2=80=99t =
+put shareholders on notice of risks that might arise from =E2=80=9Cplacing =
+potentially controversial merchandise at the center of its stores=E2=80=94c=
+ould be construed as a change to their ESG/DEI campaigns in prior years.=E2=
+=80=9D</p> <p style=3D"margin:16px 0">I take it from this that if Target we=
+re to relocate adult-oriented merchandise from one location to another in t=
+he store, it might also be securities fraud? This issue isn=E2=80=99t limit=
+ed to Target. Could Walmart face securities fraud liability under this theo=
+ry if it relocates products from one area to another? Do we want retailers =
+to really add risk factor disclosures that they could be boycotted if they =
+do something differently than they did it in the past? How does that substa=
+ntially alter the total mix of information available?</p> </blockquote> <p =
+style=3D"margin:16px 0">But it=E2=80=99s worse than that: Even disclosing =
+=E2=80=9Cwe might be boycotted if we do something differently=E2=80=9D is n=
+ot enough; the disclosure needs to be =E2=80=9Cspecifically tailored to the=
+ risks=E2=80=9D from the particular thing you are doing. Every time you lau=
+nch an advertising campaign or move merchandise around, you need to put out=
+ a risk factor saying =E2=80=9Cwe are launching this new advertising campai=
+gn, people might not like it, and if they don=E2=80=99t sales might go down=
+.=E2=80=9D Everything you do might not work out! But if you don=E2=80=99t w=
+arn investors specifically about each risk, you can get sued.</p> <table wi=
+dth=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0"> <tbody><tr> =
+<td style=3D"border-collapse:collapse"> <h2 style=3D"font-weight:bold;font-=
+family:&quot;Arial Black&quot;,Arial,Helvetica,sans-serif;letter-spacing:-1=
+px;font-size:20px;border-bottom-width:1px;border-bottom-style:dotted;margin=
+:0px;padding:16px 0px 5px">Pivot to AI</h2> </td> </tr> </tbody></table> <p=
+ style=3D"margin:16px 0">Bitcoin mining is basically an abstract=C2=A0proce=
+ss for turning electricity and computer chips into money. Artificial intell=
+igence is also an abstract process for turning electricity and computer chi=
+ps into money. Bitcoin mining was, for practical purposes, commercialized f=
+irst, and so there are a lot of Bitcoin miners out there. But AI is plausib=
+ly bigger and more lucrative now, so there are some Bitcoin miners who are =
+surprised and relieved to find that, actually, they can get into the AI bus=
+iness. Others <a href=3D"https://links.message.bloomberg.com/u/click?_t=3Df=
+574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&a=
+mp;_e=3DcowIyOCtQT0BPkDNq5nVGqyWuVmuwYs-yTphaiNKofh0a-MfKiO6POaGmzDL9ni_5Ki=
+XDR5Mms3TY8QzXKJgK_i7CcRFR3wOibsQwKUBeRwXIiRI6s4DEOHdorLzNJbyCVyfxFX-L_bphO=
+G016hBanjJYDNZgMOD4yrHLldtl0VKWZ8ZVHNw2KOaTtBrmrbxM059fWsX_VZlRbuKYSIhAxP9y=
+n0fwmJh3b-mDMUb15Dfu5lGutktl4NgBNaMvzaNFg8PfWGAWrJwGyoPmLTW7kCm5dd7k-zUzU3u=
+LkXJpxhl_viOKolpSqbpZtPQFzIFm7Z8dylALYpqCsTwqFOz8tfLZfprZ3O5FymJ_eWXSmg%3D"=
+ style=3D"color:#000000;text-decoration:none!important;border-bottom-width:=
+1px;border-bottom-color:#000000;border-bottom-style:solid;background-color:=
+#ccc" target=3D"_blank">need a push though</a>:</p> <blockquote> <p style=
+=3D"margin:16px 0">Activist investor Starboard Value has built a significan=
+t position in Riot Platforms and is pushing for changes at the bitcoin-mini=
+ng operator, according to people familiar with the matter. ...</p> <p style=
+=3D"margin:16px 0">As a crypto miner, Riot uses high-powered computers to p=
+rocess bitcoin transactions by solving complex mathematical problems, recei=
+ving bitcoin as payment.=C2=A0</p> <p style=3D"margin:16px 0">Starboard has=
+ been in discussions with Riot=E2=80=99s management team to push the compan=
+y to convert some of its bitcoin-mining facilities into capacity for so-cal=
+led hyperscalers, or large data-center users, the people said.=C2=A0</p> <p=
+ style=3D"margin:16px 0">Hyperscalers are companies that operate large-scal=
+e data centers designed to handle massive amounts of computing power and st=
+orage capacity. Data centers operated by companies such as Amazon Web Servi=
+ces and Alphabet=E2=80=99s Google Cloud have grown increasingly important a=
+s the artificial-intelligence boom gobbles up even more computing power and=
+ resources.</p> </blockquote> <p style=3D"margin:16px 0">It really is an am=
+azing coincidence that not only were crypto and AI roughly consecutive boom=
+s led by, often, the same sorts of entrepreneurs and backed by the same sor=
+ts of venture capitalists, but also that they run on similar infrastructure=
+. You could imagine the crypto boom collapsing and leaving all of its minin=
+g equipment useless =E2=80=94=C2=A0but in fact the mining equipment could t=
+urn around and fuel the AI boom.</p> <table width=3D"100%" border=3D"0" cel=
+lspacing=3D"0" cellpadding=3D"0"> <tbody><tr> <td style=3D"border-collapse:=
+collapse"> <h2 style=3D"font-weight:bold;font-family:&quot;Arial Black&quot=
+;,Arial,Helvetica,sans-serif;letter-spacing:-1px;font-size:20px;border-bott=
+om-width:1px;border-bottom-style:dotted;margin:0px;padding:16px 0px 5px">Do=
+n=E2=80=99t put it on Goodreads</h2> </td> </tr> </tbody></table> <p style=
+=3D"margin:16px 0">If you are a US investor and you get an email from Chibu=
+zo Augustine Onyeachonam of Awka, Nigeria, asking you to send him some mone=
+y to invest in a =E2=80=9CBitcoin pump opportunity,=E2=80=9D what would you=
+ do? I have a guess!</p> <p style=3D"margin:16px 0">On the other hand, if y=
+ou were bopping around online and saw someone on YouTube recommend financia=
+l adviser John Doe at Morgan Stanley and pointing you to his website at <a =
+href=3D"http://johndoe.com" target=3D"_blank">johndoe.com</a>,<a href=3D"#m=
+_-2218361581616241372_footnote-5" style=3D"color:#000000;text-decoration:no=
+ne!important;border-bottom-width:1px;border-bottom-color:#000000;border-bot=
+tom-style:none!important;background-color:transparent!important;display:inl=
+ine-block"> <span>[5]</span> </a> and you went to that website and saw him =
+touting his credentials and linking to the Financial Industry Regulatory Au=
+thority=E2=80=99s BrokerCheck website, and you went to BrokerCheck and foun=
+d that John Doe does work at Morgan Stanley and has an impeccable regulator=
+y record, and you went back to <a href=3D"http://johndoe.com" target=3D"_bl=
+ank">johndoe.com</a> and clicked on the =E2=80=9Ccontact me=E2=80=9D button=
+ and it popped up an email to <a href=3D"mailto:johndoe@johndoe.com" target=
+=3D"_blank">johndoe@johndoe.com</a>, and you emailed him to say =E2=80=9CI =
+have heard about your services and would like to retain you as a financial =
+adviser,=E2=80=9D and he wrote back to you with a client intake form, and y=
+ou filled out the form, and he wrote back saying =E2=80=9Cgreat send me $10=
+0,000 for a Bitcoin pump opportunity,=E2=80=9D would you do it?</p> <p styl=
+e=3D"margin:16px 0">No! Come on! I hope not? Don=E2=80=99t contact him thro=
+ugh his personal website; go through Morgan Stanley or whatever. Still, you=
+ can see why pretending to be a real financial adviser might be effective. =
+Anyway <a href=3D"https://links.message.bloomberg.com/u/click?_t=3Df574328d=
+4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=
+=3DcowIyOCtQT0BPkDNq5nVGrJTR-1GacgA1sO11mans5qKGvbJ27M8JK9Hli9Jtual_OHrKuKm=
+MqmPbEehTk-9QbSQgMSIHkP-XNaWazx853COTvPM_EpIBq3_uD3410RpiDki1-kAiPNiLkIYRz_=
+kqgrTh2TriUpoom23S72phtD-sZHC-gTZURkHxccERTResZUpbE4Mm6bBn7myl6wJA31NVb6Mlf=
+UxQQsIaxpuTcM9T7-ly3yed6Ro875x150C99jYFYepO_Knzw2A35sGwQ%3D%3D" style=3D"co=
+lor:#000000;text-decoration:none!important;border-bottom-width:1px;border-b=
+ottom-color:#000000;border-bottom-style:solid;background-color:#ccc" target=
+=3D"_blank">here=E2=80=99s this</a>:</p> <blockquote> <p style=3D"margin:16=
+px 0">The Securities and Exchange Commission [Wednesday] charged Chibuzo Au=
+gustine Onyeachonam, Stanley Chidubem Asiegbu, and Chukwuebuka Martin Nweke=
+-Eze with fraud for impersonating legitimate securities brokers and investm=
+ent advisers in an elaborate online scheme through which the defendants sto=
+le more than $2.9 million from at least 28 investors.</p> <p style=3D"margi=
+n:16px 0">As alleged in the SEC=E2=80=99s complaint, from at least 2019 to =
+the present, the three defendants, who reside in Nigeria, created websites =
+impersonating nearly two dozen actual securities brokers and investment adv=
+iser representatives (collectively, representatives) at well-known U.S. sec=
+urities firms as part of a fraudulent scheme to entice potential investors =
+in the United States to invest funds with the defendants. The defendants al=
+legedly lured investors to the websites by placing fictitious comments from=
+ purported clients on social media and in investment group chats praising t=
+he representatives=E2=80=99 trading success. The SEC=E2=80=99s complaint al=
+leges that the defendants promised monthly returns of up to 25 percent and =
+directed investors to fake online investment platforms they created to make=
+ investors think their portfolios were increasing in value. In addition, ac=
+cording to the SEC=E2=80=99s complaint, the defendants purchased voice chan=
+ging software to talk to investors, as most of the impersonated professiona=
+ls were women.</p> </blockquote> <p style=3D"margin:16px 0">Here is <a href=
+=3D"https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8=
+e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BP=
+kDNq5nVGn6_uG4ae54FyDQ8BVEMTSFTIsj-SFXp2Y6HUVfDqDFxjwMlpcwPujB3LFuZONpWbCCS=
+keB7Qq3-FnjnDcF3bdwHvDNSlmFmaEmJTSuBhwe6Z-4rO0wvo7oXJnyFquWkPDN8ZOlV7DkVTMF=
+Z0_7DGAf95hVSUpa0_gARiTcOK-ZUxuU8FKV5GTURr8Awj5PVldn1K4OwYLIHepA-50nWAEkgPW=
+OjUPQCmqEiX6Fctjd3cOkZ1p-XR19cjWnzWXJMPhgi48VWW_ni_jpgAM-xGGA%3D" style=3D"=
+color:#000000;text-decoration:none!important;border-bottom-width:1px;border=
+-bottom-color:#000000;border-bottom-style:solid;background-color:#ccc" targ=
+et=3D"_blank">the complaint</a>, which does feature =E2=80=9COnyeachonam an=
+d/or Asiegbu, posing as=E2=80=9D a legitimate broker, emailing an investor=
+=C2=A0=E2=80=9Ca strategy document regarding a =E2=80=98bitcoin pump opport=
+unity.=E2=80=99=E2=80=9D See, ordinarily a =E2=80=9CBitcoin pump opportunit=
+y=E2=80=9D would be kind of a red flag, but if it=E2=80=99s a strategy docu=
+ment from someone at a legitimate brokerage firm =E2=80=A6=C2=A0maybe?</p> =
+<p style=3D"margin:16px 0">The complaint also features this amazing piece o=
+f detective work:</p> <blockquote><p style=3D"margin:16px 0">According to O=
+nyeachonam=E2=80=99s public Goodreads profile, fifteen days after Onyeachon=
+am registered the Lumentrades.com domain in 2018, Onyeachonam read <em>The =
+Confidence Game: Why We Fall for It . . . Every Time</em> (Penguin Books 20=
+17), a book written by Maria Konnikova and described by The Washington Post=
+ as an =E2=80=9Cunnerving manual for conning and getting conned.=E2=80=9D</=
+p></blockquote> <p style=3D"margin:16px 0">I have gotten used to securities=
+ fraud cases in which the defendants allegedly Googled =E2=80=9Chow to insi=
+der trade without getting caught=E2=80=9D or whatever, but this is the firs=
+t time I have seen someone=E2=80=99s =E2=80=9Cpublic Goodreads profile=E2=
+=80=9D used as evidence of fraud.=C2=A0</p> <p style=3D"margin:16px 0">By t=
+he way: <a href=3D"https://links.message.bloomberg.com/u/click?_t=3Df574328=
+d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=
+=3DcowIyOCtQT0BPkDNq5nVGrJTR-1GacgA1sO11mans5qKGvbJ27M8JK9Hli9JtualwCsF69Z7=
+bvOIw0dnksQZbHrRHS3fx1Xai3PGZL_WNzYDiSenMbMYFMb11vP9xotm36kECzjb-6fYQolcQ3Z=
+SbTzSYeAZee_NCKyElrIAlbyBYj1cEVe20lEdCWdNptbgdo51RbXWqq8NlCl4XZx0W5iYnlNXKL=
+NMdaHP-rlFv7Bcz8UzKtOILQS5SzH2lc4txRG16u7QH2SW50neXvpvfg%3D%3D" style=3D"co=
+lor:#000000;text-decoration:none!important;border-bottom-width:1px;border-b=
+ottom-color:#000000;border-bottom-style:solid;background-color:#ccc" target=
+=3D"_blank">On Monday the SEC also</a> =E2=80=9Ccharged Morgan Stanley Smit=
+h Barney LLC (MSSB) with failing to reasonably supervise four investment ad=
+viser and registered representatives (hereafter, financial advisors) who st=
+ole millions of dollars of advisory clients=E2=80=99 and brokerage customer=
+s=E2=80=99 funds,=E2=80=9D oops. A legitimate financial adviser has a=C2=A0=
+<em>lower=C2=A0</em>probability of stealing your money than someone imperso=
+nating a financial adviser, but not zero!</p> <table width=3D"100%" border=
+=3D"0" cellspacing=3D"0" cellpadding=3D"0"> <tbody><tr> <td style=3D"border=
+-collapse:collapse"> <h2 style=3D"font-weight:bold;font-family:&quot;Arial =
+Black&quot;,Arial,Helvetica,sans-serif;letter-spacing:-1px;font-size:20px;b=
+order-bottom-width:1px;border-bottom-style:dotted;margin:0px;padding:16px 0=
+px 5px">Things happen</h2> </td> </tr> </tbody></table> <p style=3D"margin:=
+16px 0">Appeals Court Strikes Down Nasdaq=E2=80=99s <a href=3D"https://link=
+s.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_=
+m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGqyWuVmuw=
+Ys-yTphaiNKofheAT1gsuXz6lHfNAQE_zqHBvx9pg151FnNgKCOfiKxwFoz7jBoHD9cZ-ebcELC=
+v9lccUL1T-IqHWvaHranRDl3HwAFoVLeobJGqM7qZPt4icKy5UzJrfqaee0iEBH_PURD1vKNFYC=
+BN6nDnuZ_3FqzQz5qDjOZKTad33UHtuyFkGUaTF4s1wuRljOoldh9J6-IFWLXScWMtZK1wp7TCq=
+Si5KVshSiRNfrS4bvlVDCbp0hLvtoNLJstCCpvTpuoB-TXEzCmiWbUWElvlYXA8q6uyK7E7Y7gl=
+0cDNYoodhbd5DOBCQO-RL-poUdU7YKdc1s%3D" style=3D"color:#000000;text-decorati=
+on:none!important;border-bottom-width:1px;border-bottom-color:#000000;borde=
+r-bottom-style:solid;background-color:#ccc" target=3D"_blank">Board-Diversi=
+ty Rules</a>. SNB Surprises With Half Point Rate Cut to Stem <a href=3D"htt=
+ps://links.message.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49b10e=
+21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nV=
+GuvnZTKhWLkCXqXpUgWvNAVqftdqM0p7sqrTvUKfuBFQWsnZoXzsTJK2R36KKQzfxaZageSyC_A=
+uNx-vcMfqbdAaLpOxqR3b8_RxoLfHb8eal-eKPZtpf77lHOJWfpqTvlISJiIERi936Lrf_-_Bg5=
+t4t1rlDqzeGSwWCMoAo41llDQVWrsdN3bLMDXPppVISDOc-kJ2HFviXoVkfezGTYiUJRqe47_ni=
+2XaKZAXUaDE3cPcTg5HoUFMZqSrI9ZLyra6KGBDPnXZYsx_YyPOwZ1CWqAKrOW5fuC5eYYAaJX6=
+RD0ZSgl62xSRcoXtxIkEM7jjpIX3JWEs08_D-CKE357JckeCuG6oAOujwSwx3kjjPAcMsf5JnNr=
+dvIISsDpr9hDOkxo7hJry_4Y5ojNXm61OUHj1SUHKcUukf_1S6NUCYVNO10Y7UUnfDlJsj-Ke67=
+qq1VDVou714icIIq9ajbA%3D" style=3D"color:#000000;text-decoration:none!impor=
+tant;border-bottom-width:1px;border-bottom-color:#000000;border-bottom-styl=
+e:solid;background-color:#ccc" target=3D"_blank">Gains in Franc</a>. New Fe=
+deral Rule <a href=3D"https://links.message.bloomberg.com/u/click?_t=3Df574=
+328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;=
+_e=3DcowIyOCtQT0BPkDNq5nVGhbY6ecDWpviIQOkRS5BZ33TjvciYX1D2h8IwN2GjvDytnIP-a=
+939d1S0pKGb8mNd0I7DDs7i-RMjYlouKACgXabuot6FRnQSpufhDHfuhM-U7ACmBSKMN8NhZz4Z=
+CvPrLy8IlzyfjlmXO61Gm675CpNLlTkzdqoKQnWpTxZ0ZkQkFnbwz3ahDqUBNBKGtHVy6bR8_b9=
+Oy8MfzkmwrfXu1vwxe5Kt-IggMRG3QIpM1cXLrjdfiQDQ9BH8cHpoYgmkLpoW80cis9mUG7KJvp=
+Fa7w%3D" style=3D"color:#000000;text-decoration:none!important;border-botto=
+m-width:1px;border-bottom-color:#000000;border-bottom-style:solid;backgroun=
+d-color:#ccc" target=3D"_blank">Limits Overdraft Fees</a> at Large Banks. T=
+heir Job Is to Push Computers Toward <a href=3D"https://links.message.bloom=
+berg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e=
+047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGmIg18piVFWBz1LX6SYwVqB1=
+0wq9M7LYfpVULdys1DFzcIPxUSCcsVlvzaSPkBb8BYLh-Rv2SAbj1_276NLIYLyMk0tU2Z0-UdL=
+sn3HRnyMIO_OaI13Lj1NdxjUTZk__AClLyHYjAAjIIZcgSmz1ZlaUp5UFnuXY75Qc3ZOZgDU-PW=
+YeyekdM-8ESl4826DWuZ0B77vdvKMM8vz6TR_w66-XWvoNaFdQAQMeQnF0r4ybtJnY9wQqKQhPa=
+S1xICNj_TKO3zE31xB6Z4MU8GBgNFHo6sd6EtZOfvokB3N4enh5" style=3D"color:#000000=
+;text-decoration:none!important;border-bottom-width:1px;border-bottom-color=
+:#000000;border-bottom-style:solid;background-color:#ccc" target=3D"_blank"=
+>AI Doom</a>. Police Investigate NYC <a href=3D"https://links.message.bloom=
+berg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e=
+047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTKhWLkCXqXpUgWvNAVq=
+ftdqM0p7sqrTvUKfuBFQPbS1BiIuGaezKHd8tGTvHfDZdJkDscFng86nPVYrHZR1t3sdJ8qRzHJ=
+z0KJJw2NDCnEdboxwbG_NZyC5MSyoNEcj8UMoLQNLVCtc8sPNX2gwefgCE9ROCSGM9fdAWknk3S=
+T7Aso48LsKBP7PNuSfzkIAdHYZ1O9PG59CObEg5PvisKYedGOFoRlQX2sryD6NAHiaffjabpEvj=
+Rlx4re6mvK-FrGSgLZnJpprLs0fmmXEGBrFligJIlBFjKAkQ_bbpT97FQK6N3ht9BHrg45qgqZM=
+PSh8rzOCNXYObda-IGBggsbQ7tghW1--ZJk5_CLb1fxcLuf1fifNZNHZdL6cWNUN4HX9gHv1FvF=
+fsKJoWjs22-ffQCrrXKzdZACARTr72AoasG3KDqsuhs9-ravafS6TB8vytas1rGvGoIkZOlY%3D=
+" style=3D"color:#000000;text-decoration:none!important;border-bottom-width=
+:1px;border-bottom-color:#000000;border-bottom-style:solid;background-color=
+:#ccc" target=3D"_blank">=E2=80=98Wanted=E2=80=99 Posters</a> of Finance Ex=
+ecutives. Labor Board Classifies =E2=80=98Love Is Blind=E2=80=99 Contestant=
+s as <a href=3D"https://links.message.bloomberg.com/u/click?_t=3Df574328d4d=
+0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3Dc=
+owIyOCtQT0BPkDNq5nVGhbY6ecDWpviIQOkRS5BZ301NmATIpF71pbWB0Z1KGlPNzoMiBfhVAKB=
+dgffomYfSMDHXGZb_Bh3uLV8ViFoTPJppYD8EnrKOuqvJ9r0ED0Sf8EvrIJyz5ENlUCaNO6szvG=
+42eostQctuk44I6EqzEgB5v0ORsX7DOy_d8jukEO0X6Vq5j6D0XXYYE-_-_Hi-IeY2DtrfZpCyI=
+4vW_Pgtm9U2fBYbxXmX22zqmhKZTF6fcmYvRKVGq6DTbGljDfWKoXHGrkPrO0j3EaRPB452iNN9=
+szhM5HRRCt4bZUhAxBe" style=3D"color:#000000;text-decoration:none!important;=
+border-bottom-width:1px;border-bottom-color:#000000;border-bottom-style:sol=
+id;background-color:#ccc" target=3D"_blank">Employees</a>. =E2=80=9CMr. Rod=
+gers has since rebranded C.E.O. to stand for <a href=3D"https://links.messa=
+ge.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d1=
+15aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGhbY6ecDWpviIQOk=
+RS5BZ32OL75bEdGL8Ac2MY4CzLDVBT04xgyWCozZJmKPLPawnn4JVsEHC_dX0xw7aqyt-Z2Yogy=
+i8jp0eydLNdDLKaq4orZqZm6a0Kj48GKCLCqgaUcYUK5Gik4I47IqdqGIAavSfPG2AlNOotvLvl=
+VOblmkCGgS2iItm1Y-GrVnBVSJWSqe36Pk7xqbYstIKY2f52-ky9pmOD2fj5sn22761Kd1cCmZC=
+9cr55oUtzdkLjyJ_mUAjsdVJfjhZAeVC75zU3c%3D" style=3D"color:#000000;text-deco=
+ration:none!important;border-bottom-width:1px;border-bottom-color:#000000;b=
+order-bottom-style:solid;background-color:#ccc" target=3D"_blank">conscious=
+, empathetic and open</a>.=E2=80=9D</p> <p style=3D"margin:16px 0"><span><e=
+m>If you&#39;d like to get=C2=A0Money=C2=A0Stuff=C2=A0in handy email form, =
+right in your inbox, please=C2=A0<a href=3D"https://links.message.bloomberg=
+.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e0470=
+38a37e5b346759a6f&amp;_e=3DUchiScCqn549YQdqcSwpbMDraG9rb1p-n88nlspoDhQGV37P=
+wretI7XHfUHUis5BtWAmaeTxztei8YucZO2VfrLBMszYqtbSqmyJiAjZsaiCNgCdvJjGJjk8su2=
+mJ4TCftc5TCwf0ol01D147P-qWGqPisSMbySa8UCx-ELSWQNaUcz2HIiRj3UtxxajPGeQQbRxPc=
+9DqB1WiUX8eHOvyv2HUKTz6w3T34kxufwu7EaHR4cFWuMGA3FEXYH3wz9kkVtIE3UekujKV502u=
+rUEtA-0Q4NCufaZR4cbAsv1lIIFs5byl7RXxMOUFwx6K_vJ2-_0WsstDJr-UzVf7fhgfw%3D%3D=
+" style=3D"color:#000000;text-decoration:none!important;border-bottom-width=
+:1px;border-bottom-color:#000000;border-bottom-style:solid;background-color=
+:#ccc" target=3D"_blank">subscribe at this link</a>. Or you can subscribe t=
+o Money Stuff and other great Bloomberg newsletters <a href=3D"https://link=
+s.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_=
+m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGmF2-L3t_=
+sEe1CtMpUyK6bTY3ZTZ1o88vSIyi9TktDynjFzy1QOFMRGcGnoKO1JYr5TeFS3ORy1xyZl9J10h=
+9q6kr-gILFbC2ulp6mQmASvTt7lQbwIF7usEydMkSTjg7YBQWCvWLFdl-Nwi8ITbneXluednKhX=
+zwB_iXBo7KoLBb8zJVztZhwBm3iDQ3AxvjMIbkbV6EJg481tX0LItgoZC53Nu-dxmQ6FZJsFJ7U=
+cl" style=3D"color:#000000;text-decoration:none!important;border-bottom-wid=
+th:1px;border-bottom-color:#000000;border-bottom-style:solid;background-col=
+or:#ccc" target=3D"_blank">here</a>. Thanks!</em></span></p> <div id=3D"m_-=
+2218361581616241372footnote-1" style=3D"font-style:italic"> <p style=3D"mar=
+gin:16px 0">[1] Unless I was lying about having the SpaceX shares, which do=
+es happen. Also to be clear this is *not* exactly the deal that DXYZ is off=
+ering: If you invest $1,100 in DXYZ, you get $1,100 of DXYZ shares, which m=
+ight even go up. But those shares represent $100 of underlying private comp=
+any shares, plus a lot of premium.</p> </div> <div id=3D"m_-221836158161624=
+1372footnote-2" style=3D"font-style:italic"> <p style=3D"margin:16px 0">[2]=
+ I=E2=80=99m being very casual saying that DXYZ=E2=80=99s 1,000%-ish premiu=
+m to net asset value implies any sort of price for SpaceX. It=E2=80=99s not=
+ like that 1,000% premium means that the market values *each* of DXYZ=E2=80=
+=99s positions at 10 times their balance-sheet value. If anything, it proba=
+bly values the SpaceX stake disproportionately more than the other stuff.</=
+p> </div> <div id=3D"m_-2218361581616241372footnote-3" style=3D"font-style:=
+italic"> <p style=3D"margin:16px 0">[3] Or it gets acquired, merges, etc., =
+in which case your obligation is probably converted into cash or public sto=
+ck and you either pay out cash or buy the stock. Or it goes bankrupt, in wh=
+ich case you keep all the money.</p> </div> <div id=3D"m_-22183615816162413=
+72footnote-4" style=3D"font-style:italic"> <p style=3D"margin:16px 0">[4] O=
+r if you say =E2=80=9Cintegrity and honesty are at the heart of our busines=
+s=E2=80=9D and then you rip off customers, <a href=3D"https://links.message=
+.bloomberg.com/a/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115=
+aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTKhWLkCXqXpUg=
+WvNAUlgKB0j1G2kB6Ob0d2dDn67Lvm3kt5NiceGa1og9mL-2l71d3scZHILlLOsH5ud74NVbqSe=
+gOAn20HFERiCZI7E96qUo6wjcK4Lb1GDq0T2XXTVn1ubXo9P0pwnDbTrQ_bjr229_1wEwD2LM_H=
+j_EsPVWGjnRHzM9umNbjCZXzfywzBRzotBObh39QUvfBptG5RvGWuNIEzH1CLLNs5vwrnwtQm0v=
+gBPFMPPNK2GwVjUbO7ft9IiTvjrwwCb1ebkFv6eVjeWFGnF2iZ6QI6TePWNjUQctJPt2KdfN-C_=
+LCdNAxb5Sa2ZKDXECc39kM3hu_Vf3ebFtTwaC3L4P1BP00MSVHWbtTpYahHudjBBlj89hT8Uziz=
+1TtBC6FjW2eweneJItApcCjqV1IiTQQPNNB8C_K873dRyDKl3F6k5ra29L67qOssJIU_YKKfMpH=
+v9ygjYMoOrp3enO3bpF9ZiPc" style=3D"color:#000000;text-decoration:none!impor=
+tant;border-bottom-width:1px;border-bottom-color:#000000;border-bottom-styl=
+e:solid;background-color:#ccc" target=3D"_blank">maybe that is securities f=
+raud</a>.</p> </div> <div id=3D"m_-2218361581616241372footnote-5" style=3D"=
+font-style:italic"> <p style=3D"margin:16px 0">[5] =E2=80=9CJohndoe.com=E2=
+=80=9D is the SEC=E2=80=99s hypothetical example. The SEC does not cite fir=
+ms that the impersonated brokers worked at; Morgan Stanley is my hypothetic=
+al example.</p> </div> </td> </tr> </tbody></table> </td> </tr> <tr> <td st=
+yle=3D"border-collapse:collapse;padding:0px 10px"> <table width=3D"100%" bo=
+rder=3D"0" cellspacing=3D"0" cellpadding=3D"0"> <tbody><tr> <td style=3D"wi=
+dth:100%;border-collapse:collapse" width=3D"100%"> <center> <a href=3D"http=
+s://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e2=
+1d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVG=
+ktQE_c9_npzpdCG2dxPljT9RUxYiT4ypAowEgyjLDQ5P20WQqpxeguRgScJ5BXKuqg4VVvKOdat=
+SPwFQE4lbWBkBegS3pK7me6NUwL14uNulhtU6gn4nzcDaA-1gIW5PpoRG6a7pBZ3rH_SAygY_XM=
+tTCVnSz-uSEAFUO3N-jLX6CcjmdiTCb-mxWr_k6B4cgMHFFr2fiEFSvVqOex8WwitopnlX4Rbkx=
+37bPhd1-N6CL3zDMQPGpAJDgTNx-R33g%3D%3D" target=3D"_blank"> <img src=3D"http=
+s://assets.bwbx.io/images/users/iqjWHBFdfxIU/i6H.ue2bNPOA/v0/-1x-1.png" alt=
+=3D"Listen to the Money Stuff Podcast" style=3D"max-width:550px;display:blo=
+ck;width:100%"> </a> </center> </td> </tr> </tbody></table> </td> </tr> <tr=
+> <td style=3D"border-collapse:collapse;padding:20px 10px"> <table width=3D=
+"100%" style=3D"width:100%"> <tbody><tr> <td style=3D"border-top-width:1px;=
+border-top-style:dotted;border-bottom-width:1px;border-bottom-style:dotted;=
+border-collapse:collapse;text-transform:uppercase;font-family:Arial;font-si=
+ze:12px;font-weight:normal;font-style:normal;font-stretch:normal;line-heigh=
+t:1.17;letter-spacing:normal;padding:9px 0"> <span style=3D"margin-right:4p=
+x;vertical-align:middle">Follow Us</span> <a href=3D"https://links.message.=
+bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115a=
+eca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGqlKWGNQgJvVUtKd-4M=
+WIkOIDG0VBQIH5hWbRpgeVmJh4XIBUgqUMx5Gp4kxsYGdiqfKJXUyenPlxeUSK57e8nb3Qa1j8O=
+_v7AEhn5mqSw7jAe5D9_RzQsSkwQQ2XRgrgxgb41oc17y9vtjv3CFqTb8U96Fb9nM4uZAASDbe-=
+X_gByCLAWdAwPvjnUcsrhRBvqTwrMUtWjZaQ5qgiZMwUcluA1SsEhLUK1zUgydoCmsE" style=
+=3D"text-decoration:none;color:#000" target=3D"_blank"> <img src=3D"https:/=
+/assets.bwbx.io/images/users/iqjWHBFdfxIU/i74qcvoJlmqM/v0/-1x-1.png" width=
+=3D"20 !important" height=3D"20 !important" style=3D"max-width:550px;vertic=
+al-align:middle;width:20px!important;height:20px!important"> </a> <a href=
+=3D"https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8=
+e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BP=
+kDNq5nVGpdQLZRs6unOdJHUIqJrcHZTgzj1WffpnPNqvCKBD-NL3bSFUnJGpR7MAhuXRPMYH0fb=
+-k6Nj8th3u0-0H4W4PsYqv1v_JeVGmvZfJaxz4lta7Gl0TZ_TJU27p7oxgwao3TKBSN7Sxk_4V1=
+9JAEf0Zh2pEbldZuCbYb4Pao8ktSWBbc2bXuhByETbzSdkFI_UMubTo_eAec21AJ0PXVQ0juGvx=
+vSuFEOulvMgpbs8HNT" style=3D"text-decoration:none;color:#000" target=3D"_bl=
+ank"> <img src=3D"https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iJGFAUI9=
+aUUg/v0/-1x-1.png" width=3D"20 !important" height=3D"20 !important" style=
+=3D"max-width:550px;vertical-align:middle;width:20px!important;height:20px!=
+important"> </a> <a href=3D"https://links.message.bloomberg.com/u/click?_t=
+=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a=
+6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGr8w7NIs3yf5nXlgOwlQjUk0IzP749xWt434rOLziS8=
+W6FPIJgNNeg2jNwN8r7iie4SETfaZG3mXt1DGiPL7gwjGoFS8KlDgkA1192PfmywnUqvPZ9RYdh=
+yN8bAeUPzjWO_p0GGxUie8ppMdyU23Jp0pbqeeQ7V5cOz4RpdDJy7Yad5yGpvnpig7ix9Vv4_Pk=
+QFnxLS8L-Gn-PWI3ZdDaJE%3D" style=3D"text-decoration:none;color:#000" target=
+=3D"_blank"> <img src=3D"https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i=
+jPrci.tuuHU/v0/-1x-1.png" width=3D"20 !important" height=3D"20 !important" =
+style=3D"max-width:550px;vertical-align:middle;width:20px!important;height:=
+20px!important"> </a> </td> <td style=3D"border-collapse:collapse;text-tran=
+sform:uppercase;font-family:Arial;font-size:12px;font-weight:normal;font-st=
+yle:normal;font-stretch:normal;line-height:1.17;letter-spacing:normal;paddi=
+ng:9px 0 9px 3px"></td> <td style=3D"border-top-width:1px;border-top-style:=
+dotted;border-bottom-width:1px;border-bottom-style:dotted;border-collapse:c=
+ollapse;text-transform:uppercase;font-family:Arial;font-size:12px;font-weig=
+ht:normal;font-style:normal;font-stretch:normal;line-height:1.17;letter-spa=
+cing:normal;padding:9px 0"> <a href=3D"https://links.message.bloomberg.com/=
+a/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37=
+e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTKhWLkCXqXpUgWvNAUbKoD8MYo01=
+XkhsQnw7BE-Kalq5UycX3_Y8rhtJpw729o_pTn29tXiZjXivdqgjmGF3EOJOZ-JNE_hzd9zC2OQ=
+vG9ySwN7j57JffP-Ykmdm5hewILDcAgLVCR38qfLCLybBnnRbFWy4vdY3L1rO_qBiq-ELm9Abs6=
+oUeoqie0Ldhyzq3cW5NCk05J-aU8pm9Jbp4AcWgDauCaNQbuPEiW4ATgOdo8HAxjJeuCz-L8k2z=
+-VGYPCmYYrue_atI9p17U%3D" style=3D"text-decoration:none;color:#000" target=
+=3D"_blank"> Get the newsletter </a> </td> </tr> </tbody></table> </td> </t=
+r> <tr> <td style=3D"border-collapse:collapse;padding:0px 10px"> <table sty=
+le=3D"font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:150=
+%"> <tbody> <tr> <td style=3D"padding-top:16px;padding-bottom:16px"> <div><=
+/div> <div> <p style=3D"margin:0px"><em><strong>Like getting this newslette=
+r? </strong><a href=3D"https://links.message.bloomberg.com/u/click?_t=3Df57=
+4328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp=
+;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTKhWLkCXqXpUgWvNAVslL1x6R1-jzgzEwqXZdR8CIZS-=
+qURLier7u3qiJaHd9_X_FfnaRaXlfqD3dDVPnI9MasW_nIPf-Zc7NO29lswXMkDDx5EKlO_DIX3=
+ReQWRhpZg7ZFQxkMSojbGzuNKjkFv260Vud5KPiveeB0QHMOEpvNFF87hheMnvR050c2v1msODv=
+4aedxnJsuoMV03vnKPN6xs_TEgBNT1rnNaKx3KskAav7b0mZKYFcYP48CE9YyblpfWerQ42pPPF=
+AvPALd17c0NqcY93SH05YfO5NKv3RxLyWMvmiOpfl1qXRXJvosMIWSLnFFQ_xYXyKTygdEIIntN=
+yjthqffYjRtnB8c" target=3D"_blank"> Subscribe to Bloomberg.com</a> for unli=
+mited access to trusted, data-driven journalism and subscriber-only insight=
+s.</em></p> <p style=3D"margin:0px"><em><strong>Before it=E2=80=99s here, i=
+t=E2=80=99s on the=C2=A0Bloomberg=C2=A0Terminal</strong>.=C2=A0Find out mor=
+e about how the Terminal delivers information and analysis that financial p=
+rofessionals can=E2=80=99t find anywhere else.=C2=A0<a href=3D"https://link=
+s.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_=
+m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGvtWz1Y7C=
+uPBMYxzGeH0efzaRxAXIZLsF-PRfzdrXHh-7jdNSDl7YU8a_kxsmq5VemiITzAjOUothGRT35ND=
+hHFYFlfG7zmfYKydcdRS_DfAiZpKe1P2z7877w7jboWBKQiBHiB-l5xk7jIRCXabrpEjNHJyVHE=
+LaFdPJPKaAa__T6sO0Hf1tbhM_o_a-AEIrJL9zeMIb_aHvvqcGLWfwcjiHf7--YnuD3mRKEq82q=
+uPELRcXXPcx6lA2R3H4HuaXPJYqHfLh5Ow8fMRQDTLY_wPh2ijhtCiCeBgjpMwomBCVGDov82cL=
+wVDSnpZ3-y2XNbiQ7fxLz96kGpcvK8nMrxIl3fL50-frdb4stT2maLGKCTICSz9F0t1iPLg5z5y=
+Nh8aJNc4hr4XKV1A9BpqVUAPe-iJseSu1_8S8OtAKYA1" target=3D"_blank">Learn more<=
+/a>.</em></p> <p style=3D"margin:0px"><em><strong>Want to sponsor this news=
+letter?</strong> <a href=3D"https://links.message.bloomberg.com/u/click?_t=
+=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a=
+6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGp9U7IO9ttbKXE_H-rnrBRLbF_YGLp5f2Vo7bQmce-Q=
+9Z8koJLqrowdovbBaWxF4xEmAHd3qYsD6Vn6Dt7xHWMjAoch1DVhI7rUYQBSnE4Aot3YAU7QIFa=
+KDJV7zBIj5j_5ORU8AODRgiY09J43tVP8Itgay9JbE3s6CkH3DCg9VOH8kdsc2Xy-QcbXuxJvR2=
+S2fN9Vlmue4k2HymPW3qR6bXa0lM73wBkDOLl3SWv-9qr4oPRMIxpadK9kW4BjZf8bbiTWuGKE2=
+4I9MGXRGVvo3Nc9m534rIUA_Pcl1bnlZQgSdBrMumUHniZu-gqYSKQ%3D%3D" target=3D"_bl=
+ank"> Get in touch here</a>.</em></p> </div> </td> </tr> </tbody> </table> =
+<table width=3D"100%" align=3D"center" border=3D"0" cellpadding=3D"0" cells=
+pacing=3D"0"> <tbody><tr> <td align=3D"center" style=3D"font-size:13px;font=
+-family:Helvetica,Arial,sans-serif;color:#666666;border-collapse:collapse;p=
+adding:20px 0px 10px"> You received this message because you are subscribed=
+ to Bloomberg&#39;s Money Stuff newsletter.</td> </tr> <tr> <td align=3D"ce=
+nter" style=3D"font-size:13px;font-family:Helvetica,Arial,sans-serif;color:=
+#666666;border-collapse:collapse"><a href=3D"https://links.message.bloomber=
+g.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047=
+038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGmF2-L3t_sEe1CtMpUyK6bQ70AD=
+kmXj8dymx7RQpYMhT-5yaCh7Dfaftf0HM7GhO-btXZpLALYFm6YgMI_TJt6AausNbH7P2sJtWKA=
+Cpo9l2MPNwR_1UU5Jwah-hf8ZTk_pc8kVElC_TNgRFY1suBPbf5DEZwcLw7ttpU6px9O3VFrT09=
+4zk0CGq35rQvxEeq3E2rN4osG3Gf1mk13Mcc6hwN6a_pIYhOzNa4LBszUwB6ibXUbFMGt5sMDSH=
+YShOk69QcKEEiKcktPufXEZXRGgIQSNSblsuruEiSuVhSNar5fngFVFXTTltybxBvACDtTM_gU0=
+FgyyqMF48yt0WlXbvAkm-7SG7HisuqCCvT8KW" style=3D"color:#666666;text-decorati=
+on:none" target=3D"_blank">Unsubscribe</a> | <a href=3D"https://links.messa=
+ge.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d1=
+15aeca7e047038a37e5b346759a6f&amp;_e=3DrxFVt-nJ0xt7GNdxWftl8TOsCS6NmtrZUcQv=
+fmZlu8ElHOph8zBGfjksGEyNK7ZoMX-udqqPdfnK3af5eWddJTLQmLpNRVd7Lc20T_0S1KCq9gk=
+oIlqg2waFqcH0NlY2lcddobX996zMCgNacKsjzOu1LMw3nmulDIY1ej01vNN7P26ijK1TIRN0Ag=
+U0_a00wzcBTCIZzLSskB51ngFXzlgQa1jZKQBCFox4C-zx5Lk%3D" style=3D"color:#66666=
+6;text-decoration:none" target=3D"_blank">Bloomberg.com</a> | <a href=3D"ht=
+tps://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10=
+e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DQbDA06CCYEc9lV0l6JY=
+lmTOmIFmbBsjX4C5QdbdRjmmxJ03X5xItdqVqc1b58iYxur3v4or-iGWteyQDgtLo2UM6LvB6Fo=
+xM6bA-q4wMmKnr9BKk12lf9trvt3kj9lkD3WSA3duM1i8AHjtZ6UIWUVpdtPbvMXQbiB_MkrvSq=
+rrpvjhyKSaaP0BRpXTj7n2jqkJQp0lcP39jpV1VrvvrOGMqKDYQ9oblNkRjD67-meb4lreDIqwY=
+AqX975ZMrIrW" style=3D"color:#666666;text-decoration:none" target=3D"_blank=
+">Contact Us</a></td> </tr> <tr> <td align=3D"center" style=3D"border-colla=
+pse:collapse"> <table> <tbody><tr> <td style=3D"border-collapse:collapse"> =
+<a href=3D"https://links.message.bloomberg.com/u/click?_t=3Df574328d4d0c4c3=
+59b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyO=
+CtQT0BPkDNq5nVGoF8f8TstTzZfWLDnwPdqlOrHl5hjDEGwQD0H9oSGPic2C_BQPKWAPqVnUdY4=
+KA5TTlCekrSABHTGFZwjhE4BFq4e8bzjQ4_3Ypm1Rwy61Xe1QdUT8o29XFQUkt-nIkJbUMV6v6E=
+ZBvdQqCdJsQ6jRht2rhMf11rbJ0wiQBfR9jLMpjXRTubE3XS-E-icP2Hwq551E40SIO47mMoDMh=
+GztGkp_P36-r1lv4GvTXbtQHP" target=3D"_blank"> <img height=3D"18 !important"=
+ src=3D"https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i7ESRvr8wb2g/v0/-1=
+x-1.png" border=3D"0" alt=3D"Ads Powered By Liveintent" style=3D"max-width:=
+550px;height:18px!important"> </a> </td> <td style=3D"font-size:13px;font-f=
+amily:Helvetica,Arial,sans-serif;color:#666666;border-collapse:collapse"> |=
+ </td> <td style=3D"border-collapse:collapse"> <a href=3D"https://links.mes=
+sage.bloomberg.com/u/click?_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1=
+d115aeca7e047038a37e5b346759a6f&amp;_e=3DcowIyOCtQT0BPkDNq5nVGoF8f8TstTzZfW=
+LDnwPdqlP3NV4IxcqgKN9xyos7Zz5D3UqK8h88pt3LPLqHNTZeRqY4ewYbtylL71nvld216OngZ=
+0h5ZabRNjxauHEuzzI0_jkpTAiGmmZPnqX-boAvehSYyy-95H4NpOvHPZJGHbgDkZcHo5NmzhwE=
+3vadWbcfMOOLr8EV6a1d7ORBkPno1MBLeKTn0TENGxg3YybwWdtoDooO2AbuywGjXejl787B" t=
+arget=3D"_blank"> <img height=3D"18 !important" src=3D"https://assets.bwbx.=
+io/images/users/iqjWHBFdfxIU/iHu0LhjyABMM/v0/-1x-1.png" border=3D"0" alt=3D=
+"Ad Choices" style=3D"max-width:550px;height:18px!important"> </a> </td> </=
+tr> </tbody></table> </td> </tr> <tr> <td height=3D"20" align=3D"center" st=
+yle=3D"font-size:13px;font-family:Helvetica,Arial,sans-serif;color:#666666;=
+border-collapse:collapse">Bloomberg L.P. 731 Lexington, New York, NY, 10022=
+</td> </tr> </tbody></table> </td> </tr>  </tbody></table> </div>  <a style=
+=3D"display:none" href=3D"https://links.message.bloomberg.com/e/eh?_t=3Df57=
+4328d4d0c4c359b90d8e49b10e21d&amp;_m=3D1d115aeca7e047038a37e5b346759a6f&amp=
+;_e=3DcowIyOCtQT0BPkDNq5nVGuvnZTKhWLkCXqXpUgWvNAUvmEIvTdeu2wuvbV6NSKcwLucub=
+XcAnk7bx-eO2ZkCTbkWtPIcnCFbfKep1ebQrkTsfsKrEBOelUBvjYNqFeE_x57_LZULaOFYUrwh=
+MyKN_E1-8rGjFTWx_I6ZIwWm4eTJVvJI7n9ziwiz8P4GpYtx5TREKlugzwSRQdBmlgYHXja9E1U=
+tpdJuXiM43RQw0Gs1KImedPdizLxjRoHA2cS3NckdczFySgTfJ8voIfR3oQ%3D%3D" target=
+=3D"_blank"></a>
+<img border=3D"0" width=3D"1" height=3D"1" alt=3D"" src=3D"https://post.spm=
+ailtechnolo.com/q/5jPn0kD0DdBnwkmeOCdA7g~~/AARGbAA~/RgRpPavdPlcDc3BjQgpnVd0=
+mW2dxgWoEUhVhZGl0eWFodXJyeUBnbWFpbC5jb21YBAAABvU~">
+</div></div><div><br clear=3D"all"></div><div><br></div><span class=3D"gmai=
+l_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature=
+" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"ltr"><div=
+ dir=3D"ltr">--<div>Aditya Hurry</div><div>US: +1 (201) 312-0087<br></div><=
+/div></div></div></div></div>
+
+--0000000000008bed3306293e9746--

@@ -8,6 +8,7 @@ export interface IUser {
   password: string;
   name: string;
   joinDate: string;
+  inboxes: string[];
   subscription?: {
     plan: 'Free' | 'Premium';
     status: 'Active' | 'Inactive';
@@ -52,6 +53,7 @@ export const User = {
     const user: IUser = {
       id,
       ...userData,
+      inboxes: userData.inboxes || [],
       password: hashedPassword,
       joinDate: new Date().toISOString(),
       preferences: userData.preferences || {
@@ -70,7 +72,25 @@ export const User = {
     return user;
   },
 
+  async update(user: IUser): Promise<IUser> {
+    const command = new PutCommand({
+      TableName: 'Users',
+      Item: user,
+    });
+
+    await dynamoDB.send(command);
+    return user;
+  },
+
   async comparePassword(user: IUser, candidatePassword: string): Promise<boolean> {
-    return bcrypt.compare(candidatePassword, user.password);
+    console.log('Comparing passwords:', {
+      hashedPassword: user.password,
+      candidatePasswordLength: candidatePassword.length,
+      candidatePassword: candidatePassword,
+      hashed_password: bcrypt.hashSync(candidatePassword, 10)
+    });
+    const result = await bcrypt.compare(candidatePassword, user.password);
+    console.log('Password comparison result:', result);
+    return result;
   },
 }; 

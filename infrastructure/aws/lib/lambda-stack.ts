@@ -11,7 +11,7 @@ import { Construct } from 'constructs';
 import * as path from 'path';
 
 interface LambdaStackProps extends cdk.StackProps {
-  issuesTable: dynamodb.Table;
+  inboxesTable: dynamodb.Table;
   subscriptionsTable: dynamodb.Table;
   emailBucket: s3.Bucket;
   usersTable: dynamodb.Table;
@@ -37,7 +37,7 @@ export class LambdaStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(30),
       memorySize: 256,
       environment: {
-        ISSUES_TABLE: props.issuesTable.tableName,
+        INBOXES_TABLE: props.inboxesTable.tableName,
         SUBSCRIPTIONS_TABLE: props.subscriptionsTable.tableName,
         EMAIL_BUCKET: props.emailBucket.bucketName,
         USERS_TABLE: props.usersTable.tableName,
@@ -45,7 +45,7 @@ export class LambdaStack extends cdk.Stack {
     });
 
     // Grant DynamoDB permissions
-    props.issuesTable.grantWriteData(this.mailProcessorFunction);
+    props.inboxesTable.grantWriteData(this.mailProcessorFunction);
     props.subscriptionsTable.grantReadWriteData(this.mailProcessorFunction);
     props.usersTable.grantReadData(this.mailProcessorFunction);
 
@@ -59,7 +59,9 @@ export class LambdaStack extends cdk.Stack {
         ],
         resources: [
           props.usersTable.tableArn,
-          `${props.usersTable.tableArn}/index/*`
+          `${props.usersTable.tableArn}/index/*`,
+          props.inboxesTable.tableArn,
+          `${props.inboxesTable.tableArn}/index/*`
         ],
       })
     );
@@ -85,26 +87,28 @@ export class LambdaStack extends cdk.Stack {
       })
     );
 
+    // Import existing SES Receipt Rule Set
+    const ruleSet = ses.ReceiptRuleSet.fromReceiptRuleSetName(
+      this,
+      'EmailRules',
+      'oneletterbox-rules'
+    );
 
-    // Create SES Receipt Rule Set
-    const ruleSet = new ses.ReceiptRuleSet(this, 'EmailRules', {
-        receiptRuleSetName: 'oneletterbox-rules',
-      });
-  
-      // Create SES Receipt Rule
-      const rule = ruleSet.addRule('ProcessEmails', {
-        recipients: ['oneletterbox.com'], // This will catch all emails to @oneletterbox.com
-        scanEnabled: true, // Enable spam and virus scanning
-        tlsPolicy: ses.TlsPolicy.REQUIRE, // Require TLS
-        actions: [
-          // Store email in S3
-          new sesActions.S3({
-            bucket: props.emailBucket,
-            objectKeyPrefix: 'inbox/',
-            topic: this.emailTopic,
-          }),
-        ],
-      });
+    // Create SES Receipt Rule
+    const rule = new ses.ReceiptRule(this, 'ProcessEmails', {
+      ruleSet,
+      recipients: ['oneletterbox.com'], // This will catch all emails to @oneletterbox.com
+      scanEnabled: true, // Enable spam and virus scanning
+      tlsPolicy: ses.TlsPolicy.REQUIRE, // Require TLS
+      actions: [
+        // Store email in S3
+        new sesActions.S3({
+          bucket: props.emailBucket,
+          objectKeyPrefix: 'inbox/',
+          topic: this.emailTopic,
+        }),
+      ],
+    });
 
     // Output the SNS topic ARN
     new cdk.CfnOutput(this, 'EmailTopicArn', {
@@ -113,12 +117,11 @@ export class LambdaStack extends cdk.Stack {
       exportName: 'EmailTopicArn',
     });
 
-
     // Output the Receipt Rule Set Name
     new cdk.CfnOutput(this, 'ReceiptRuleSetName', {
-        value: ruleSet.receiptRuleSetName,
-        description: 'The name of the SES receipt rule set',
-        exportName: 'ReceiptRuleSetName',
-      });
+      value: ruleSet.receiptRuleSetName,
+      description: 'The name of the SES receipt rule set',
+      exportName: 'ReceiptRuleSetName',
+    });
   }
 } 

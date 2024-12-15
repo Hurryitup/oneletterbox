@@ -19,7 +19,9 @@
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "boto3": "^0.0.1",
+        "he": "^1.2.0",
         "jsonwebtoken": "^9.0.2",
-        "mongoose": "^8.8.4"
+        "mongoose": "^8.8.4",
+        "utf8": "^3.0.0"
     }
 }

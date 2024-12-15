@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Sidebar } from './Sidebar/Sidebar';
+import { Article } from './Article/Article';
 import { Account } from './Account/Account';
-import axios from 'axios';
+import { useIssues } from '../contexts/IssuesContext';
+import { Menu } from 'lucide-react';
 
 interface Newsletter {
   id: string;
@@ -11,126 +13,103 @@ interface Newsletter {
   title: string;
   description: string;
   date: string;
-  unreadCount?: number;
   author: string;
   content: string[];
 }
 
 export function Layout() {
-  const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
-  const [activeNewsletterId, setActiveNewsletterId] = useState<string>('');
+  const [activeIssueId, setActiveIssueId] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSource, setSelectedSource] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
   const [showAccount, setShowAccount] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const { issues, error, availableSources, refreshIssues } = useIssues();
 
+  // Close mobile menu when window is resized to desktop size
   useEffect(() => {
-    const fetchNewsletters = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/newsletters', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        setNewsletters(response.data);
-        if (response.data.length > 0) {
-          setActiveNewsletterId(response.data[0].id);
-        }
-      } catch (error) {
-        console.error('Failed to fetch newsletters:', error);
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobileMenuOpen(false);
       }
     };
 
-    fetchNewsletters();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Reset selected source when category changes
+  // Set first issue as active when issues are loaded
   useEffect(() => {
-    setSelectedSource(null);
-  }, [selectedCategory]);
+    if (issues.length > 0 && !activeIssueId) {
+      setActiveIssueId(issues[0].issueId);
+    }
+  }, [issues, activeIssueId]);
 
-  const handleNewsletterSelect = (id: string) => {
-    setActiveNewsletterId(id);
+  const handleIssueSelect = (id: string) => {
+    setActiveIssueId(id);
     setShowAccount(false);
+    setIsMobileMenuOpen(false); // Close mobile menu after selection
   };
 
   const handleProfileClick = () => {
     setShowAccount(true);
-    setActiveNewsletterId('');
+    setIsMobileMenuOpen(false); // Close mobile menu after selection
   };
 
-  const handleTitleClick = () => {
+  const handleBackToIssues = () => {
     setShowAccount(false);
-    setActiveNewsletterId('');
   };
 
-  const filteredNewsletters = newsletters
-    .filter(newsletter => {
-      if (selectedCategory && newsletter.category !== selectedCategory) {
-        return false;
-      }
-      if (selectedSource && newsletter.title !== selectedSource) {
-        return false;
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
-    });
+  const handleToggleSidebar = () => {
+    if (window.innerWidth <= 768) {
+      setIsMobileMenuOpen(!isMobileMenuOpen);
+    } else {
+      setIsSidebarCollapsed(!isSidebarCollapsed);
+    }
+  };
 
-  const activeNewsletter = newsletters.find(n => n.id === activeNewsletterId);
-  const availableCategories = Array.from(new Set(newsletters.map(n => n.category)));
-  
-  // Filter sources based on selected category
-  const availableSources = Array.from(
-    new Set(
-      newsletters
-        .filter(n => !selectedCategory || n.category === selectedCategory)
-        .map(n => n.title)
-    )
-  );
+  if (error) {
+    return <div className="text-red-500">Error loading issues: {error}</div>;
+  }
+
+  const activeIssue = issues.find(issue => issue.issueId === activeIssueId);
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen">
       <Sidebar
-        newsletters={filteredNewsletters}
-        activeNewsletterId={activeNewsletterId}
-        onNewsletterSelect={handleNewsletterSelect}
+        issues={issues}
+        activeIssueId={activeIssueId}
+        onIssueSelect={handleIssueSelect}
         selectedCategory={selectedCategory}
         selectedSource={selectedSource}
         sortOrder={sortOrder}
-        availableCategories={availableCategories}
+        availableCategories={[]} // We're not using categories for now
         availableSources={availableSources}
         onCategoryChange={setSelectedCategory}
         onSourceChange={setSelectedSource}
         onSortOrderChange={setSortOrder}
         onProfileClick={handleProfileClick}
-        onTitleClick={handleTitleClick}
+        onTitleClick={() => setShowAccount(false)}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={handleToggleSidebar}
+        isMobileMenuOpen={isMobileMenuOpen}
+        onMobileMenuClose={() => setIsMobileMenuOpen(false)}
       />
-      <main className="flex-1 overflow-auto p-8">
+      <main className="flex-1 overflow-auto">
         {showAccount ? (
-          <Account onBack={() => setShowAccount(false)} />
-        ) : activeNewsletter ? (
-          <div className="max-w-3xl mx-auto">
-            <h1 className="text-3xl font-bold mb-4">{activeNewsletter.title}</h1>
-            <div className="text-gray-600 mb-8">
-              <span className="mr-4">By {activeNewsletter.author}</span>
-              <span>{activeNewsletter.date}</span>
-            </div>
-            {activeNewsletter.content.map((paragraph, index) => (
-              <p key={index} className="mb-4 text-gray-800 leading-relaxed">
-                {paragraph}
-              </p>
-            ))}
+          <Account onBack={handleBackToIssues} />
+        ) : !activeIssue ? (
+          <div className="flex justify-center items-center h-full">
+            <div className="text-gray-600">No issue selected</div>
           </div>
         ) : (
-          <div className="text-center text-gray-600">
-            Select a newsletter to start reading
-          </div>
+          <Article 
+            issue={activeIssue} 
+            onToggleCollapse={handleToggleSidebar}
+          />
         )}
       </main>
     </div>

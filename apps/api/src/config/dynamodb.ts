@@ -9,6 +9,8 @@ if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !pro
   throw new Error('Missing required AWS configuration');
 }
 
+console.log('Initializing DynamoDB client with region:', process.env.AWS_REGION);
+
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION,
   credentials: {

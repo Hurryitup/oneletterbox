@@ -1,0 +1,222 @@
+Return-Path: <msprvs1=20069VIkmb6Fk=bounces-280172-1781@bounce.news.bloomberg.com>
+Received: from mta-203-32-21.sparkpostmail.com (mta-203-32-21.sparkpostmail.com [168.203.32.21])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id fuklsqocn7jgguivftjb9p3o5j6m4tc60n4lmp81
+ for test@oneletterbox.com;
+ Thu, 05 Dec 2024 19:07:44 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.sparkpost.dmarc-bloomberg.com designates 168.203.32.21 as permitted sender) client-ip=168.203.32.21; envelope-from=msprvs1=20069VIkmb6Fk=bounces-280172-1781@bounce.news.bloomberg.com; helo=mta-203-32-21.sparkpostmail.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.sparkpost.dmarc-bloomberg.com designates 168.203.32.21 as permitted sender) client-ip=168.203.32.21; envelope-from=msprvs1=20069VIkmb6Fk=bounces-280172-1781@bounce.news.bloomberg.com; helo=mta-203-32-21.sparkpostmail.com;
+ dkim=pass header.i=@news.bloomberg.com;
+ dmarc=pass header.from=news.bloomberg.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFHa3BpdEJvSWlFUTU3VEZDNndVRTZDdUVXcXh1US9pWUdIdm5oS1E2OEVhSmZlVWxRVXJBV3lhNElXejdSTVdzbDJGcld6UkZHRUVscEdQNHBYSkhvNXJjdUFSY1JvVjB4ZXgxR3NBSitXQy9neTV2TDZYWG5vcmlzbmg2NlJUb1hneFhYL2hYREsyRVlaQTFBUkhiSW5zZ0xJd2JVRVM0WVhzZ3owMktKeTRNdTY4ZkQ1WmVFZi9Gemx3UUpncE9aWEZVMW1ZR3YzQXE4ZzU3c2VSaDNSRXBEUEZjL2ZmQi91V25HSTR0OXhwcFdFRUg5ZHV5UmJhd3hKSTlLR0gyV3RBS1RzeVZJaTdvS0dRQTJ1UVU0aWtjVENJMysyVVZsSVkwbnhwRnpEREErL2NxL2QxR1RERks2WWI4bzZnVUVuOGs2MmhsNEtqWTRnT1lvM0RhRG4vMlN4Mlh0VXNWOUhLRGI3bG80ZDdnPT0=
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=TxWjSYtJG93plIDJx8MoozFLUPea8MbgsmHPf5HV+Vj1o21u5ukJZj+PL3mY+dXXP86TlkzAwIZ+OUsvPDaqESlL+vvnoGZGKAqgbBnhciWik6Lz/CskrfcipDb0DBg+U2Li9Iiuhj8E9Ulbzd3c89c9DYQpqPTalRjvlu0y0UM=; c=relaxed/simple; s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug; d=amazonses.com; t=1733425665; v=1; bh=OFsj8fGdGRTvChedoTZn2gDEt0/TCfMlD7AwHuUPzfA=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+X-MSFBL: eAGCR5MSMnd4p8jyh7QsoKyyr3vlQkeOgx7Aanjfb1g=|eyJjdXN0b21lcl9pZCI
+	6IjI4MDE3MiIsInRlbmFudF9pZCI6InNwYyIsInIiOiJ0ZXN0QG9uZWxldHRlcmJ
+	veC5jb20iLCJtZXNzYWdlX2lkIjoiNjc0NmZmZjk1MTY3MTMzNDZlMGYiLCJzdWJ
+	hY2NvdW50X2lkIjoiMTc4MSJ9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=news.bloomberg.com;
+	s=20240320; t=1733425663; i=@news.bloomberg.com;
+	bh=z+cj8CcqzbTpemywbuk68P/CFWE1zwBQlcIx4eyltTo=;
+	h=To:Message-ID:Date:Content-Type:List-Unsubscribe:
+	 List-Unsubscribe-Post:Subject:From:From:To:Cc:Subject;
+	b=t2+S8R6kAAFA1siDA+luf52HHxD4I+1Vm/LZtBmsBWPA1u5LhKZyAaSik2/nRiwSg
+	 B9em7uapYb2MwSTB3GMafabv2LDUby7SmLhOLlmA1ZAcVBvgW1Qi5oqPLoK5fpi6MU
+	 TPJexVjQJoD7pk6RizUgDF+jw2lhHp6SvsP/StT/4bavm0LCd8eDxULZdebNrqTk6A
+	 s4uO+ux5eRw7Lr0rloKEN5BMD5SMzC/NPBPun9pvGzm9nzwzpgBaCclUqJfvuDCSPw
+	 WANxkbRGcM1/Gr7UPhqme5LIIFggLSRuGMtmX+iHhI/24bVfVzFe7A8Wvzi3aCLqIw
+	 b839H2nDK2q7w==
+To: test@oneletterbox.com
+Message-ID: <F0.E6.60357.FF9F1576@i-0dec5353803d1d6c5.mta1vrest.sd.prd.sparkpost>
+Date: Thu, 05 Dec 2024 19:07:43 +0000
+Content-Type: multipart/alternative; boundary="_----d/ijioaXssYZEL6y5mVoAQ===_80/E6-60357-FF9F1576"
+MIME-Version: 1.0
+X-Campaign-ID: 9566077
+List-Unsubscribe: <https://www.bloomberg.com/email-settings/out/?l=1&cid=1002&uid=dGVzdEBvbmVsZXR0ZXJib3guY29t>,<mailto:unsubscribe+9566077+12638123@unsubscribe.iterable.com>
+X-Message-ID: 6fbb6de7505f4d99b3ab36f68508ab29
+X-Feedback-ID: 12638123:9566077:99686:iterable
+Reply-To: noreply@news.bloomberg.com
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Subject: MicroStrategy Has Volatility to Sell
+From: "Matt Levine" <noreply@news.bloomberg.com>
+Feedback-ID: 12638123:9566077:99686:iterable
+
+--_----d/ijioaXssYZEL6y5mVoAQ===_80/E6-60357-FF9F1576
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+
+<> 
+
+
+An author you are following, Matt Levine, just published a story.
+
+
+MicroStrategy Has Volatility to Sell
+
+Also Kiromic, fake insider betting and the optimal amount of bribery. Read more
+ 
+<https://www.bloomberg.com/opinion/articles/2024-12-05/microstrategy-has-volatility-to-sell?utm_medium=email&utm_source=author_alert&utm_term=241205&utm_campaign=author_18273090>
+
+
+Don't miss a beat, save our new email address
+
+If you use Gmail: Add this email to your primary inbox.
+
+ * In the Gmail app, tap the three dots in the top right corner and select 
+"Move to" > "Primary". 
+ * On desktop, drop this email in to your "Primary" folder in your inbox feed. 
+If you use Apple Mail: Tap our email address at the top of this email and 
+select "Add to VIPs".
+
+
+
+You received this email because you followed Matt Levine. 
+Unsubscribe 
+<https://login.bloomberg.com/api/marketing/unfollow-author?authorId=18273090&email=test@oneletterbox.com&hash=ee78ec2a62321b16b46ae06e44d4dde6>
+Bloomberg.com <http://bloomberg.com> 
+Contact Us <http://www.bloomberg.com/feedback?alcmpid=mostpop> Bloomberg L.P.
+731 Lexington Avenue,
+New York, NY 10022
+--_----d/ijioaXssYZEL6y5mVoAQ===_80/E6-60357-FF9F1576
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="UTF-8"
+
+<!DOCTYPE html> <html xmlns=3D"http://www.w3.org/1999/xhtml" class=3D"newsl=
+etter-campaign__template" style=3D"width: 100%;"><head> <meta httpequiv=3D"=
+Content-Security-Policy" content=3D"base-uri 'none'; connect-src 'none'; de=
+fault-src 'none'; font-src *; form-action 'none'; frame-src 'none'; img-src=
+ * data:; object-src 'none'; script-src 'none'; style-src 'self' 'unsafe-in=
+line'"></head> <body style=3D"width: 100%; -webkit-font-smoothing: antialia=
+sed; font-family: Georgia, serif; font-size: 16px; line-height: 24px; margi=
+n: 0; padding: 0;">=0D=0A<div style=3D"color:transparent;visibility:hidden;=
+opacity:0;font-size:0px;border:0;max-height:1px;width:1px;margin:0px;paddin=
+g:0px;border-width:0px!important;display:none!important;line-height:0px!imp=
+ortant;"><img border=3D"0" width=3D"1" height=3D"1" src=3D"https://post.spm=
+ailtechnolo.com/q/WguI9yn6cPwk3UTiVRYy0w~~/AARGbAA~/RgRpNH7_PVcDc3BjQgpnRv_=
+5UWcTNG4PUhV0ZXN0QG9uZWxldHRlcmJveC5jb21YBAAABvU~" alt=3D""/></div>=0D=0A<s=
+pan style=3D"color:transparent;visibility:hidden;display:none;opacity:0;hei=
+ght:0;width:0;font-size:0;"></span><img src=3D"https://links.message.bloomb=
+erg.com/e/eo=3F_t=3Df574328d4d0c4c359b90d8e49b10e21d&amp;_m=3D6fbb6de7505f4=
+d99b3ab36f68508ab29&amp;_e=3DsB9uilov9Y_itg8SyZ7r-K29F3lpbbegFbnWxtqHIYNIRc=
+EBHNGb36IwQ8gL7JxGOp43bnnHWpMPN6FDUJJSn85bCsZbvoEdh4Fl3eoakiwL2MJo_a0T4dBPn=
+btHsk0NiLB7T0ETieG8T9i_4I0eIfJa73YMNPi0clQYJDzwt8Q%3D" style=3D"border:0;wi=
+dth:1px;height:1px;border-width:0px!important;display:none!important;line-h=
+eight:0!important;" width=3D"1" height=3D"1"/> <div> <style>body{width:100%=
+;-webkit-font-smoothing:antialiased;font-family:Georgia,serif;font-size:16p=
+x;line-height:24px;margin:0;padding:0}img{max-width:550px}@media only scree=
+n and (max-width:480px){.lihide{display:none!important}.lishow{display:bloc=
+k!important;width:auto!important;overflow:visible!important;float:none!impo=
+rtant;max-height:inherit!important;line-height:inherit!important}}</style> =
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" cl=
+ass=3D"wrapper" id=3D"wrapper" style=3D"-webkit-font-smoothing: antialiased=
+; font-family: Georgia, serif; font-size: 16px; max-width: 550px; width: 10=
+0% !important;" width=3D"100%"><!--[if mso]><center> <tr><td> <table border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"550"><![endif]--> <tbod=
+y> <tr></tr> <tr> <td class=3D"preview-text" style=3D"border-collapse: coll=
+apse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"> <div style=3D"display=
+: none; max-height: 0px; overflow: hidden;"></div> </td> </tr> <tr> <td cla=
+ss=3D"logo-wrapper" style=3D"border-collapse: collapse; mso-table-lspace: 0=
+pt; mso-table-rspace: 0pt; padding-bottom: 15px;"> <table border=3D"0" cell=
+padding=3D"0" cellspacing=3D"0" class=3D"logo" width=3D"100%"> <tbody> <tr>=
+ <td align=3D"center" class=3D"view-in-browser" style=3D"border-collapse: c=
+ollapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; padding: 20px 0px 10=
+px;"></td> </tr> <tr> <td align=3D"center" class=3D"logo-container" style=
+=3D"border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt=
+; padding-bottom: 5px;"><a rel=3D"noopener" target=3D"_blank"> <!--[if mso]=
+><table width=3D"550"><tr><td><img alt=3D"Bloomberg" src=3D"https://assets.=
+bwbx.io/images/users/iqjWHBFdfxIU/i6ULjuUBII2k/v0/-1x-1.png" width=3D"550"/=
+></td></tr></table> <div style=3D"display:none"><![endif]--><img alt=3D"Blo=
+omberg" border=3D"0" class=3D"logo-image" src=3D"https://assets.bwbx.io/ima=
+ges/users/iqjWHBFdfxIU/i6ULjuUBII2k/v0/-1x-1.png" style=3D"max-width: 550px=
+; width: 100%; display: block;"><!--[if mso]></div><![endif]--> </a></td> <=
+/tr> </tbody> </table> </td> </tr> <tr> <td style=3D"border-collapse: colla=
+pse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"> <table border=3D"0" ce=
+llpadding=3D"0" cellspacing=3D"0" class=3D"body-component" style=3D"font-si=
+ze: 16px; line-height: 24px; height: 251px;" width=3D"100%"> <tbody> <tr st=
+yle=3D"height: 251px;"> <td class=3D"body-component__content" style=3D"bord=
+er-collapse: collapse; padding: 0px 10px; height: 251px;"> <p style=3D"font=
+-family: Georgia, serif; margin: 16px 0;">An author you are following, <str=
+ong>Matt Levine</strong>, just published a story.</p> <table border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0" class=3D"header" style=3D"height: 89px;"=
+ width=3D"100%"> <tbody> <tr style=3D"height: 89px;"> <td class=3D"body-hea=
+der-container" style=3D"border-collapse: collapse; height: 89px;"> <h2 styl=
+e=3D"font-family: Helvetica, Arial, sans-serif; letter-spacing: -1px; font-=
+size: 26px; line-height: 28px; font-weight: normal; border-top-width: 1px; =
+border-top-style: solid; padding-top: 12px; margin: 20px 0px 0px;">MicroStr=
+ategy Has Volatility to Sell</h2> </td> </tr> </tbody> </table> <div class=
+=3D"body-image" style=3D"margin: 20px 0px;"></div> <p style=3D"font-family:=
+ Georgia, serif; margin: 16px 0;">Also Kiromic, fake insider betting and th=
+e optimal amount of bribery.&nbsp; <a href=3D"https://links.message.bloombe=
+rg.com/a/click=3F_t=3Df574328d4d0c4c359b90d8e49b10e21d&_m=3D6fbb6de7505f4d9=
+9b3ab36f68508ab29&_e=3Docx-IWvVt2ww5YvvG7P5tasLxvnMqraI8qs43Yweycd1mYVFl971=
+35tBF15JsoHBlknphB7xsxALUaUhdWKQWSdIWy-O5oqeFUef6fdEJpsPpofJSKqylamak9strAV=
+YRGwQcVwkzAygTwP6WiAx2CXhlTjGEm-dVqlOymbm0sxT6oEp0u-su6qWakewz2rxYJ6KYByA8U=
+ZAUwBIBu9yE4t46omYbf8PDC5ooS4JbU6D8UQTa2k7Gf3abHQ5FeZDCj1_GVb6NijdkB5E9rSQl=
+g-yFHzFXOqQTp85J__vuAsHqLjaOoM5BXSkOFErGbHV5KzoGN5ywAQEkuhPDoKIm5SA6GsEDhhR=
+1_v2I08Oz9tdkNDU3hEILCoN8KTqnUL4vZAm4Yag1fv17-rXflLNClVjDUNWMVBv4v-qmeQxRP8=
+%3D" rel=3D"noopener" target=3D"_blank">Read more</a></p> <table border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" class=3D"header" style=3D"height: 89=
+px;" width=3D"100%"> <tbody> <tr style=3D"height: 89px;"> <td class=3D"body=
+-header-container" style=3D"border-collapse: collapse; height: 89px;"> <h2 =
+style=3D"font-family: Helvetica, Arial, sans-serif; letter-spacing: -1px; f=
+ont-size: 26px; line-height: 28px; font-weight: normal; border-top-width: 1=
+px; border-top-style: solid; padding-top: 12px; margin: 20px 0px 0px;">Don'=
+t miss a beat, save our new email address</h2> </td> </tr> </tbody> </table=
+> <p style=3D"font-family: Georgia, serif; margin: 16px 0;"><strong>If you =
+use Gmail:&nbsp;</strong>Add this email to your primary inbox.</p> <ul> <li=
+ style=3D"font-size: 16px; line-height: 19px;"><span style=3D"font-size: 16=
+px; line-height: 19px;">In the Gmail app, tap the three dots in the top rig=
+ht corner and select "Move to" &gt; "Primary".</span></li> <li style=3D"fon=
+t-size: 16px; line-height: 19px;"><span style=3D"font-size: 16px; line-heig=
+ht: 19px;">On desktop, drop this email in to your "Primary" folder in your =
+inbox feed.</span></li> </ul> <p style=3D"font-family: Georgia, serif; marg=
+in: 16px 0;"><strong>If you use Apple Mail:&nbsp;</strong>Tap our email add=
+ress at the top of this email and select "Add to VIPs".</p> </td> </tr> </t=
+body> </table> </td> </tr> <tr> <td class=3D"footer-wrapper" style=3D"borde=
+r-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; padding=
+: 0px 10px;"> <table align=3D"center" border=3D"0" cellpadding=3D"0" cellsp=
+acing=3D"0" class=3D"footer" width=3D"100%"> <tbody> <tr> <td class=3D"foot=
+er-container" style=3D"border-collapse: collapse; mso-table-lspace: 0pt; ms=
+o-table-rspace: 0pt; padding: 20px 0px;"> <table align=3D"center" border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"footer-message" style=3D"f=
+ont-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 150=
+%;" width=3D"100%"> <tbody> <tr> <td class=3D"footer-message-container" sty=
+le=3D"border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0=
+pt; padding-bottom: 10px;">You received this email because you followed Mat=
+t Levine.</td> </tr> </tbody> </table> <table align=3D"center" border=3D"0"=
+ cellpadding=3D"0" cellspacing=3D"0" class=3D"footer-info" style=3D"font-fa=
+mily: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 150%;" wi=
+dth=3D"100%"> <tbody> <tr> <td class=3D"footer-info-container" style=3D"bor=
+der-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><a h=
+ref=3D"https://links.message.bloomberg.com/u/click=3F_t=3Df574328d4d0c4c359=
+b90d8e49b10e21d&_m=3D6fbb6de7505f4d99b3ab36f68508ab29&_e=3Docx-IWvVt2ww5Yvv=
+G7P5tdju3wdTetrerEIEgNgOzUINcRWtKV4P7TxNwwhwkoc6-u0epf8ijmWEDlfKZz37x94_L-m=
+saTCkmO74DVMUptGTbRk8LkeTSBmvFGYEdvb-5-RfQMVXCcFtKaRDvY13MaL-jGMpRWuU80tzRa=
+fs0RDis9vbg0pU-fIzU9isoiswAUWLFzKBxX2Wm7HM1JYQ_RkSXqG7hDn3jnsBepIDhyDaxsNdA=
+q5lzF38XPcngzIeKpVoWKdPafYG60cerNt6A7S8U7qNrhXwQaypi9NtLVKmphvx4zKgMRd4vKCO=
+CEbfOOnEKlbuIc88MZuGQUCyTG-LY3ZPDeKCNTkBsj38sYuF01Anfv2IE7qfLoLkpQQ2" rel=
+=3D"noopener" style=3D"text-decoration: none !important;" target=3D"_blank"=
+>Unsubscribe</a><br><a href=3D"https://links.message.bloomberg.com/u/click=
+=3F_t=3Df574328d4d0c4c359b90d8e49b10e21d&_m=3D6fbb6de7505f4d99b3ab36f68508a=
+b29&_e=3DvASEC38scgHr_u-02BqLFFumel6pR8zhz9yN547ymzfD4g4JWsL3zb8nx7cppfa-iW=
+ij-pVh8IioLXUe3fAvI5msPMZZSl_jfyO-n7ad8E0qjpm1a5OUYe-IKYIC6--l965v6fklHJt8j=
+Ssl4dRW4ZtY6mLSs-UZOkESiW5C6x67N3wHSEA8AUk-yHnwx7nVb_Uvh-qjEqDTzpZQtH34Uw%3=
+D%3D" rel=3D"noopener" style=3D"text-decoration: none !important;" target=
+=3D"_blank">Bloomberg.com</a> <br><a href=3D"https://links.message.bloomber=
+g.com/u/click=3F_t=3Df574328d4d0c4c359b90d8e49b10e21d&_m=3D6fbb6de7505f4d99=
+b3ab36f68508ab29&_e=3DesOd6BdLeyw30K4vxy2Kp56iKhr-XvYAXnSbqhAIwyAPz2YJar3j1=
+vc4vIVvge1KkLbWFRX0Zlj6QNWU9aMGl3rIiygH8H8Jjnw8g3gGY2pEYWoJ5YHAAThukmH8xUlJ=
+iYLYjw8o46BiV42h2bOZhu54OOkuX-V7uWFwAj8a2Kx89kw9RCqnbLXnH1CqrydGS3QIOm39shw=
+BIUB-vE6p6ZBMDMou4ueF_3Q5az5cBA1Lf0OZXBZNeh88UOo7LRH2" rel=3D"noopener" sty=
+le=3D"text-decoration: none !important;" target=3D"_blank">Contact Us</a></=
+td> <td style=3D"border-collapse: collapse; mso-table-lspace: 0pt; mso-tabl=
+e-rspace: 0pt;">Bloomberg L.P.<br>731 Lexington Avenue,<br>New York, NY 100=
+22</td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <=
+!--[if mso]></td></tr> </table> </center><![endif]--></tbody> </table> </di=
+v> =0D=0A<img border=3D"0" width=3D"1" height=3D"1" alt=3D"" src=3D"https:/=
+/post.spmailtechnolo.com/q/RR7SUvUkVnN9IYbvUPTJiw~~/AARGbAA~/RgRpNH7_PlcDc3=
+BjQgpnRv_5UWcTNG4PUhV0ZXN0QG9uZWxldHRlcmJveC5jb21YBAAABvU~">=0D=0A</body></=
+html>
+--_----d/ijioaXssYZEL6y5mVoAQ===_80/E6-60357-FF9F1576--
+
