@@ -1,0 +1,374 @@
+/* Base styles */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-right: 1px solid #e5e7eb;
+  background: #ffffff;
+  position: relative;
+  width: 320px;
+  will-change: transform, width;
+  transition: width 150ms ease-out, transform 150ms ease-out;
+  overflow: hidden;
+}
+
+.sidebar.resizing {
+  transition: none;
+}
+
+.sidebar.collapsed {
+  width: 56px;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 50;
+    transform: translateX(-100%);
+    width: 100% !important;
+    box-shadow: none;
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar.visible {
+    transform: translateX(0);
+  }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 45;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .overlay.visible {
+    display: block;
+    opacity: 1;
+  }
+
+  .resizeHandle {
+    display: none !important;
+  }
+
+  .collapseButton {
+    display: none !important;
+  }
+
+  .sidebarHeader {
+    padding: 1.25rem 1rem;
+  }
+}
+
+.sidebar.collapsed {
+  min-width: unset;
+  width: 56px !important;
+}
+
+.collapsed .sidebarHeader {
+  padding: 1rem 0.75rem;
+  justify-content: center;
+}
+
+.collapsed .resizeHandle,
+.collapsed .titleButton,
+.collapsed .profileButton {
+  display: none;
+}
+
+.collapsed .collapseButton {
+  margin: 0;
+}
+
+.collapseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: none;
+  border: 1px solid #e5e7eb;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.collapseButton:hover {
+  background: #f3f4f6;
+  color: #1a1a1a;
+}
+
+.resizeHandle {
+  position: absolute;
+  right: -3px;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.resizeHandle:hover,
+.resizeHandle.dragging {
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.resizeHandle::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.resizeHandle:hover::after,
+.resizeHandle.dragging::after {
+  background: #2563eb;
+}
+
+.sidebarHeader {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(8px);
+}
+
+.titleButton {
+  background: none;
+  border: none;
+  padding: 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  cursor: pointer;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.titleButton:hover {
+  color: #2563eb;
+}
+
+.profileButton {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #4b5563;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.profileButton:hover {
+  background: #f3f4f6;
+  color: #1a1a1a;
+}
+
+.newsletterList {
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Newsletter Item styles */
+.newsletterItem {
+  width: 100%;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.newsletterItem:hover {
+  background: #f3f4f6;
+}
+
+.newsletterItem.active {
+  background: #f3f4f6;
+}
+
+.newsletterContent {
+  width: 100%;
+  max-width: 280px;
+  transition: opacity 150ms ease-out;
+}
+
+.newsletterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.newsletterTitle {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.newsletterMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.description {
+  color: #4b5563;
+  font-size: 0.875rem;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date {
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+/* Category styles */
+.category {
+  padding: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Dark mode styles */
+:global(.dark) .sidebar {
+  background: #111827;
+  border-right-color: #374151;
+}
+
+:global(.dark) .sidebarHeader {
+  background: rgba(17, 24, 39, 0.97);
+  border-bottom-color: #374151;
+}
+
+:global(.dark) .titleButton {
+  color: #f9fafb;
+}
+
+:global(.dark) .titleButton:hover {
+  color: #60a5fa;
+}
+
+:global(.dark) .profileButton {
+  color: #9ca3af;
+}
+
+:global(.dark) .profileButton:hover {
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+:global(.dark) .newsletterItem:hover {
+  background: #1f2937;
+}
+
+:global(.dark) .newsletterItem.active {
+  background: #1f2937;
+}
+
+:global(.dark) .newsletterTitle {
+  color: #f3f4f6;
+}
+
+:global(.dark) .description {
+  color: #9ca3af;
+}
+
+:global(.dark) .date {
+  color: #6b7280;
+}
+
+:global(.dark) .category {
+  color: #9ca3af;
+}
+
+:global(.dark) .resizeHandle:hover,
+:global(.dark) .resizeHandle.dragging {
+  background: rgba(96, 165, 250, 0.1);
+}
+
+:global(.dark) .resizeHandle:hover::after,
+:global(.dark) .resizeHandle.dragging::after {
+  background: #60a5fa;
+}
+
+:global(.dark) .collapseButton {
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+:global(.dark) .collapseButton:hover {
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+/* Dark mode mobile styles */
+:global(.dark) .hamburgerButton {
+  background: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+:global(.dark) .hamburgerButton:hover {
+  background: #374151;
+}
+
+:global(.dark) .closeButton {
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+:global(.dark) .closeButton:hover {
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+/* Transition states */
+.sidebar.collapsed .newsletterContent {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar.resizing .newsletterContent {
+  transition: none;
+}

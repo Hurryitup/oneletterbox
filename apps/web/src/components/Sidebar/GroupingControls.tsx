@@ -1,8 +1,13 @@
 import React from 'react';
 
+interface Source {
+  value: string;
+  label: string;
+}
+
 interface GroupingControlsProps {
   categories: string[];
-  sources: string[];
+  sources: Source[];
   selectedCategory: string | null;
   selectedSource: string | null;
   sortOrder: 'desc' | 'asc';
@@ -28,7 +33,7 @@ export const GroupingControls = ({
         value={selectedCategory || ''}
         onChange={(e) => onCategoryChange(e.target.value || null)}
       >
-        <option value="">Categories</option>
+        <option value="">All Categories</option>
         {categories.map(category => (
           <option key={category} value={category}>
             {category}
@@ -41,10 +46,10 @@ export const GroupingControls = ({
         value={selectedSource || ''}
         onChange={(e) => onSourceChange(e.target.value || null)}
       >
-        <option value="">Sources</option>
+        <option value="">All Sources</option>
         {sources.map(source => (
-          <option key={source} value={source}>
-            {source}
+          <option key={source.value} value={source.value}>
+            {source.label}
           </option>
         ))}
       </select>

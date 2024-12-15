@@ -1,0 +1,923 @@
+/* Base styles */
+.articleContainer {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+/* Content wrapper styles */
+.contentWrapper {
+  margin: 0 auto;
+  max-width: 896px;
+  padding: 0 clamp(16px, 5vw, 24px);
+  position: relative;
+  min-height: 200px;
+  width: 100%;
+}
+
+/* View container styles */
+.originalView,
+.readerViewContainer {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 896px;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.originalView.visible,
+.readerViewContainer.visible {
+  opacity: 1;
+  position: relative;
+}
+
+.readerViewContainer {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem;
+  color: #1a1a1a;
+  font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.readerViewContainer :global(.reader-content) {
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.readerViewContainer :global(p),
+.readerViewContainer :global(div),
+.readerViewContainer :global(li),
+.readerViewContainer :global(td) {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: normal;
+  max-width: 100%;
+}
+
+.readerViewContainer :global(*) {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  hyphens: auto !important;
+}
+
+/* Header Styles */
+.header {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+  transition: all 0.3s ease;
+}
+
+.topBar {
+  display: none; /* Hidden by default on desktop */
+}
+
+.headerContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0.75rem;
+}
+
+.titleArea {
+  flex: 1;
+  min-width: 0; /* Allow flex item to shrink below content size */
+}
+
+.title {
+  color: #1a1a1a;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  line-height: 1.2;
+  margin: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.meta {
+  color: #4b5563;
+  font-size: 0.875rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.viewModeButton {
+  font-size: 13px;
+  color: #1a1a1a;
+  background: rgba(243, 244, 246, 0.8);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+  flex-shrink: 0; /* Prevent button from shrinking */
+  white-space: nowrap; /* Keep button text on one line */
+}
+
+.viewModeButton:hover {
+  background: rgba(229, 231, 235, 0.8);
+  border-color: rgba(209, 213, 219, 0.8);
+}
+
+/* Original View Styles - Default Light Mode */
+.originalView {
+  color: #374151;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  padding: 2rem 1.5rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  margin: 1rem auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.originalView :global(*) {
+  max-width: 100% !important;
+  overflow-wrap: break-word;
+}
+
+.originalView :global(.newsletter-content) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.originalView :global(table) {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.originalView :global(td),
+.originalView :global(th) {
+  word-break: break-word;
+  min-width: 100px;
+}
+
+.originalView :global(img) {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 1.5rem auto !important;
+}
+
+.originalView :global(img[src]) {
+  min-height: 100px;
+}
+
+.originalView :global(.image-wrapper) {
+  width: 100%;
+  text-align: center;
+  margin: 1.5rem auto;
+}
+
+.originalView :global(.image-wrapper img) {
+  display: inline-block !important;
+  margin: 0 auto !important;
+}
+
+.originalView :global(.image-wrapper img[src]) {
+  opacity: 1;
+}
+
+/* Handle images in table cells */
+.originalView :global(td .image-wrapper) {
+  margin: 0;
+}
+
+.originalView :global(td img) {
+  margin: 0 auto !important;
+}
+
+/* Newsletter content specific styles */
+.originalView :global(.newsletter-content) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.originalView :global(.newsletter-content > *) {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.originalView :global(.newsletter-content img) {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Ensure tables don't break our layout */
+.originalView :global(table) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: table !important;
+}
+
+.originalView :global(p) {
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  color: #374151;
+}
+
+@media (max-width: 768px) {
+  .originalView {
+    padding: 1.5rem 1rem;
+    margin: 0.5rem auto;
+    border-radius: 6px;
+  }
+}
+
+/* Reader View Styles */
+.readerViewContainer .title {
+  color: #1a1a1a;
+}
+
+.readerViewContainer :global(.reader-content) {
+  font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+}
+
+.readerViewContainer :global(.reader-content) {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #1a1a1a;
+}
+
+/* Updated Reader View heading styles */
+.readerViewContainer :global(h1) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+  line-height: 1.3;
+  font-weight: 600;
+  color: #202124;
+  margin: 2.5rem 0 1.5rem;
+  letter-spacing: -0.022em;
+}
+
+.readerViewContainer :global(h2) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #202124;
+  margin: 2rem 0 1rem;
+  letter-spacing: -0.021em;
+}
+
+.readerViewContainer :global(h3) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #202124;
+  margin: 1.75rem 0 0.875rem;
+  letter-spacing: -0.02em;
+}
+
+/* Improved spacing for headings in Reader View */
+.readerViewContainer :global(h1:first-child),
+.readerViewContainer :global(h2:first-child),
+.readerViewContainer :global(h3:first-child) {
+  margin-top: 0;
+}
+
+.readerViewContainer :global(h1 + p),
+.readerViewContainer :global(h2 + p),
+.readerViewContainer :global(h3 + p) {
+  margin-top: 0.75rem;
+}
+
+/* Dark mode support for Reader View headings */
+:global(.dark) .readerViewContainer :global(h1),
+:global(.dark) .readerViewContainer :global(h2),
+:global(.dark) .readerViewContainer :global(h3) {
+  color: #e8eaed;
+}
+
+/* Loading animation */
+.loadingPulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .contentWrapper {
+    padding: 0 16px;
+  }
+
+  .header {
+    padding: 12px 16px;
+  }
+
+  .readerViewContainer :global(.prose p),
+  .readerViewContainer :global(.newsletter-content p) {
+    margin-bottom: 1.25em;
+  }
+
+  .readerViewContainer :global(.prose h2),
+  .readerViewContainer :global(.newsletter-content h2) {
+    font-size: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+  }
+
+  .meta {
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+  }
+
+  .topBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: inherit;
+    backdrop-filter: inherit;
+  }
+
+  .topBarLeft {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .topBarTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .headerContent {
+    padding: 1rem 0.5rem;
+  }
+
+  /* Move view mode button to top bar on mobile */
+  .headerContent .viewModeButton {
+    display: none;
+  }
+
+  .originalView {
+    padding: 0 1rem;
+  }
+
+  .originalView :global(.prose) {
+    font-size: 15px;
+  }
+
+  .originalView :global(.image-wrapper) {
+    margin: 1rem auto;
+  }
+
+  .originalView :global(img) {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .contentWrapper {
+    padding: 0;
+  }
+
+  .header {
+    padding: 4px 0px;
+  }
+
+  .viewModeButton {
+    font-size: 12px;
+    padding: 0.375rem 0.75rem;
+  }
+
+  .readerViewContainer :global(.prose h2),
+  .readerViewContainer :global(.newsletter-content h2) {
+    font-size: 1.25em;
+    margin-top: 1.75em;
+    margin-bottom: 0.5em;
+  }
+
+  .originalView {
+    padding: 0 0.75rem;
+  }
+
+  .originalView :global(.prose) {
+    font-size: 14px;
+  }
+}
+
+/* Dark mode support */
+:global(.dark) .articleContainer {
+  background: #111827;
+}
+
+:global(.dark) .header {
+  background: rgba(17, 24, 39, 0.97);
+  border-bottom-color: rgba(55, 65, 81, 0.5);
+}
+
+:global(.dark) .title {
+  color: #f9fafb;
+}
+
+:global(.dark) .meta {
+  color: #9ca3af;
+}
+
+:global(.dark) .viewModeButton {
+  color: #f3f4f6;
+  background: rgba(31, 41, 55, 0.8);
+  border-color: rgba(55, 65, 81, 0.8);
+}
+
+:global(.dark) .viewModeButton:hover {
+  background: rgba(55, 65, 81, 0.8);
+  border-color: rgba(75, 85, 99, 0.8);
+}
+
+:global(.dark) .readerViewContainer {
+  color: #e5e7eb;
+}
+
+:global(.dark) .readerViewContainer .title {
+  color: #ffffff;
+}
+
+:global(.dark) .readerViewContainer :global(.reader-content) {
+  color: #e5e7eb;
+}
+
+:global(.dark) .readerViewContainer :global(.prose h2),
+:global(.dark) .readerViewContainer :global(.newsletter-content h2) {
+  color: #f9fafb !important;
+}
+
+:global(.dark) .readerViewContainer :global(.prose a) {
+  color: #60a5fa;
+  border-bottom-color: rgba(96, 165, 250, 0.2);
+}
+
+:global(.dark) .readerViewContainer :global(.prose a:hover) {
+  color: #93c5fd;
+  border-bottom-color: #60a5fa;
+}
+
+/* Dark mode - Original View */
+:global(.dark) .originalView {
+  background: #1e293b;
+  color: #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .originalView :global(*) {
+  color: #e2e8f0;
+}
+
+:global(.dark) .originalView :global(p),
+:global(.dark) .originalView :global(span),
+:global(.dark) .originalView :global(div) {
+  color: #e2e8f0 !important;
+}
+
+:global(.dark) .originalView :global(h1),
+:global(.dark) .originalView :global(h2),
+:global(.dark) .originalView :global(h3),
+:global(.dark) .originalView :global(h4),
+:global(.dark) .originalView :global(h5),
+:global(.dark) .originalView :global(h6) {
+  color: #f1f5f9 !important;
+}
+  
+:global(.dark) .originalView :global(a) {
+  color: #000000 !important;
+  text-decoration: underline;
+  padding: 0.1em 0.2em;
+  text-decoration-color: rgba(147, 197, 253, 0.4);
+  text-underline-offset: 0.2em;
+}
+
+:global(.dark) .originalView :global(a:hover) {
+  color: #93c5fd !important;
+  text-decoration-color: #93c5fd;
+}
+
+:global(.dark) .originalView .title {
+  color: #1a1a1a;
+}
+
+:global(.dark) .originalView,
+:global(.dark) .originalView :global(.prose),
+:global(.dark) .originalView :global(.newsletter-content),
+:global(.dark) .originalView :global(.prose p),
+:global(.dark) .originalView :global(.newsletter-content p) {
+  color: #1a1a1a;
+}
+
+:global(.dark) .originalView :global(.prose h1),
+:global(.dark) .originalView :global(.prose h2),
+:global(.dark) .originalView :global(.newsletter-content h2) {
+  color: #111111;
+}
+
+/* Dark mode - Meta info in Original View */
+:global(.dark) .originalView .meta {
+  color: #4b5563;
+}
+
+:global(.dark) .originalView .emailAddress {
+  color: #2563eb;
+}
+
+:global(.dark) .topBarTitle {
+  color: #f9fafb;
+}
+
+@media (max-width: 768px) {
+  :global(.dark) .headerContent {
+    border-top-color: rgba(55, 65, 81, 0.5);
+  }
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hamburgerButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  color: #4b5563;
+}
+
+.hamburgerButton:hover {
+  background: #f3f4f6;
+  color: #1a1a1a;
+}
+
+/* Dark mode support */
+:global(.dark) .hamburgerButton {
+  background: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+:global(.dark) .hamburgerButton:hover {
+  background: #374151;
+  color: #f9fafb;
+}
+
+/* Gmail/Apple Mail style heading overrides */
+.originalView :global(h1),
+.readerViewContainer :global(h1) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 600;
+  color: #202124;
+  margin: 1.5rem 0 1rem;
+  padding: 0;
+  letter-spacing: -0.02em;
+}
+
+.originalView :global(h2),
+.readerViewContainer :global(h2) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #202124;
+  margin: 1.25rem 0 0.75rem;
+  padding: 0;
+  letter-spacing: -0.01em;
+}
+
+.originalView :global(h3),
+.readerViewContainer :global(h3) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #202124;
+  margin: 1rem 0 0.75rem;
+  padding: 0;
+}
+
+/* Dark mode support */
+:global(.dark) .originalView :global(h1),
+:global(.dark) .readerViewContainer :global(h1),
+:global(.dark) .originalView :global(h2),
+:global(.dark) .readerViewContainer :global(h2),
+:global(.dark) .originalView :global(h3),
+:global(.dark) .readerViewContainer :global(h3) {
+  color: #e8eaed;
+}
+
+/* Spacing adjustments for headings */
+.originalView :global(h1:first-child),
+.readerViewContainer :global(h1:first-child) {
+  margin-top: 0;
+}
+
+.originalView :global(h1 + p),
+.readerViewContainer :global(h1 + p),
+.originalView :global(h2 + p),
+.readerViewContainer :global(h2 + p),
+.originalView :global(h3 + p),
+.readerViewContainer :global(h3 + p) {
+  margin-top: 0.5rem;
+}
+
+/* Reader View Styles */
+.readerViewContainer {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem;
+  color: #1a1a1a;
+  font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.readerViewContainer :global(.reader-content) {
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.readerViewContainer :global(p),
+.readerViewContainer :global(div),
+.readerViewContainer :global(li),
+.readerViewContainer :global(td) {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: normal;
+  max-width: 100%;
+}
+
+/* Table styles for reader view */
+.readerViewContainer :global(table) {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+  display: table !important;
+  margin: 0 !important;
+  border-collapse: collapse !important;
+}
+
+.readerViewContainer :global(tbody),
+.readerViewContainer :global(thead),
+.readerViewContainer :global(tr) {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: table !important;
+}
+
+.readerViewContainer :global(td),
+.readerViewContainer :global(th) {
+  width: auto !important;
+  max-width: 100% !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  padding: 8px !important;
+  display: table-cell !important;
+  box-sizing: border-box !important;
+}
+
+.readerViewContainer :global(td *),
+.readerViewContainer :global(th *) {
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+}
+
+/* Ensure heading styles override paragraph styles */
+.readerViewContainer h1,
+.readerViewContainer h2,
+.readerViewContainer h3,
+.readerViewContainer :global(h1),
+.readerViewContainer :global(h2),
+.readerViewContainer :global(h3) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+  margin-bottom: 1rem !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+  color: #202124 !important;
+}
+
+.readerViewContainer h1,
+.readerViewContainer :global(h1) {
+  font-size: 2rem !important;
+  margin-top: 2.5rem !important;
+  letter-spacing: -0.022em !important;
+}
+
+.readerViewContainer h2,
+.readerViewContainer :global(h2) {
+  font-size: 1.5rem !important;
+  margin-top: 2rem !important;
+  letter-spacing: -0.021em !important;
+}
+
+.readerViewContainer h3,
+.readerViewContainer :global(h3) {
+  font-size: 1.25rem !important;
+  margin-top: 1.75rem !important;
+  letter-spacing: -0.02em !important;
+}
+
+.readerViewContainer p,
+.readerViewContainer :global(p) {
+  margin: 0 0 1.8em;
+  font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #1a1a1a;
+}
+
+/* Dark mode support */
+:global(.dark) .readerViewContainer h1,
+:global(.dark) .readerViewContainer h2,
+:global(.dark) .readerViewContainer h3,
+:global(.dark) .readerViewContainer :global(h1),
+:global(.dark) .readerViewContainer :global(h2),
+:global(.dark) .readerViewContainer :global(h3) {
+  color: #e8eaed !important;
+}
+
+/* Lists in Reader View */
+.readerViewContainer ul,
+.readerViewContainer ol {
+  margin: 1.5em 0;
+  padding-left: 1.5em;
+}
+
+.readerViewContainer li {
+  margin-bottom: 0.75em;
+  line-height: 1.8;
+}
+
+.readerViewContainer ul {
+  list-style-type: disc;
+}
+
+.readerViewContainer ol {
+  list-style-type: decimal;
+}
+
+/* Dark mode for Reader View */
+:global(.dark) .readerViewContainer {
+  color: #e5e7eb;
+}
+
+:global(.dark) .readerViewContainer p {
+  color: #d1d5db;
+}
+
+:global(.dark) .readerViewContainer h1,
+:global(.dark) .readerViewContainer h2,
+:global(.dark) .readerViewContainer h3 {
+  color: #e8eaed;
+}
+
+/* First element spacing */
+.readerViewContainer > *:first-child {
+  margin-top: 0;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .readerViewContainer {
+    padding: 0 0.75rem 3rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .readerViewContainer :global(p),
+  .readerViewContainer :global(div),
+  .readerViewContainer :global(li),
+  .readerViewContainer :global(td) {
+    font-size: 1rem;
+    margin-bottom: 1.5em;
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  .readerViewContainer h1 {
+    font-size: 1.75rem;
+    margin: 2rem 0 1.25rem;
+  }
+
+  .readerViewContainer h2 {
+    font-size: 1.375rem;
+    margin: 1.75rem 0 1rem;
+  }
+
+  .readerViewContainer h3 {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.875rem;
+  }
+
+  .readerViewContainer :global(table) {
+    font-size: 0.875rem !important;
+  }
+
+  .readerViewContainer :global(td),
+  .readerViewContainer :global(th) {
+    padding: 6px !important;
+  }
+}
+
+/* Content transition handling */
+.originalView,
+.readerViewContainer {
+  transition: opacity 0.15s ease-in;
+}
+
+/* Add transition handling for view mode changes */
+.articleContainer {
+  min-height: 100vh;
+  transition: background-color 0.3s ease;
+}
+
+.contentWrapper {
+  transition: all 0.3s ease;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .originalView :global(.image-wrapper) {
+    margin: 1rem auto;
+    min-height: 150px;
+  }
+  
+  .originalView :global(img[src]) {
+    min-height: 80px;
+  }
+  
+  .originalView :global(td .image-wrapper) {
+    min-height: 80px;
+  }
+  
+  .originalView :global(td img) {
+    min-height: 40px;
+  }
+}
+
+/* Email frame styles */
+.emailFrame {
+  width: 100%;
+  border: none;
+  background: transparent;
+  overflow-y: hidden;
+  margin: 0 auto;
+  display: block;
+}

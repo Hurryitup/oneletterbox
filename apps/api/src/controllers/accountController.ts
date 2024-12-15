@@ -124,6 +124,7 @@ export const accountController = {
         joinDate: user.joinDate,
         subscription: user.subscription,
         preferences: user.preferences,
+        inboxes: user.inboxes || [],
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to get profile';

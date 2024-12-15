@@ -1,57 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import styles from './Account.module.css';
+import api from '../../services/api';
+import axios from 'axios';
+import { ArrowLeft, Moon, Sun, Mail, User, Calendar, Package, Settings, X } from 'lucide-react';
 
 interface AccountProps {
   onBack: () => void;
 }
 
-interface UserData {
-  id: string;
-  name: string;
-  email: string;
-  inboxes: string[];
-  joinDate: string;
-  subscription?: {
-    plan: string;
-    status: string;
-    nextBilling: string | null;
-  };
-  preferences: {
-    emailDigest: boolean;
-    notifications: boolean;
-    theme: 'Light' | 'Dark';
-  };
-}
-
 export function Account({ onBack }: AccountProps) {
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user: userData, refreshProfile } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { logout } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [newEmailPrefix, setNewEmailPrefix] = useState('');
   const [emailError, setEmailError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/user', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        setUserData(response.data);
-        setError(null);
-      } catch (err) {
-        setError('Failed to fetch user data');
-        console.error('Error fetching user data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+  const handleThemeChange = async () => {
+    if (!userData) return;
+    
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    
+    try {
+      await setTheme(newTheme);
+    } catch (err) {
+      console.error('Error updating theme:', err);
+      setTheme(theme);
+    }
+  };
 
   const handleAddEmail = async () => {
     if (!newEmailPrefix) {
@@ -59,10 +38,8 @@ export function Account({ onBack }: AccountProps) {
       return;
     }
 
-    // Trim whitespace and convert to lowercase
     const cleanPrefix = newEmailPrefix.trim().toLowerCase();
     
-    // Basic validation for the prefix
     if (!/^[a-z0-9]+(?:[._-][a-z0-9]+)*$/.test(cleanPrefix)) {
       setEmailError('Invalid prefix format. Use only letters, numbers, and single dots, hyphens, or underscores.');
       return;
@@ -70,16 +47,9 @@ export function Account({ onBack }: AccountProps) {
 
     const newEmail = `${cleanPrefix}@oneletterbox.com`;
     try {
-      const response = await axios.post(
-        'http://localhost:3001/api/user/inbox',
-        { email: newEmail },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
-      setUserData(response.data);
+      setLoading(true);
+      await api.post('/user/inbox', { email: newEmail });
+      await refreshProfile();
       setNewEmailPrefix('');
       setEmailError(null);
     } catch (err) {
@@ -89,168 +59,197 @@ export function Account({ onBack }: AccountProps) {
         setEmailError('Failed to add inbox');
       }
       console.error('Error adding inbox:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDeleteEmail = async (index: number) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/user/inbox/${index}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
-      setUserData(response.data);
+      setLoading(true);
+      await api.delete(`/user/inbox/${index}`);
+      await refreshProfile();
     } catch (err) {
       console.error('Error deleting inbox:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) {
-    return <div className="flex justify-center items-center h-full">
-      <div className="text-gray-600">Loading...</div>
-    </div>;
-  }
-
-  if (error) {
-    return <div className="flex justify-center items-center h-full">
-      <div className="text-red-600">Error: {error}</div>
-    </div>;
-  }
-
   if (!userData) {
-    return <div className="flex justify-center items-center h-full">
-      <div className="text-gray-600">No user data available</div>
-    </div>;
+    return (
+      <div className={styles.accountContainer}>
+        <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
+          <div className="text-red-500">No user data available</div>
+        </div>
+      </div>
+    );
   }
-
-  const subscription = userData.subscription || {
-    plan: 'Free',
-    status: 'Active',
-    nextBilling: null,
-  };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-8">
-        <button 
-          onClick={onBack}
-          className="text-gray-600 hover:text-gray-800 flex items-center"
-        >
-          <span className="mr-2">←</span> Back
-        </button>
-        <button 
-          onClick={logout}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-        >
-          Sign Out
-        </button>
-      </div>
-
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4">Profile</h2>
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Name:</span>
-            <span className="font-medium">{userData.name}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Email:</span>
-            <span className="font-medium">{userData.email}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Join Date:</span>
-            <span className="font-medium">
-              {new Date(userData.joinDate).toLocaleDateString()}
-            </span>
-          </div>
+    <div className={styles.accountContainer}>
+      <div className="max-w-4xl mx-auto">
+        <div className={styles.header}>
+          <button 
+            onClick={onBack}
+            className={styles.backButton}
+          >
+            <ArrowLeft size={20} className="mr-2" />
+            Back
+          </button>
+          <button 
+            onClick={logout}
+            className={styles.signOutButton}
+          >
+            Sign Out
+          </button>
         </div>
-      </div>
 
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4">Inboxes</h2>
-        <div className="space-y-4">
-          {userData.inboxes.map((inbox, index) => (
-            <div key={index} className="flex justify-between items-center">
-              <span className="font-medium">{inbox}</span>
-              <button
-                onClick={() => handleDeleteEmail(index)}
-                className="text-red-500 hover:text-red-600"
-              >
-                Delete
-              </button>
+        <div className={styles.card}>
+          <div className="p-6">
+            <h2 className={styles.cardTitle}>
+              <User size={20} />
+              Profile
+            </h2>
+            <div className={styles.infoGrid}>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>Name</span>
+                <span className={styles.value}>{userData.name}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>Email</span>
+                <span className={styles.value}>{userData.email}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>Join Date</span>
+                <span className={styles.value}>
+                  {new Date(userData.joinDate).toLocaleDateString()}
+                </span>
+              </div>
             </div>
-          ))}
-          <div className="flex items-center space-x-2">
-            <input
-              type="text"
-              placeholder="prefix"
-              className="border rounded p-2 flex-grow"
-              value={newEmailPrefix}
-              onChange={(e) => setNewEmailPrefix(e.target.value)}
-            />
-            <span className="text-gray-600">@oneletterbox.com</span>
-            <button
-              onClick={handleAddEmail}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Add
-            </button>
           </div>
-          {emailError && (
-            <div className="text-red-500 text-sm">{emailError}</div>
-          )}
         </div>
-      </div>
 
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4">Subscription</h2>
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Plan:</span>
-            <span className="font-medium">{subscription.plan}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Status:</span>
-            <span className="font-medium">{subscription.status}</span>
-          </div>
-          {subscription.nextBilling && (
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Next Billing:</span>
-              <span className="font-medium">
-                {new Date(subscription.nextBilling).toLocaleDateString()}
-              </span>
+        <div className={styles.card}>
+          <div className="p-6">
+            <h2 className={styles.cardTitle}>
+              <Mail size={20} />
+              Inboxes
+            </h2>
+            <div className="space-y-4">
+              {(userData.inboxes || []).map((inbox, index) => (
+                <div key={index} className={styles.infoRow}>
+                  <span className={styles.value}>{inbox}</span>
+                  <button
+                    onClick={() => handleDeleteEmail(index)}
+                    className={styles.deleteButton}
+                    disabled={loading}
+                    aria-label="Delete inbox"
+                  >
+                    <X size={18} className={styles.deleteIcon} />
+                    <span className={styles.deleteText}>Delete</span>
+                  </button>
+                </div>
+              ))}
+              <div className={styles.inputGroup}>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    placeholder="Enter prefix"
+                    className={styles.input}
+                    value={newEmailPrefix}
+                    onChange={(e) => setNewEmailPrefix(e.target.value)}
+                    disabled={loading}
+                  />
+                  <span className={styles.inputSuffix}>@oneletterbox.com</span>
+                </div>
+                <button
+                  onClick={handleAddEmail}
+                  className={styles.addButton}
+                  disabled={loading}
+                >
+                  Add Inbox
+                </button>
+              </div>
+              {emailError && (
+                <div className={styles.errorText}>{emailError}</div>
+              )}
             </div>
-          )}
+          </div>
         </div>
-      </div>
 
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4">Preferences</h2>
-        <div className="space-y-4">
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              checked={userData.preferences.emailDigest}
-              readOnly
-              className="mr-3"
-            />
-            <span className="text-gray-600">Email Digest</span>
+        <div className={styles.card}>
+          <div className="p-6">
+            <h2 className={styles.cardTitle}>
+              <Package size={20} />
+              Subscription
+            </h2>
+            <div className={styles.infoGrid}>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>Plan</span>
+                <span className={styles.value}>{userData.subscription?.plan || 'Free'}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>Status</span>
+                <span className={styles.value}>{userData.subscription?.status || 'Active'}</span>
+              </div>
+              {userData.subscription?.nextBilling && (
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>Next Billing</span>
+                  <span className={styles.value}>
+                    {new Date(userData.subscription.nextBilling).toLocaleDateString()}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              checked={userData.preferences.notifications}
-              readOnly
-              className="mr-3"
-            />
-            <span className="text-gray-600">Notifications</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Theme:</span>
-            <span className="font-medium">{userData.preferences.theme}</span>
+        </div>
+
+        <div className={styles.card}>
+          <div className="p-6">
+            <h2 className={styles.cardTitle}>
+              <Settings size={20} />
+              Preferences
+            </h2>
+            <div className={styles.infoGrid}>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>Email Digest</span>
+                <input
+                  type="checkbox"
+                  checked={userData.preferences.emailDigest}
+                  readOnly
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded transition-colors"
+                />
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>Notifications</span>
+                <input
+                  type="checkbox"
+                  checked={userData.preferences.notifications}
+                  readOnly
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded transition-colors"
+                />
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>Theme</span>
+                <button
+                  onClick={handleThemeChange}
+                  className={styles.themeButton}
+                >
+                  {theme === 'light' ? (
+                    <>
+                      <Moon size={16} />
+                      Switch to Dark Mode
+                    </>
+                  ) : (
+                    <>
+                      <Sun size={16} />
+                      Switch to Light Mode
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

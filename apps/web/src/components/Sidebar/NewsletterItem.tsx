@@ -1,5 +1,6 @@
 import React from 'react';
 import { Star, Archive } from 'lucide-react';
+import styles from './Sidebar.module.css';
 
 interface NewsletterItemProps {
   title: string;
@@ -23,22 +24,24 @@ export const NewsletterItem = ({
   archived,
 }: NewsletterItemProps) => (
   <button
-    className={`newsletter-item ${isActive ? 'active' : ''} ${archived ? 'archived' : ''}`}
+    className={`${styles.newsletterItem} ${isActive ? styles.active : ''}`}
     onClick={onClick}
   >
-    <div className="newsletter-content">
-      <div className="newsletter-header">
-        <h3>{title}</h3>
-        <div className="newsletter-meta">
+    <div className={styles.newsletterContent}>
+      <div className={styles.newsletterHeader}>
+        <h3 className={styles.newsletterTitle}>{title}</h3>
+        <div className={styles.newsletterMeta}>
           {starred && <Star className="text-yellow-500" size={16} />}
-          {archived && <Archive className="text-gray-500" size={16} />}
+          {archived && <Archive className="text-gray-400 dark:text-gray-500" size={16} />}
           {unreadCount !== undefined && (
-            <span className="unread-count">{unreadCount}</span>
+            <span className="text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full">
+              {unreadCount}
+            </span>
           )}
         </div>
       </div>
-      <p className="description">{description}</p>
-      <span className="date">{date}</span>
+      <p className={styles.description}>{description}</p>
+      <span className={styles.date}>{date}</span>
     </div>
   </button>
 );

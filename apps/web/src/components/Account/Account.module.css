@@ -1,0 +1,308 @@
+/* Base styles */
+.accountContainer {
+  min-height: 100vh;
+  background: #ffffff;
+  transition: background-color 0.3s ease;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .accountContainer {
+    padding: 2rem;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.backButton {
+  color: #4b5563;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+}
+
+.backButton:hover {
+  color: #1a1a1a;
+  background: #f3f4f6;
+}
+
+.signOutButton {
+  background: #ef4444;
+  color: #ffffff;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+}
+
+.signOutButton:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .card {
+    margin-bottom: 2rem;
+  }
+}
+
+.cardTitle {
+  color: #1a1a1a;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.infoGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.infoRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.label {
+  color: #4b5563;
+  font-weight: 500;
+  min-width: 120px;
+}
+
+.value {
+  color: #1a1a1a;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+}
+
+.input {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  width: 100%;
+  font-size: 0.875rem;
+  padding-right: 9.5rem; /* Make room for the @oneletterbox.com text */
+}
+
+.input:focus {
+  border-color: #3b82f6;
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+}
+
+.inputSuffix {
+  position: absolute;
+  right: 0.75rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
+  .inputGroup {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .inputWrapper {
+    flex: 1;
+    max-width: none;
+    width: auto;
+  }
+
+  .input {
+    max-width: 300px;
+  }
+}
+
+.addButton {
+  background: #3b82f6;
+  color: #ffffff;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  white-space: nowrap;
+  height: 38px; /* Match input height */
+  display: flex;
+  align-items: center;
+}
+
+.addButton:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.addButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.themeButton {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.themeButton:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Dark mode styles */
+:global(.dark) .accountContainer {
+  background: #111827;
+}
+
+:global(.dark) .backButton {
+  color: #9ca3af;
+}
+
+:global(.dark) .backButton:hover {
+  color: #f9fafb;
+  background: #1f2937;
+}
+
+:global(.dark) .card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+:global(.dark) .cardTitle {
+  color: #f9fafb;
+}
+
+:global(.dark) .label {
+  color: #9ca3af;
+}
+
+:global(.dark) .value {
+  color: #f9fafb;
+}
+
+:global(.dark) .input {
+  background: #374151;
+  border-color: #4b5563;
+  color: #f9fafb;
+}
+
+:global(.dark) .input:focus {
+  border-color: #60a5fa;
+  outline: 2px solid #60a5fa;
+  outline-offset: -2px;
+}
+
+:global(.dark) .input::placeholder {
+  color: #9ca3af;
+}
+
+:global(.dark) .themeButton {
+  background: #374151;
+  border-color: #4b5563;
+  color: #f9fafb;
+}
+
+:global(.dark) .themeButton:hover {
+  background: #4b5563;
+}
+
+:global(.dark) .deleteButton:hover {
+  background: #991b1b;
+  color: #fecaca;
+}
+
+.deleteButton {
+  color: #ef4444;
+  transition: all 0.2s ease;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.deleteButton:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deleteIcon {
+  display: block;
+}
+
+.deleteText {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .deleteIcon {
+    display: none;
+  }
+  
+  .deleteText {
+    display: block;
+  }
+} 

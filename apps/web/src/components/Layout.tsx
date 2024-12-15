@@ -4,7 +4,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { Sidebar } from './Sidebar/Sidebar';
 import { Article } from './Article/Article';
 import { Account } from './Account/Account';
-import { useIssues } from '../hooks/useIssues';
+import { useIssues } from '../contexts/IssuesContext';
+import { Menu } from 'lucide-react';
 
 interface Newsletter {
   id: string;
@@ -22,9 +23,23 @@ export function Layout() {
   const [selectedSource, setSelectedSource] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
   const [showAccount, setShowAccount] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const { issues, loading, error, availableSources, refreshIssues } = useIssues();
+  const { issues, error, availableSources, refreshIssues } = useIssues();
+
+  // Close mobile menu when window is resized to desktop size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Set first issue as active when issues are loaded
   useEffect(() => {
@@ -36,14 +51,24 @@ export function Layout() {
   const handleIssueSelect = (id: string) => {
     setActiveIssueId(id);
     setShowAccount(false);
+    setIsMobileMenuOpen(false); // Close mobile menu after selection
   };
 
   const handleProfileClick = () => {
     setShowAccount(true);
+    setIsMobileMenuOpen(false); // Close mobile menu after selection
   };
 
   const handleBackToIssues = () => {
     setShowAccount(false);
+  };
+
+  const handleToggleSidebar = () => {
+    if (window.innerWidth <= 768) {
+      setIsMobileMenuOpen(!isMobileMenuOpen);
+    } else {
+      setIsSidebarCollapsed(!isSidebarCollapsed);
+    }
   };
 
   if (error) {
@@ -68,20 +93,23 @@ export function Layout() {
         onSortOrderChange={setSortOrder}
         onProfileClick={handleProfileClick}
         onTitleClick={() => setShowAccount(false)}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={handleToggleSidebar}
+        isMobileMenuOpen={isMobileMenuOpen}
+        onMobileMenuClose={() => setIsMobileMenuOpen(false)}
       />
       <main className="flex-1 overflow-auto">
         {showAccount ? (
           <Account onBack={handleBackToIssues} />
-        ) : loading ? (
-          <div className="flex justify-center items-center h-full">
-            <div className="text-gray-600">Loading...</div>
-          </div>
-        ) : activeIssue ? (
-          <Article issue={activeIssue} />
-        ) : (
+        ) : !activeIssue ? (
           <div className="flex justify-center items-center h-full">
             <div className="text-gray-600">No issue selected</div>
           </div>
+        ) : (
+          <Article 
+            issue={activeIssue} 
+            onToggleCollapse={handleToggleSidebar}
+          />
         )}
       </main>
     </div>
